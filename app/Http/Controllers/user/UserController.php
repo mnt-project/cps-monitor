@@ -55,11 +55,11 @@ class UserController extends MainController
             $user = Auth::user();
             $user->connects += 1;
             $user->save();
-            $parametr = uParametr::where('user_id',$user->id)->get();
-            if(!$parametr)
+            $parametr = uParametr::where('user_id',$user)->get();
+            if(is_null($parametr))
             {
                 $parametr = uParametr::create([
-                    'user_id' => $user->id,
+                    'user_id' => $user,
                 ]);
             }
             $user->uparametr->connected_at = now();
