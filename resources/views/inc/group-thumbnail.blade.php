@@ -1,4 +1,4 @@
-<div class="container {{ ($group->public) ? 'border' : 'border-danger'}} col-lg-2 col-3 mx-2 my-2">
+<div class="container {{ $group->public ? 'border' : 'border border-danger'}} col-lg-2 col-3 mx-2 my-2">
     <div class="row mt-3 mx-1 my-1">
         @if($group->avatar)
             <img src={{ Storage::url($group->patch) }} class="img-thumbnail" alt={{ Storage::url($group->hash_name) }}>

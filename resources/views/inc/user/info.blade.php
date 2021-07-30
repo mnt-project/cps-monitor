@@ -7,26 +7,26 @@
 {{--    </ul>--}}
 {{--    @else--}}
         <div class="row">
-            <div class="col-2">
+            <div class="col-4">
                 <p><strong>Login:</strong></p>
             </div>
-            <div class="col-10 text-start">
+            <div class="col-8 text-start">
                 {{$user->login}} ID:[{{$user->id}}]
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
+            <div class="col-4">
                 <p><strong>Email:</strong></p>
             </div>
-            <div class="col-10 text-start">
+            <div class="col-8 text-start">
                 {{$user->email}}
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
+            <div class="col-4">
                 <p><strong>Connects:</strong></p>
             </div>
-            <div class="col-10 text-start">
+            <div class="col-8 text-start">
                 @if($user->connects>0)
                     {{strval($user->connects).' more'}}
                 @else
@@ -35,10 +35,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
+            <div class="col-4">
                 <p><strong>Language:</strong></p>
             </div>
-            <div class="col-10 text-start">
+            <div class="col-8 text-start">
                 @switch($user->uparametr->language)
                     @case(1)
                     English
@@ -54,10 +54,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
+            <div class="col-4">
                 <p><strong>Reputation:</strong></p>
             </div>
-            <div class="col-10 text-start">
+            <div class="col-8 text-start">
                 @if($user->uparametr->reputation > 0)
                     <p class="text-success"><strong>{{'+'.$user->uparametr->reputation}}</strong></p>
                 @elseif($user->uparametr->reputation < 0)
@@ -68,10 +68,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
+            <div class="col-4">
                 <p><strong>Interests:</strong></p>
             </div>
-            <div class="col-10 text-start">
+            <div class="col-8 text-start">
                 @if($user->uparametr->interests == 'null')
                     <p>Not specified</p>
                 @else
@@ -80,10 +80,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
+            <div class="col-4">
                 <p><strong>About:</strong></p>
             </div>
-            <div class="col-10 text-start">
+            <div class="col-8 text-start">
                 @if($user->uparametr->about == 'null')
                     <p>Not specified</p>
                 @else
@@ -92,10 +92,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
+            <div class="col-4">
                 <p><strong>Notes:</strong></p>
             </div>
-            <div class="col-10 text-start">
+            <div class="col-8 text-start">
                 @if($user->uparametr->notes == 'null')
                     <p>Not specified</p>
                 @else

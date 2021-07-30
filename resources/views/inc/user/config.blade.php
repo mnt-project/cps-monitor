@@ -5,11 +5,11 @@
         </div>
         <div class="col-lg-1 col-sm-4">
             @if($user->uparametr->notifications)
-                <a class="text-dark" href="{{ route('user.notifications',$user->id) }} data-placement="top" title="OFF"">
+                <a class="text-dark" href="{{ route('user.notifications',$user->id) }}" data-placement="top" title="OFF">
                     <span class="bi bi-toggle-on" style="font-size: 2.5rem; color: black;"></span>
                 </a>
             @else
-                <a class="text-dark" href="{{ route('user.notifications',$user->id) }} data-placement="top" title="ON">
+                <a class="text-dark" href="{{ route('user.notifications',$user->id) }}" data-placement="top" title="ON">
                     <span class="bi bi-toggle-off" style="font-size: 2.5rem; color: black;"></span>
                 </a>
             @endif
@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="row border-bottom">
-        <div class="col-lg-4 col-sm-12">
+        <div class="col-lg-4 col-md-12 col-sm-12">
             <form action={{ route('user.nickname',$user->id) }} method="post">
                 @csrf
                 <div class="input-group my-5">
@@ -40,6 +40,17 @@
 
         </div>
     </div>
+    <div class="row border-bottom">
+        <div class="col-lg-2 col-md-6 col-sm-6 my-5">
+            <p><strong>Password:</strong></p>
+        </div>
+        <div class="col-lg-2 col-md-6 col-sm-6 text-lg-start my-5">
+            <button data-target="#addGroup" role="button" class="btn btn-outline-secondary" data-toggle="modal">{{ __('group.change_pass') }}</button>
+            @include('inc.user.modal-pass')
+        </div>
+        <div class="col-lg-8">
 
+        </div>
+    </div>
 
 </div>

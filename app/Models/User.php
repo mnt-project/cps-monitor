@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
-use Cache;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -47,6 +47,10 @@ class User extends Authenticatable
     public function setPasswordAttribute($password){
 
         $this->attributes['password'] = Hash::make($password);
+    }
+    public function checkCurrentPassword($password)
+    {
+        return Hash::check($password, $this->password);
     }
     public function isOnline()
     {

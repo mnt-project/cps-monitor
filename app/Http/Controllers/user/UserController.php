@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\user;
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\uLoginRequest;
+use App\Http\Requests\PasswordRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\uParametr;
@@ -12,9 +12,8 @@ use App\Models\Avatar;
 use App\Models\Group;
 use App\Models\Follow;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
-use Cache;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends MainController
 {
@@ -22,7 +21,7 @@ class UserController extends MainController
     {
         if(Auth::check())
         {
-            $user = Auth::user()->id;
+            $user = Auth::user();
             return redirect()->intended(route('user.profile',$user));
         }
         return view('login');
@@ -31,7 +30,7 @@ class UserController extends MainController
     {
         if(Auth::check())
         {
-            $user = Auth::user()->id;
+            $user = Auth::user();
             return redirect()->intended(route('user.profile',$user));
         }
         return view('registration');
@@ -40,7 +39,7 @@ class UserController extends MainController
     {
         if(Auth::check())
         {
-            Cache::forget('user-is-online-' . Auth::user()->id);
+            Cache::forget('user-is-online-' . Auth::user());
             Auth::logout();
         }
         return redirect('/login');
@@ -54,7 +53,7 @@ class UserController extends MainController
         if(Auth::attempt($data,$rember))
         {
             $user = Auth::user();
-            $user->connects = $user->connects+1;
+            $user->connects += 1;
             $user->save();
             $parametr = uParametr::where('user_id',$user->id)->get();
             if(!$parametr)
@@ -282,6 +281,26 @@ class UserController extends MainController
         }
         return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
             ->withErrors('Enter new nickname into a field!');
+
+    }
+    public function user_password(PasswordRequest $request,$id)
+    {
+        $user = User::find($id);
+        $pass = $request->only('old_password','new_password','confirm_password');
+        if($pass['new_password'] == $pass['confirm_password'])
+        {
+            if($user->checkCurrentPassword($pass['old_password']))
+            {
+                $user->setPasswordAttribute($pass['new_password']);
+                $user->save();
+                return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
+                    ->with(['success' => "Password changed!",'show' => true]);
+            }
+            return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
+                ->withErrors('Incorrect current password!');
+        }
+        return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
+            ->withErrors('Password mismatch!');
 
     }
     public function users_parametrs_update()

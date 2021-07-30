@@ -18,12 +18,11 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                         @for($i = 0; $i < sizeof($names); $i++)
-                            <li>
                                 @if($i < sizeof($names)-1)
-                                    <a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route('group.list',$i)}}">{{ $names[$i] }}</a></li>
+                                <li><a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route('group.list',$i)}}">{{ $names[$i] }}</a></li>
                                 @else
                                     @auth
-                                        <a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route('group.list',$i)}}">{{ $names[$i] }}</a></li>
+                                    <li><a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route('group.list',$i)}}">{{ $names[$i] }}</a></li>
                                     @endauth
                                 @endif
                         @endfor
@@ -31,10 +30,10 @@
                 </div>
             </div>
             <div class="col-2">
-                @if($auth_user)
+                @auth
                     <button data-target="#addGroup" role="button" class="btn btn-secondary" data-toggle="modal">{{ __('group.new_group') }}</button>
                     @include('inc.group-form',['action'=>0,'name'=>'Create','route'=>'group.add','group'=>0])
-                @endif
+                @endauth
             </div>
         </div>
     </div>

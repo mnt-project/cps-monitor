@@ -33,6 +33,7 @@ Route::name('user.')->group(function() {
         Route::post('/smessage/{id}', [\App\Http\Controllers\user\UserController::class, 'user_smessage'])->name('smessage');
         Route::get('/notifications/{id}', [\App\Http\Controllers\user\UserController::class, 'user_notifications'])->name('notifications');
         Route::post('/nickname/{id}', [\App\Http\Controllers\user\UserController::class, 'user_nickname'])->name('nickname');
+        Route::post('/password/{id}', [\App\Http\Controllers\user\UserController::class, 'user_password'])->name('password');
     });
 
     Route::get('/login', [\App\Http\Controllers\user\UserController::class, 'user_signin'])->name('login');
