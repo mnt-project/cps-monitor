@@ -27,7 +27,7 @@
             <form action={{ route('user.nickname',$user->id) }} method="post">
                 @csrf
                 <div class="input-group my-5">
-                    <span class="input-group-text" id="nickname" for="newnickname">{{ $user->login }}</span>
+                    <label class="newnickname"><span class="input-group-text" id="nickname">{{ $user->login }}</span></label>
                     <input type="text" class="form-control" id="newnickname" name="newnickname" aria-describedby="nickname" placeholder="Enter new nickname...">
                     <button class="btn btn-outline-secondary" type="submit" id="change">Change</button>
                 </div>
