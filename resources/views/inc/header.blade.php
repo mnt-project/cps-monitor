@@ -15,12 +15,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href={{ route('credits') }}>Credits</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item @guest me-4 @endguest">
                     <a class="nav-link" href={{ route('group.list') }}>Groups</a>
                 </li>
-                <li class="nav-item me-4">
-                    <a class="nav-link" href={{ route('user.profile',5) }}>Profile</a>
-                </li>
+                @auth
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href={{ route('user.profile',$auth_user) }}>Profile</a>
+                    </li>
+                @endauth
                 <li class="nav-item">
                     <x-loginButton status="{{ \Illuminate\Support\Facades\Auth::check() }}"/>
                 </li>

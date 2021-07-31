@@ -1,0 +1,53 @@
++--------+----------+--------------------------------+-----------------------+-----------------------------------------------------------------+----------------------------------------------+
+| Domain | Method   | URI                            | Name                  | Action                                                          | Middleware                                   |
++--------+----------+--------------------------------+-----------------------+-----------------------------------------------------------------+----------------------------------------------+
+|        | GET|HEAD | /                              | home                  | Closure                                                         | web                                          |
+|        | GET|HEAD | _debugbar/assets/javascript    | debugbar.assets.js    | Barryvdh\Debugbar\Controllers\AssetController@js                | Barryvdh\Debugbar\Middleware\DebugbarEnabled |
+|        |          |                                |                       |                                                                 | Closure                                      |
+|        | GET|HEAD | _debugbar/assets/stylesheets   | debugbar.assets.css   | Barryvdh\Debugbar\Controllers\AssetController@css               | Barryvdh\Debugbar\Middleware\DebugbarEnabled |
+|        |          |                                |                       |                                                                 | Closure                                      |
+|        | DELETE   | _debugbar/cache/{key}/{tags?}  | debugbar.cache.delete | Barryvdh\Debugbar\Controllers\CacheController@delete            | Barryvdh\Debugbar\Middleware\DebugbarEnabled |
+|        |          |                                |                       |                                                                 | Closure                                      |
+|        | GET|HEAD | _debugbar/clockwork/{id}       | debugbar.clockwork    | Barryvdh\Debugbar\Controllers\OpenHandlerController@clockwork   | Barryvdh\Debugbar\Middleware\DebugbarEnabled |
+|        |          |                                |                       |                                                                 | Closure                                      |
+|        | GET|HEAD | _debugbar/open                 | debugbar.openhandler  | Barryvdh\Debugbar\Controllers\OpenHandlerController@handle      | Barryvdh\Debugbar\Middleware\DebugbarEnabled |
+|        |          |                                |                       |                                                                 | Closure                                      |
+|        | GET|HEAD | _debugbar/telescope/{id}       | debugbar.telescope    | Barryvdh\Debugbar\Controllers\TelescopeController@show          | Barryvdh\Debugbar\Middleware\DebugbarEnabled |
+|        |          |                                |                       |                                                                 | Closure                                      |
+|        | GET|HEAD | about                          | about                 | Illuminate\Routing\ViewController                               | web                                          |
+|        | GET|HEAD | api/user                       |                       | Closure                                                         | api                                          |
+|        |          |                                |                       |                                                                 | App\Http\Middleware\Authenticate:api         |
+|        | POST     | avatar/{id}                    | user.avatar           | App\Http\Controllers\user\UserController@user_avatar            | web                                          |
+|        | GET|HEAD | credits                        | credits               | Illuminate\Routing\ViewController                               | web                                          |
+|        | POST     | group/add                      | group.add             | App\Http\Controllers\group\GroupController@group_add            | web                                          |
+|        | POST     | group/edit/{id?}               | group.edit            | App\Http\Controllers\group\GroupController@group_edit           | web                                          |
+|        | GET|HEAD | group/following/{group}        | group.following       | App\Http\Controllers\group\FollowController@following           | web                                          |
+|        | GET|HEAD | group/info/{group?}/{text?}    | group.info            | App\Http\Controllers\group\GroupController@group_info           | web                                          |
+|        | GET|HEAD | group/list/{sort?}             | group.list            | App\Http\Controllers\group\GroupController@group_list           | web                                          |
+|        | GET|HEAD | group/unfollowing/{group}      | group.unfollowing     | App\Http\Controllers\group\FollowController@unfollowing         | web                                          |
+|        | GET|HEAD | info/{id?}                     | user.info             | App\Http\Controllers\user\UserController@user_info              | web                                          |
+|        |          |                                |                       |                                                                 | App\Http\Middleware\Authenticate             |
+|        | GET|HEAD | login                          | user.login            | App\Http\Controllers\user\UserController@user_signin            | web                                          |
+|        | POST     | login                          | user.                 | App\Http\Controllers\user\UserController@user_login             | web                                          |
+|        | GET|HEAD | logout                         | user.logout           | App\Http\Controllers\user\UserController@user_logout            | web                                          |
+|        | POST     | nickname/{id}                  | user.nickname         | App\Http\Controllers\user\UserController@user_nickname          | web                                          |
+|        |          |                                |                       |                                                                 | App\Http\Middleware\Authenticate             |
+|        | GET|HEAD | notifications/{id}             | user.notifications    | App\Http\Controllers\user\UserController@user_notifications     | web                                          |
+|        |          |                                |                       |                                                                 | App\Http\Middleware\Authenticate             |
+|        | POST     | password/{id}                  | user.password         | App\Http\Controllers\user\UserController@user_password          | web                                          |
+|        |          |                                |                       |                                                                 | App\Http\Middleware\Authenticate             |
+|        | POST     | post/create/{group}            | post.create           | App\Http\Controllers\group\PostController@post_create           | web                                          |
+|        | GET|HEAD | post/reputation/{post}         | post.delete           | App\Http\Controllers\group\PostController@post_delete           | web                                          |
+|        | GET|HEAD | post/reputation/{post}/{value} | post.reputation       | App\Http\Controllers\group\PostController@post_reputation       | web                                          |
+|        | GET|HEAD | profile/{id?}/{tabid?}         | user.profile          | App\Http\Controllers\user\UserController@user_profile           | web                                          |
+|        |          |                                |                       |                                                                 | App\Http\Middleware\Authenticate             |
+|        | GET|HEAD | registration                   | user.registration     | App\Http\Controllers\user\UserController@user_getreg            | web                                          |
+|        | POST     | registration                   | user.                 | App\Http\Controllers\user\UserController@user_registration      | web                                          |
+|        | POST     | save/{id}                      | user.save             | App\Http\Controllers\user\UserController@user_save              | web                                          |
+|        | POST     | smessage/{id}                  | user.smessage         | App\Http\Controllers\user\UserController@user_smessage          | web                                          |
+|        |          |                                |                       |                                                                 | App\Http\Middleware\Authenticate             |
+|        | GET|HEAD | uparametr                      | user.parametrs_update | App\Http\Controllers\user\UserController@users_parametrs_update | web                                          |
+|        |          |                                |                       |                                                                 | App\Http\Middleware\Authenticate             |
+|        | GET|HEAD | users                          | user.users            | App\Http\Controllers\user\UserController@all_users              | web                                          |
+|        |          |                                |                       |                                                                 | App\Http\Middleware\Authenticate             |
++--------+----------+--------------------------------+-----------------------+-----------------------------------------------------------------+----------------------------------------------+

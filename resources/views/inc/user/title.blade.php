@@ -35,6 +35,11 @@
         @endif
         <li class="list-group-item">last seen: {{ \Carbon\Carbon::parse($user->uparametr->connected_at)->format('d.m.Y H:i') }}</li>
         <li class="list-group-item">Created: {{ \Carbon\Carbon::parse($user->created_at)->format('d.m.Y H:i')}}</li>
+        <li class="list-group-item text-center">
+            Rate user:
+            <a class="text-success" href="{{ route('user.reputationup',$user) }}"><span class="bi bi-hand-thumbs-up"></span></a>
+            <a class="text-danger" href="{{ route('user.reputationdown',$user) }}"><span class="bi bi-hand-thumbs-down"></span></a>
+        </li>
 
         {{--        <span class="badge badge-info">{{$auth_user->connects}}</span>--}}
     </ul>

@@ -34,6 +34,10 @@ Route::name('user.')->group(function() {
         Route::get('/notifications/{id}', [\App\Http\Controllers\user\UserController::class, 'user_notifications'])->name('notifications');
         Route::post('/nickname/{id}', [\App\Http\Controllers\user\UserController::class, 'user_nickname'])->name('nickname');
         Route::post('/password/{id}', [\App\Http\Controllers\user\UserController::class, 'user_password'])->name('password');
+        Route::post('/about/{id}', [\App\Http\Controllers\user\UserController::class, 'user_about'])->name('about');
+        Route::get('/reputationup/{id}', [\App\Http\Controllers\user\UserController::class, 'user_reputationup'])->name('reputationup');
+        Route::get('/reputationdown/{id}', [\App\Http\Controllers\user\UserController::class, 'user_reputationdown'])->name('reputationdown');
+        Route::get('/logout',[\App\Http\Controllers\user\UserController::class, 'user_logout'])->name('logout');
     });
 
     Route::get('/login', [\App\Http\Controllers\user\UserController::class, 'user_signin'])->name('login');
@@ -42,7 +46,7 @@ Route::name('user.')->group(function() {
     Route::post('/login', [\App\Http\Controllers\user\UserController::class, 'user_login']);
     Route::get('/registration', [\App\Http\Controllers\user\UserController::class, 'user_getreg'])->name('registration');
     Route::post('/registration',[\App\Http\Controllers\user\UserController::class, 'user_registration']);
-    Route::get('/logout',[\App\Http\Controllers\user\UserController::class, 'user_logout'])->name('logout');
+
 
 
 

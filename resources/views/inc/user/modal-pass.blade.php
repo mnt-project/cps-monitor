@@ -1,4 +1,4 @@
-<div class="modal fade" id="addGroup" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+<div class="modal fade" id="changepass" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form method="post" action="{{ route('user.password',$user)}}" enctype="multipart/form-data">

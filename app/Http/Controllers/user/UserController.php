@@ -303,6 +303,32 @@ class UserController extends MainController
             ->withErrors('Password mismatch!');
 
     }
+    public function user_about(Request $request,$id)
+    {
+        $user = User::find($id);
+        $about = $request->only('interests','about','notes');
+        if(Auth::id()==$user->id)
+        {
+            if(!is_null($about['interests'])){$user->uparametr->interests = $about['interests'];}
+            if(!is_null($about['interests'])){$user->uparametr->about = $about['about'];}
+            if(!is_null($about['interests'])){$user->uparametr->notes = $about['notes'];}
+            $user->uparametr->save();
+            return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
+                ->with(['success' => "About changed!",'show' => true]);
+        }
+        return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
+            ->withErrors('You don`t have permission!');
+    }
+    public function user_reputationup($id)
+    {
+        $user = User::find($id);
+        dd(__METHOD__,$user);
+    }
+    public function user_reputationdown($id)
+    {
+        $user = User::find($id);
+        dd(__METHOD__,$user);
+    }
     public function users_parametrs_update()
     {
         $auth_user=Auth::user();
