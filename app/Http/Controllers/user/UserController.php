@@ -107,6 +107,7 @@ class UserController extends MainController
                 ->with('user', $user)
                 ->with('groups', $subscribes);
         }
+        return redirect()->back()->withErrors('You don`t have permission!');
     }
     public function all_users()
     {
@@ -120,7 +121,7 @@ class UserController extends MainController
                 return view('users')
                     ->with('users', $users);
             }
-            return redirect(route('user.info',$user->id))->withErrors('Users not found!');
+            return redirect()->back()->withErrors('Users not found!');
         }
         return redirect(route('user.login'))->withErrors('Ошибка авторизации!');
     }
@@ -203,16 +204,9 @@ class UserController extends MainController
                     'hash_name' => $file->hashName(),
                     'patch' => $path,
                 ]);
-            return redirect(route('user.profile',$id))->with(['success' => 'Avatar is uploaded!','show'=> $user->uparametr->notifications]);
+            return redirect()->back()->with(['success' => 'Avatar is uploaded!','show'=> $user->uparametr->notifications]);
         }
-        return redirect(route('user.profile',$id))->withErrors(['saveError' => 'Avatar is not selected!']);
-//        switch ($request->get('item'))
-//        {
-//            case 1:$message='Test 1';break;
-//            case 2:$message='Test 2';break;
-//            case 3:$message='Test 3';break;
-//            case 4:$message='Test 4';break;
-//        }
+        return redirect()->back()->withErrors(['saveError' => 'Avatar is not selected!']);
     }
     public function user_smessage(Request $request,$id)
     {
@@ -233,16 +227,15 @@ class UserController extends MainController
                 $message = 'New status message: '.$message;
             }
             $user->uparametr->save();
-            return redirect(route('user.profile',$id))
-                ->with(['success' => $message,'show' => $user->uparametr->notifications]);
+            return redirect()->back()->with(['success' => $message,'show' => $user->uparametr->notifications]);
         }
-        return redirect(route('user.profile',$id))->withErrors('You don`t have permission!');
+        return redirect()->back()->withErrors('You don`t have permission!');
     }
     public function user_notifications($id)
     {
         $user=User::find($id);
         $notifications=$user->uparametr->notifications;
-        $message = '';
+        //$message = '';
         if($user)
         {
             if($notifications)
@@ -257,8 +250,7 @@ class UserController extends MainController
             }
             $user->uparametr->notifications=$notifications;
             $user->uparametr->save();
-            return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
-                ->with(['success' => $message,'show' => true]);
+            return redirect()->back()->with(['success' => $message,'show' => true]);
             //dd(__METHOD__,$user);
         }
     }
@@ -274,14 +266,11 @@ class UserController extends MainController
                 $message=$user->login.' change nickname to '.$nickname;
                 $user->login = $nickname;
                 $user->save();
-                return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
-                    ->with(['success' => $message,'show' => true]);
+                return redirect()->back()->with(['success' => $message,'show' => true]);
             }
-            return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
-                ->withErrors('You don`t have permission!');
+            return redirect()->back()->withErrors('You don`t have permission!');
         }
-        return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
-            ->withErrors('Enter new nickname into a field!');
+        return redirect()->back()->withErrors('Enter new nickname into a field!');
 
     }
     public function user_password(PasswordRequest $request,$id)
@@ -294,14 +283,11 @@ class UserController extends MainController
             {
                 $user->setPasswordAttribute($pass['new_password']);
                 $user->save();
-                return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
-                    ->with(['success' => "Password changed!",'show' => true]);
+                return redirect()->back()->with(['success' => "Password changed!",'show' => true]);
             }
-            return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
-                ->withErrors('Incorrect current password!');
+            return redirect()->back()->withErrors('Incorrect current password!');
         }
-        return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
-            ->withErrors('Password mismatch!');
+        return redirect()->back()->withErrors('Password mismatch!');
 
     }
     public function user_about(Request $request,$id)
@@ -314,11 +300,9 @@ class UserController extends MainController
             if(!is_null($about['interests'])){$user->uparametr->about = $about['about'];}
             if(!is_null($about['interests'])){$user->uparametr->notes = $about['notes'];}
             $user->uparametr->save();
-            return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
-                ->with(['success' => "About changed!",'show' => true]);
+            return redirect()->back()->with(['success' => "About changed!",'show' => true]);
         }
-        return redirect(route('user.profile',['id'=>$id,'tabid'=>4]))
-            ->withErrors('You don`t have permission!');
+        return redirect()->back()->withErrors('You don`t have permission!');
     }
     public function user_reputationup($id)
     {
