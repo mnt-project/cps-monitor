@@ -38,6 +38,11 @@
         <li class="list-group-item text-center">
             Rate user:
             <a class="text-success" href="{{ route('user.reputationup',$user) }}"><span class="bi bi-hand-thumbs-up"></span></a>
+            @if($user->uparametr->reputation>=0)
+                <b class="text-success">{{$user->uparametr->reputation}}</b>
+            @else
+                <b class="text-danger">{{$user->uparametr->reputation}}</b>
+            @endif
             <a class="text-danger" href="{{ route('user.reputationdown',$user) }}"><span class="bi bi-hand-thumbs-down"></span></a>
         </li>
 

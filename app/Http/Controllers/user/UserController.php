@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\uLoginRequest;
 use App\Http\Requests\PasswordRequest;
+use App\Models\RatingUser;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\uParametr;
@@ -70,7 +71,7 @@ class UserController extends MainController
         else return redirect(route('user.login'))->withErrors('Неправильный пароль!');
 
     }
-    public function user_profile($id = 1,$tabid=0)
+    public function user_profile($id = 1,$tabid=1)
     {
         if(Auth::check())
         {
@@ -321,13 +322,50 @@ class UserController extends MainController
     }
     public function user_reputationup($id)
     {
+        $auth_user=Auth::user();
         $user = User::find($id);
-        dd(__METHOD__,$user);
+        if($auth_user->id!=$user->id)
+        {
+            $rate=$auth_user->ratinguser()->where('rated_id',$id);
+            //$rate=RatingUser::where('user_id',Auth::id())->get();
+            if($rate->count() == 0)
+            {
+                $rate = RatingUser::create([
+                    'user_id'=>$auth_user->id,
+                    'rated_id'=>$id,
+                    'rate'=>true,
+                    'value'=>1,
+                ]);
+                $user->uparametr->reputation++;
+                $user->uparametr->save();
+                return redirect()->back()->with(['success' => "User ".$user->login." rated!",'show' => true]);
+            }
+            return redirect()->back()->withErrors('You already rated this user!');
+        }
+        return redirect()->back()->withErrors('You can`t rate yourself!');
     }
     public function user_reputationdown($id)
     {
+        $auth_user=Auth::user();
         $user = User::find($id);
-        dd(__METHOD__,$user);
+        if($auth_user->id!=$user->id)
+        {
+            $rate=$auth_user->ratinguser()->where('rated_id',$id);
+            //$rate=RatingUser::where('user_id',Auth::id())->get();
+            if($rate->count() == 0)
+            {
+                $rate = RatingUser::create([
+                    'user_id'=>$auth_user->id,
+                    'rated_id'=>$id,
+                    'value'=>-1,
+                ]);
+                $user->uparametr->reputation--;
+                $user->uparametr->save();
+                return redirect()->back()->with(['success' => "User ".$user->login." rated!",'show' => true]);
+            }
+            return redirect()->back()->withErrors('You already rated this user!');
+        }
+        return redirect()->back()->withErrors('You can`t rate yourself!');
     }
     public function users_parametrs_update()
     {

@@ -77,4 +77,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Follow::class,'user_id');
     }
+    public function  ratinguser()
+    {
+        return $this->hasMany(RatingUser::class,'user_id');
+    }
 }
