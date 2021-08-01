@@ -38,6 +38,10 @@ Route::name('user.')->group(function() {
         Route::get('/reputationup/{id}', [\App\Http\Controllers\user\UserController::class, 'user_reputationup'])->name('reputationup');
         Route::get('/reputationdown/{id}', [\App\Http\Controllers\user\UserController::class, 'user_reputationdown'])->name('reputationdown');
         Route::get('/logout',[\App\Http\Controllers\user\UserController::class, 'user_logout'])->name('logout');
+        Route::name('message.')->group(function() {
+            Route::post('/send/{id}', [\App\Http\Controllers\user\MessagesController::class, 'message_send'])->name('send');
+            Route::get('/delete/{id}', [\App\Http\Controllers\user\MessagesController::class, 'message_delete'])->name('delete');
+        });
     });
 
     Route::get('/login', [\App\Http\Controllers\user\UserController::class, 'user_signin'])->name('login');
@@ -46,10 +50,6 @@ Route::name('user.')->group(function() {
     Route::post('/login', [\App\Http\Controllers\user\UserController::class, 'user_login']);
     Route::get('/registration', [\App\Http\Controllers\user\UserController::class, 'user_getreg'])->name('registration');
     Route::post('/registration',[\App\Http\Controllers\user\UserController::class, 'user_registration']);
-
-
-
-
 });
 Route::name('group.')->group(function() {
     Route::get('group/list/{sort?}', [\App\Http\Controllers\group\GroupController::class, 'group_list'])->name('list');

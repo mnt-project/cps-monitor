@@ -25,24 +25,24 @@ class PostController extends MainController
                     'winfo' => 'null',
                 ]);
                 //dd(__METHOD__,$post);
-                return redirect(route('group.info', $group))->with(['success' => 'Post was created!','show'=> $user->uparametr->notifications]);
+                return redirect()->back()->with(['success' => 'Post was created!','show'=> $user->getNotifications()]);
             }
-            return redirect(route('group.info', $group))->withErrors('Need to authenticate!');
+            return redirect()->back()->withErrors('Need to authenticate!');
         }
-        return redirect(route('group.info', $group))->withErrors('Message is empty!');
+        return redirect()->back()->withErrors('Message is empty!');
     }
     public function post_reputation($post,$value)
     {
         $post = Post::find($post);
+        $user = Auth::user();
         if($post)
         {
-
             if($value>0)$post->plus=$post->plus+1;
             else $post->minus=$post->minus+1;
             $post->save();
-            return redirect(route('group.info', $post->group->id))->with(['success' => 'You change post reputation!','show'=> $user->uparametr->notifications]);
+            return redirect()->back()->with(['success' => 'You change post reputation!','show'=> $user->getNotifications()]);
         }
-        return redirect(route('group.info', $group->group->id))->withErrors('Post not found!');
+        return redirect()->back()->withErrors('Post not found!');
         //dd(__METHOD__,$post->plus);
 
 
@@ -56,10 +56,9 @@ class PostController extends MainController
             if ($post) {
                 $group = $post->group->id;
                 $post->delete();
-                return redirect(route('group.info', $group))->with(['warning' => 'Post of ' . $post->user->login . ' deleted!','show'=> $user->uparametr->notifications]);
+                return redirect()->back()->with(['warning' => 'Post of ' . $post->user->login . ' deleted!','show'=> $user->getNotifications()]);
             }
-            return redirect(route('group.info', $group))
-                ->withErrors(['saveError' => 'Post not found!']);
+            return redirect()->back()->withErrors(['saveError' => 'Post not found!']);
         }
         return redirect(route('group.info', $post->group_id))->withErrors('Need to authenticate!');
 

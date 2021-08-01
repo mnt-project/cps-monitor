@@ -56,7 +56,10 @@ class User extends Authenticatable
     {
         return Cache::has('user-is-online-' . $this->id);
     }
-
+    public function getNotifications()
+    {
+        return $this->uparametr->notifications === 1;
+    }
     public function  uparametr()
     {
         return $this->hasOne(uParametr::class,'user_id');
@@ -80,5 +83,9 @@ class User extends Authenticatable
     public function  ratinguser()
     {
         return $this->hasMany(RatingUser::class,'user_id');
+    }
+    public function messages()
+    {
+        return $this->hasMany(Messages::class,'user_id');
     }
 }

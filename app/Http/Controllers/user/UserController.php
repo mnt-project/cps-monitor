@@ -80,7 +80,7 @@ class UserController extends MainController
             {
                 return redirect()->route('user.users')->withErrors('User not found!');
             }
-            $user->load('uparametr','avatar','follow');
+            $user->load('uparametr','avatar','follow','messages');
             return view('profile')
                 ->with('user', $user)
                 ->with('tabid', $tabid);
@@ -227,7 +227,7 @@ class UserController extends MainController
                 $message = 'New status message: '.$message;
             }
             $user->uparametr->save();
-            return redirect()->back()->with(['success' => $message,'show' => $user->uparametr->notifications]);
+            return redirect()->back()->with(['success' => $message,'show' => $auth_user->getNotifications()]);
         }
         return redirect()->back()->withErrors('You don`t have permission!');
     }

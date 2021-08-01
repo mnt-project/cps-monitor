@@ -23,7 +23,7 @@
         </div>
         <div class="tab-pane {{ $tabid == 2 ? 'active' : '' }}" id="nav-messages" role="tabpanel" aria-labelledby="nav-messages-tab">
             {{--Tab #2--}}
-            <p>Messages module</p>
+            @include('inc.user.messages')
         </div>
         <div class="tab-pane {{ $tabid == 3 ? 'active' : '' }}" id="nav-wall" role="tabpanel" aria-labelledby="nav-wall-tab">
             {{--Tab #3--}}

@@ -33,18 +33,26 @@
                 @include('inc.user.status-form',['message'=>$user->uparametr->smessage])
             </li>
         @endif
-        <li class="list-group-item">last seen: {{ \Carbon\Carbon::parse($user->uparametr->connected_at)->format('d.m.Y H:i') }}</li>
-        <li class="list-group-item">Created: {{ \Carbon\Carbon::parse($user->created_at)->format('d.m.Y H:i')}}</li>
-        <li class="list-group-item text-center">
-            Rate user:
-            <a class="text-success" href="{{ route('user.reputationup',$user) }}"><span class="bi bi-hand-thumbs-up"></span></a>
-            @if($user->uparametr->reputation>=0)
-                <b class="text-success">{{$user->uparametr->reputation}}</b>
-            @else
-                <b class="text-danger">{{$user->uparametr->reputation}}</b>
-            @endif
-            <a class="text-danger" href="{{ route('user.reputationdown',$user) }}"><span class="bi bi-hand-thumbs-down"></span></a>
-        </li>
+            <li class="list-group-item">last seen: {{ \Carbon\Carbon::parse($user->uparametr->connected_at)->format('d.m.Y H:i') }}</li>
+            <li class="list-group-item">Created: {{ \Carbon\Carbon::parse($user->created_at)->format('d.m.Y H:i')}}</li>
+            <li class="list-group-item text-center">
+                Rate user:
+                <a class="text-success" href="{{ route('user.reputationup',$user) }}"><span class="bi bi-hand-thumbs-up"></span></a>
+                @if($user->uparametr->reputation>=0)
+                    <b class="text-success">{{$user->uparametr->reputation}}</b>
+                @else
+                    <b class="text-danger">{{$user->uparametr->reputation}}</b>
+                @endif
+                <a class="text-danger" href="{{ route('user.reputationdown',$user) }}"><span class="bi bi-hand-thumbs-down"></span></a>
+            </li>
+            @auth
+                @if($user->id != $auth_user->id)
+                    <li class="list-group-item">
+                        <p class="text-center"><button data-target="#message" role="button" class="btn btn-outline-secondary" data-toggle="modal">{{ __('user.send_message') }}</button></p>
+                        @include('inc.user.modal-message')
+                    </li>
+                @endif
+            @endauth
 
         {{--        <span class="badge badge-info">{{$auth_user->connects}}</span>--}}
     </ul>
