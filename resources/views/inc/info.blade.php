@@ -12,7 +12,7 @@
                 <span class="badge bg-success">Online</span>
             @endif
             @if($auth_user->role)
-            <span class="badge bg-info">Admin</span>
+                <span class="badge bg-info">Admin</span>
             @endif
             </p>
         </div>

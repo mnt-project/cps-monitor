@@ -17,13 +17,7 @@
 @endsection
 @section('content-text')
 
-    <p>Логин: {{ $user->login }}</p>
-    <p>Email: {{ $user->email }}</p>
-    <p>Возраст: {{ $user->age }}</p>
-    <p>Подключений: {{ $user->connects }}</p>
-    <p>Дата создания: {{ $user->created_at}}</p>
-    <p>Дата обновления: {{ $user->updated_at}}</p>
-    <p>Заметка: {{ $user->uparametr->notes}}</p>
+    @include('inc.user.info')
 
 @endsection
 @section('content-info')

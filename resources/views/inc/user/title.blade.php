@@ -1,9 +1,18 @@
 <div class="container-fluid mt-5">
-    @if($user->avatar)
-        <img class="card-img-top img-responsive" src="{{ Storage::url($user->avatar->patch) }}" alt="{{ Storage::url($user->avatar->hash_name) }}">
+    @if($auth_user->id == $user->id)
+        <a data-target="#avatar" role="button" data-toggle="modal">
+            <img class="card-img-top img-responsive" src="{{$user->avatar ? Storage::url($user->avatar->patch) : Storage::url('no-avatar.png')}}"
+                 alt="{{ $user->avatar ? Storage::url($user->avatar->hash_name) : Storage::url('no-avatar.png') }}">
+        </a>
+        @include('inc.user.modal-avatar')
     @else
-        <img class="card-img-top img-responsive" src="{{ Storage::url('no-avatar.png') }}" alt="{{ Storage::url('no-avatar.png') }}">
+        <a data-target="#imgview" role="button" data-toggle="modal">
+        <img class="card-img-top img-responsive" src="{{$user->avatar ? Storage::url($user->avatar->patch) : Storage::url('no-avatar.png')}}"
+             alt="{{ $user->avatar ? Storage::url($user->avatar->hash_name) : Storage::url('no-avatar.png') }}">
+        </a>
+        @include('inc.user.modal-imgview')
     @endif
+
     <div class="container text-center"><h3>{{ $user->login }}</h3>
         @if($user->isOnline())
             <span class="badge bg-success">Online</span>

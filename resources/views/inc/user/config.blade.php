@@ -27,7 +27,7 @@
             <form action={{ route('user.nickname',$user) }} method="post">
                 @csrf
                 <div class="input-group my-5">
-                    <label class="newnickname"><span class="input-group-text" id="nickname">{{ $user->login }}</span></label>
+                    <span class="input-group-text" id="nickname">{{ $user->login }}</span>
                     <input type="text" class="form-control" id="newnickname" name="newnickname" aria-describedby="nickname" placeholder="Enter new nickname...">
                     <button class="btn btn-outline-secondary" type="submit" id="change">Change</button>
                 </div>
@@ -64,5 +64,21 @@
 
         </div>
     </div>
+    <div class="row border-bottom">
+        <div class="col-lg-2 col-md-6 col-sm-6 my-5">
+            <p><strong>Change avatar:</strong></p>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 text-lg-start my-5">
+            <form method="post" action={{ route('user.avatar',$auth_user->id) }} enctype="multipart/form-data">
+                @csrf
+                <div class="input-group">
+                    <input class="form-control" type="file" name="avatar">
+                    <button class="btn btn-success" type="submit">Load</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4">
 
+        </div>
+    </div>
 </div>
