@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\View\Components\loginButton;
-use App\View\Components\SwitchButtom;
+use App\View\Components\SwitchButton;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Paginator::useBootstrap();
-        Blade::component('switch-buttom', SwitchButtom::class);
+        Blade::component('switch-button', SwitchButton::class);
         Blade::component('login-button', loginButton::class);
     }
 }

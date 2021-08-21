@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class SwitchButtom extends Component
+class SwitchButton extends Component
 {
     /**
      * Create a new component instance.
@@ -30,6 +30,6 @@ class SwitchButtom extends Component
      */
     public function render()
     {
-        return view('components.switch-buttom');
+        return view('components.switch-button');
     }
 }
