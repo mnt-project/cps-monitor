@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Paginator::useBootstrap();
-        Blade::component('switch-button', SwitchButtom::class);
-        Blade::component('package-alert', loginButton::class);
+        Blade::component('switch-buttom', SwitchButtom::class);
+        Blade::component('login-button', loginButton::class);
     }
 }
