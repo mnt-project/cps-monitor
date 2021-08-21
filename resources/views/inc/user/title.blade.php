@@ -25,10 +25,10 @@
         @if($user->uparametr->status)
             <li class="list-group-item text-center">
                 @if($user->id == Illuminate\Support\Facades\Auth::id() or App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->uparametr->admin)
-                    <a class="text-secondary" data-target="#message" role="button" data-toggle="modal">
+                    <a class="text-secondary" data-target="#status" role="button" data-toggle="modal">
                         {{ $user->uparametr->smessage }}
                     </a>
-                    @include('inc.user.status-form',['message'=>$user->uparametr->smessage])
+                    @include('inc.user.modal-status',['message'=>$user->uparametr->smessage])
                 @else
                     <p class="text-secondary">{{ $user->uparametr->smessage }}</p>
                 @endif
@@ -39,7 +39,7 @@
                 <a class="text-secondary" data-target="#message" role="button" data-toggle="modal">
                     Set status
                 </a>
-                @include('inc.user.status-form',['message'=>$user->uparametr->smessage])
+                @include('inc.user.modal-status',['message'=>$user->uparametr->smessage])
             </li>
         @endif
         <li class="list-group-item">last seen: {{ \Carbon\Carbon::parse($user->uparametr->connected_at)->format('d.m.Y H:i') }}</li>

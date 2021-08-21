@@ -24,7 +24,7 @@
                     </li>
                 @endauth
                 <li class="nav-item">
-                    <x-loginButton status="{{ Illuminate\Support\Facades\Auth::check() }}"></x-loginButton>
+                    <x-login-button status="{{ Illuminate\Support\Facades\Auth::check() }}"></x-login-button>
                 </li>
             </ul>
         </div>
