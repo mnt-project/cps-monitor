@@ -10,21 +10,21 @@
                     <a class="nav-link" aria-current="page" href={{ route('home') }}>Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href={{ route('about') }}>About</a>
+                    <a class="nav-link" href="{{ route('about') }}">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href={{ route('credits') }}>Credits</a>
+                    <a class="nav-link" href="{{ route('credits') }}">Credits</a>
                 </li>
                 <li class="nav-item @guest me-4 @endguest">
-                    <a class="nav-link" href={{ route('group.list') }}>Groups</a>
+                    <a class="nav-link" href="{{ route('group.list') }}">Groups</a>
                 </li>
                 @auth
                     <li class="nav-item me-4">
-                        <a class="nav-link" href={{ route('user.profile',$auth_user) }}>Profile</a>
+                        <a class="nav-link" href="{{ route('user.profile',Illuminate\Support\Facades\Auth::id()) }}">Profile</a>
                     </li>
                 @endauth
                 <li class="nav-item">
-                    <x-loginButton status="{{ \Illuminate\Support\Facades\Auth::check() }}"/>
+                    <x-loginButton status="{{ Illuminate\Support\Facades\Auth::check() }}"></x-loginButton>
                 </li>
             </ul>
         </div>

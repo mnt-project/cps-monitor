@@ -16,5 +16,11 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://192.168.0.72:3306/cps_monitor?serverTimezone=UTC</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="Fornex" uuid="4c908a3d-db53-4200-b1c1-6ac0cfcbb661">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://31.172.66.176:3306/mnt_laravel?serverTimezone=UTC</jdbc-url>
+    </data-source>
   </component>
 </project>

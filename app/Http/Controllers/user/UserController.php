@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\user;
 
+use App\cps\Users;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\uLoginRequest;
 use App\Http\Requests\PasswordRequest;
@@ -40,7 +41,7 @@ class UserController extends MainController
     {
         if(Auth::check())
         {
-            Cache::forget('user-is-online-' . Auth::user());
+            Cache::forget('user-is-online-' . Auth::id());
             Auth::logout();
         }
         return redirect('/login');
@@ -53,13 +54,13 @@ class UserController extends MainController
         $data = $request->only(['email','password']);
         if(Auth::attempt($data,$rember))
         {
-            $user = Auth::user();
+            $user = User::findOrFail(Auth::id());
             $user->connects += 1;
             $user->save();
             $parametr = uParametr::where('user_id',$user)->get();
             if(is_null($parametr))
             {
-                $parametr = uParametr::create([
+                uParametr::create([
                     'user_id' => $user,
                 ]);
             }
@@ -75,6 +76,8 @@ class UserController extends MainController
     {
         if(Auth::check())
         {
+            //$user = new Users($id);
+            //dump(__METHOD__,$user->getUser());
             $user = User::find($id);
             if(empty($user))//Если user не найден, то загрузить профиль текущего
             {
@@ -89,25 +92,21 @@ class UserController extends MainController
     }
     public function user_info($id = 1)
     {
-        if(Auth::check())
+        $user = User::with(['uparametr','avatar'])->findOrFail($id);
+        $follows = Follow::where('user_id',$user->id)->get();
+        $groups = Group::get();
+        $subscribes = collect();
+        if($follows)
         {
-            $user = User::with(['uparametr','avatar'])->find($id);
-            $follows = Follow::where('user_id',$user->id)->get();
-            $groups = Group::get();
-            $subscribes = collect();
-            if($follows)
+            foreach ($follows as $follow)
             {
-                foreach ($follows as $follow)
-                {
-                    $subscribes = $subscribes->push($groups->find($follow->group_id));
-                }
-
+                $subscribes = $subscribes->push($groups->find($follow->group_id));
             }
-            return view('user')
-                ->with('user', $user)
-                ->with('groups', $subscribes);
+
         }
-        return redirect()->back()->withErrors('You don`t have permission!');
+        return view('user')
+            ->with('user', $user)
+            ->with('groups', $subscribes);
     }
     public function all_users()
     {
@@ -198,7 +197,7 @@ class UserController extends MainController
             $path = $request->file('avatar')->storeAs(
                 'public/avatars', $file->hashName()
             );
-            $ava = Avatar::create(
+                Avatar::create(
                 [
                     'user_id' => $id,
                     'hash_name' => $file->hashName(),
@@ -211,9 +210,9 @@ class UserController extends MainController
     public function user_smessage(Request $request,$id)
     {
         $user=User::find($id);
-        $auth_user = Auth::user();
+        $auth_user = User::find(Auth::id());
         $message = $request->input('statusMessage');
-        if($auth_user->id == $id or $auth_user->uparametr->admin)
+        if( $auth_user->id == $id or $auth_user->role)
         {
             if(empty($message))
             {
@@ -228,6 +227,30 @@ class UserController extends MainController
             }
             $user->uparametr->save();
             return redirect()->back()->with(['success' => $message,'show' => $auth_user->getNotifications()]);
+        }
+        return redirect()->back()->withErrors('You don`t have permission!');
+    }
+    public function user_hidden($id)
+    {
+        $user=User::find($id);
+        $hidden=$user->uparametr->hidden;
+        //$message = '';
+        if($user)
+        {
+            if($hidden)
+            {
+                $hidden=false;
+                $message = 'Profile is opened';
+            }
+            else
+            {
+                $hidden=true;
+                $message = 'Profile is closed';
+            }
+            $user->uparametr->hidden=$hidden;
+            $user->uparametr->save();
+            return redirect()->back()->with(['success' => $message,'show' => true]);
+            //dd(__METHOD__,$user);
         }
         return redirect()->back()->withErrors('You don`t have permission!');
     }
@@ -253,10 +276,11 @@ class UserController extends MainController
             return redirect()->back()->with(['success' => $message,'show' => true]);
             //dd(__METHOD__,$user);
         }
+        return redirect()->back()->withErrors('You don`t have permission!');
     }
     public function user_nickname(Request $request,$id)
     {
-        $auth_user=Auth::user();
+        $auth_user=User::find(Auth::id());
         $user = User::find($id);
         $nickname = $request->get('newnickname');
         if(!empty($nickname))
@@ -306,7 +330,7 @@ class UserController extends MainController
     }
     public function user_reputationup($id)
     {
-        $auth_user=Auth::user();
+        $auth_user=User::find(Auth::id());
         $user = User::find($id);
         if($auth_user->id!=$user->id)
         {
@@ -314,7 +338,7 @@ class UserController extends MainController
             //$rate=RatingUser::where('user_id',Auth::id())->get();
             if($rate->count() == 0)
             {
-                $rate = RatingUser::create([
+                RatingUser::create([
                     'user_id'=>$auth_user->id,
                     'rated_id'=>$id,
                     'rate'=>true,
@@ -330,7 +354,7 @@ class UserController extends MainController
     }
     public function user_reputationdown($id)
     {
-        $auth_user=Auth::user();
+        $auth_user=User::find(Auth::id());
         $user = User::find($id);
         if($auth_user->id!=$user->id)
         {
@@ -338,7 +362,7 @@ class UserController extends MainController
             //$rate=RatingUser::where('user_id',Auth::id())->get();
             if($rate->count() == 0)
             {
-                $rate = RatingUser::create([
+                RatingUser::create([
                     'user_id'=>$auth_user->id,
                     'rated_id'=>$id,
                     'value'=>-1,
@@ -353,7 +377,7 @@ class UserController extends MainController
     }
     public function users_parametrs_update()
     {
-        $auth_user=Auth::user();
+        $auth_user=User::findOrFail(Auth::id());
         if($auth_user->role)
         {
             $affected = 0;

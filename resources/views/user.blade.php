@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@php $auth_user = Auth::user() @endphp
 @section('title-block'){{ $user->name }}@endsection
 @section('content-aside')
     @include('inc.user.title',['user'=>$user])

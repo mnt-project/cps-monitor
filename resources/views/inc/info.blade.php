@@ -1,10 +1,10 @@
 <div class="card" style="width: 20rem;">
         @if($auth_user->avatar)
-            <img class="card-img-top img-responsive" src="{{ Storage::url($auth_user->avatar->patch) }}" alt="{{ Storage::url($auth_user->avatar->hash_name) }}">
         @else
-            <img class="card-img-top img-responsive" src="{{ Storage::url('no-avatar.png') }}" alt="{{ Storage::url('no-avatar.png') }}">
+            <img class="card-img-top img-responsive" src="{{ Illuminate\Support\Facades\Storage::url('no-avatar.png') }}" alt="{{ Illuminate\Support\Facades\Storage::url('no-avatar.png') }}">
         @endif
-        <div class="card-title text-center"><p><h3>{{ $auth_user->login }}</h3>
+        <div class="card-title text-center">
+            <h3>{{ $auth_user->login }}</h3>
             @if($auth_user->group)
                 <span class="badge bg-primary">{{ $auth_user->groups->name}}</span>
             @endif
@@ -14,7 +14,6 @@
             @if($auth_user->role)
                 <span class="badge bg-info">Admin</span>
             @endif
-            </p>
         </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item text-center">Email: {{ $auth_user->email }}</li>
