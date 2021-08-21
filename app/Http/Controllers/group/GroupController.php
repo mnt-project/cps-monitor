@@ -19,7 +19,7 @@ class GroupController extends MainController
     public function group_list($sort=0)
     {
 
-        $user = Auth::user();
+        $user = User::find(Auth::id());
         $names = ['No sort','Sort by id','Sort by id desc','Sort by name','Sort by name desc','Sort by update','Sort by update desc','Sort by subscribe','Sort by subscribe desc','Only followed'];
         if($user)
         {
@@ -133,13 +133,13 @@ class GroupController extends MainController
     public function group_edit(Request $request,$group)
     {
         //dd(__METHOD__,$request->ip());
-        $user = Auth::user();
+        $user = User::find(Auth::id());;
         $group_data = Group::find($group);
         if($user->id == $group_data->user_id or $user->uparametr->admin) {
             $follow = Follow::where(['user_id' => $user->id, 'group_id' => $group_data->id])->get();
             if($follow->isEmpty())
             {
-                $follow=Follow::create([
+                Follow::create([
                     'user_id' => $user->id,
                     'group_id' => $group,
                     'invite' => 1,
@@ -219,7 +219,7 @@ class GroupController extends MainController
     {
         //dd(__METHOD__,$request);
         //Storage::delete($user->avatar->patch);
-        $user = Auth::user();
+        $user = User::find(Auth::id());;
         if($user)
         {
             $name = $request->get('groupName');
@@ -250,7 +250,7 @@ class GroupController extends MainController
                     ]);
                 if($group)
                 {
-                    $follow=Follow::create(
+                    Follow::create(
                         [
                             'user_id' => $user->id,
                             'group_id' => $group->id,
