@@ -36,7 +36,7 @@
         @elseif($user->id == Illuminate\Support\Facades\Auth::id() or App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->uparametr->admin)
             <li class="list-group-item text-center">
 
-                <a class="text-secondary" data-target="#message" role="button" data-toggle="modal">
+                <a class="text-secondary" data-target="#status" role="button" data-toggle="modal">
                     Set status
                 </a>
                 @include('inc.user.modal-status',['message'=>$user->uparametr->smessage])

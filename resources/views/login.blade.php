@@ -11,6 +11,6 @@
 @endsection
 @section('content-text')
     {{----}}
-    <x-login-form pStatus=0 />
+    @include('inc.user.login')
 
 @endsection

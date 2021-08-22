@@ -23,8 +23,7 @@ class UserController extends MainController
     {
         if(Auth::check())
         {
-            $user = Auth::user();
-            return redirect()->intended(route('user.profile',$user));
+            return redirect()->back()->withErrors(['saveError' => 'You are already authenticate as '.Auth::user()->login]);
         }
         return view('login');
     }
@@ -33,7 +32,7 @@ class UserController extends MainController
         if(Auth::check())
         {
             $user = Auth::user();
-            return redirect()->intended(route('user.profile',$user));
+            return redirect()->route('user.profile',$user);
         }
         return view('registration');
     }
@@ -41,36 +40,34 @@ class UserController extends MainController
     {
         if(Auth::check())
         {
-            Cache::forget('user-is-online-' . Auth::id());
+            Cache::forget('user-is-online-'.Auth::id());
             Auth::logout();
         }
         return redirect('/login');
     }
     public function user_login(uLoginRequest $request)
     {
+        $data = $request->only(['email', 'password']);
         $rember = $request->get('remember');
-        if($rember)$rember=true;
-        else $rember=false;
-        $data = $request->only(['email','password']);
-        if(Auth::attempt($data,$rember))
+        if ($rember) $rember = true;
+        else $rember = false;
+        if (Auth::attempt($data, $rember))
         {
             $user = User::findOrFail(Auth::id());
             $user->connects += 1;
             $user->save();
-            $parametr = uParametr::where('user_id',$user)->get();
-            if(is_null($parametr))
-            {
+            $parametr = uParametr::where('user_id', $user)->get();
+            if (is_null($parametr)) {
                 uParametr::create([
                     'user_id' => $user,
                 ]);
             }
             $user->uparametr->connected_at = now();
             $user->uparametr->save();
-            return redirect()->intended(route('user.info',$user->id))
-                ->with(['success' => 'User: '.$user->login.' ID:['.$user->id.'] loged!','show' => $user->uparametr->notifications]);//Редирект на место
+            return redirect()->intended(route('user.info', $user->id))
+                ->with(['success' => 'User: ' . $user->login . ' ID:[' . $user->id . '] loged!', 'show' => $user->uparametr->notifications]);//Редирект на место
         }
-        else return redirect(route('user.login'))->withErrors('Неправильный пароль!');
-
+        return redirect(route('user.login'))->withErrors('Неправильный пароль!');
     }
     public function user_profile($id = 1,$tabid=1)
     {

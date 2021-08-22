@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\user\MessagesController;
 use App\Http\Controllers\group\GroupController;
 use App\Http\Controllers\group\FollowController;
 use App\Http\Controllers\group\PostController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,15 +18,7 @@ use App\Http\Controllers\group\PostController;
 |
 */
 
-Route::get('/', function ()
-{
-
-    if(Auth::check())
-    {
-         return view('home');
-    }
-    return view('login');
-})->name('home');
+Route::get('/', [HomeController::class,'index'])->name('home');
 
 Route::name('user.')->group(function() {
     Route::middleware(['auth'])->group(function () {
