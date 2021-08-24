@@ -1,0 +1,9 @@
+<div class="modal fade" id="imgview" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <span class="text-end"><button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button></span>
+            <img id="viewerimg" class="card-img-top img-responsive" src="{{$group->avatar ? Illuminate\Support\Facades\Storage::url($group->patch) : Illuminate\Support\Facades\Storage::url('no-avatar.png')}}"
+                 alt="{{ $group->avatar ? Illuminate\Support\Facades\Storage::url($group->hash_name) : Illuminate\Support\Facades\Storage::url('no-avatar.png') }}">
+        </div>
+    </div>
+</div>

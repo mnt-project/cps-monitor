@@ -10,19 +10,16 @@ use App\Models\Group;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
-use App\Models\uParametr;
-use Illuminate\Support\Str;
 
 class GroupController extends MainController
 {
     //
     public function group_list($sort=0)
     {
-
-        $user = User::find(Auth::id());
         $names = ['No sort','Sort by id','Sort by id desc','Sort by name','Sort by name desc','Sort by update','Sort by update desc','Sort by subscribe','Sort by subscribe desc','Only followed'];
-        if($user)
+        if(Auth::check())
         {
+            $user = User::find(Auth::id());
             if($user->uparametr->admin)//Если админ, создать коллекцию всех групп
             {
                 $group_data = Group::with(['follow'])->get();

@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@php $auth_user = Auth::user() @endphp
 
 @section('title-block')Groups @endsection
 
@@ -32,7 +31,7 @@
             <div class="col-2">
                 @auth
                     <button data-target="#addGroup" role="button" class="btn btn-secondary" data-toggle="modal">{{ __('group.new_group') }}</button>
-                    @include('inc.group-form',['action'=>0,'name'=>'Create','route'=>'group.add','group'=>0])
+                    @include('inc.group.group-form',['action'=>0,'name'=>'Create','route'=>'group.add','group'=>0])
                 @endauth
             </div>
         </div>
@@ -40,7 +39,7 @@
 
     <div class="row">
         @foreach ($groups as $group)
-            @include('inc.group-thumbnail',$group)
+            @include('inc.group.group-thumbnail',$group)
         @endforeach
     </div>
 @endsection
