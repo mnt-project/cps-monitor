@@ -31,7 +31,7 @@
         <p class="mt-2">{{ \Carbon\Carbon::parse($group->created_at)->format('d.m.Y H:i')}}</p>
         <p class="mt-2">Creator: <a href="{{ route('user.info',$group->user->id) }}"><span class="bi bi-person-circle">{{$group->user->login}}</span></a></p>
         <p class="mt-2">Followers: {{$group->groupFollowCount()}}</p>
-        @if($auth_user)
+        @auth
             <div class="mt-5 row">
                 @if($group->user_id === $auth_user->id)
                     <button data-target="#addGroup" role="button" class="btn btn-primary mt-2" data-toggle="modal">Edit group</button>
@@ -55,7 +55,7 @@
                     @endif
                 </div>
             @endif
-        @endif
+        @endauth
         <div class="row">
             <a href="{{ route('group.list') }}" class="btn btn-primary mt-2">Exit</a>
         </div>
