@@ -28,15 +28,6 @@ class GroupController extends MainController
             {
                 $group_data = Group::with(['follow'])->where('public', 1)->get();
             }
-        }
-        else
-        {
-            $user = User::find(0);
-            $group_data = Group::with(['follow'])->where('public', 1)->get();
-        }
-        $sorted = collect();
-        if($user->id!=0)
-        {
             $sortid = $user->uparametr->sort;
             if($sort)
             {
@@ -54,6 +45,12 @@ class GroupController extends MainController
                 }
             }
         }
+        else
+        {
+            $user = User::find(0);
+            $group_data = Group::with(['follow'])->where('public', 1)->get();
+        }
+        $sorted = collect();
         switch($sort)
         {
             case 0:
