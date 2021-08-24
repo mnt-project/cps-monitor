@@ -33,7 +33,7 @@
                     <p class="text-secondary">{{ $user->uparametr->smessage }}</p>
                 @endif
             </li>
-        @elseif($user->id == Illuminate\Support\Facades\Auth::id() or App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->uparametr->admin)
+        @elseif($user->id == Illuminate\Support\Facades\Auth::id() or \App\Models\User::userIsAdmin(Illuminate\Support\Facades\Auth::id()))
             <li class="list-group-item text-center">
 
                 <a class="text-secondary" data-target="#status" role="button" data-toggle="modal">
