@@ -56,6 +56,15 @@ class User extends Authenticatable
     {
         return Hash::check($password, $this->password);
     }
+    public function scopeUserIsAdmin($query,$userid)
+    {
+        $user=$query->where('id',$userid)->first();
+        if(!is_null($user))
+        {
+            return $user->uparametr->admin === 1;
+        }
+        return false;
+    }
     public function isOnline()
     {
         return Cache::has('user-is-online-' . $this->id);

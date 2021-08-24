@@ -24,7 +24,7 @@
     <ul class="list-group list-group-flush">
         @if($user->uparametr->status)
             <li class="list-group-item text-center">
-                @if($user->id == Illuminate\Support\Facades\Auth::id() or App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->uparametr->admin)
+                @if($user->id == Illuminate\Support\Facades\Auth::id() or \App\Models\User::userIsAdmin(Illuminate\Support\Facades\Auth::id()))
                     <a class="text-secondary" data-target="#status" role="button" data-toggle="modal">
                         {{ $user->uparametr->smessage }}
                     </a>

@@ -33,16 +33,16 @@
         <p class="mt-2">Followers: {{$group->groupFollowCount()}}</p>
         @auth
             <div class="mt-5 row">
-                @if($group->user_id === $auth_user->id)
+                @if($group->user_id === \Illuminate\Support\Facades\Auth::id())
                     <button data-target="#addGroup" role="button" class="btn btn-primary mt-2" data-toggle="modal">Edit group</button>
                     @include('inc.group.group-form',['action'=>1,'name'=>'Edit','route'=>'group.edit'])
                 @endif
             </div>
-            @if($group->open and $group->user_id != $auth_user->id)
+            @if($group->open and $group->user_id != \Illuminate\Support\Facades\Auth::id())
                 <div class="row">
                     @if($followers->count())
                         @foreach($followers as $follower)
-                            @if($follower->user_id === $auth_user->id)
+                            @if($follower->user_id === \Illuminate\Support\Facades\Auth::id())
                                 <a href="{{ route('group.unfollowing',$group->id) }}" class="btn btn-primary mt-2">Unfollow</a>
                                 @break
                             @endif
