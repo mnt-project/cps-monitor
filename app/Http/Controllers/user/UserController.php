@@ -40,10 +40,13 @@ class UserController extends MainController
     {
         if(Auth::check())
         {
+            $user=Auth::user();
+            //session()->flash('info','User: '.$user->login.' ID:['.$user->id.'] logout!');
             Cache::forget('user-is-online-'.Auth::id());
             Auth::logout();
+            session()->forget('notifications');
         }
-        return redirect('/login');
+        return redirect()->back();
     }
     public function user_login(uLoginRequest $request)
     {
@@ -64,8 +67,9 @@ class UserController extends MainController
             }
             $user->uparametr->connected_at = now();
             $user->uparametr->save();
-            return redirect()->intended(route('user.info', $user->id))
-                ->with(['success' => 'User: ' . $user->login . ' ID:[' . $user->id . '] loged!', 'show' => $user->uparametr->notifications]);//Редирект на место
+            session(['notifications' => $user->uparametr->notifications]);
+            session()->flash('info','User: '.$user->login.' ID:['.$user->id.'] logged!');
+            return redirect()->intended(route('user.info', $user->id));//Редирект на место
         }
         return redirect(route('user.login'))->withErrors('Неправильный пароль!');
     }
@@ -172,8 +176,8 @@ class UserController extends MainController
             }
             $user->uparametr->save();
             $user->save();
-
-            return redirect(route('user.profile',$id))->with(['success' => 'User: '.$user->login.' ID:['.$id.'] updated!','show'=> $user->uparametr->notifications]);
+            session()->flash('success','User: '.$user->login.' ID:['.$id.'] updated!');
+            return redirect(route('user.profile',$id));
         }
         return redirect(route('user.profile'))->withErrors(['saveError' => 'Save error! User not found']);
     }
@@ -200,7 +204,8 @@ class UserController extends MainController
                     'hash_name' => $file->hashName(),
                     'patch' => $path,
                 ]);
-            return redirect()->back()->with(['success' => 'Avatar is uploaded!','show'=> $user->uparametr->notifications]);
+            session()->flash('success','Avatar is uploaded!');
+            return redirect()->back();
         }
         return redirect()->back()->withErrors(['saveError' => 'Avatar is not selected!']);
     }
@@ -223,7 +228,8 @@ class UserController extends MainController
                 $message = 'New status message: '.$message;
             }
             $user->uparametr->save();
-            return redirect()->back()->with(['success' => $message,'show' => $auth_user->getNotifications()]);
+            session()->flash('success',$message);
+            return redirect()->back();
         }
         return redirect()->back()->withErrors('You don`t have permission!');
     }
@@ -246,7 +252,8 @@ class UserController extends MainController
             }
             $user->uparametr->hidden=$hidden;
             $user->uparametr->save();
-            return redirect()->back()->with(['success' => $message,'show' => true]);
+            session()->flash('success',$message);
+            return redirect()->back();
             //dd(__METHOD__,$user);
         }
         return redirect()->back()->withErrors('You don`t have permission!');
@@ -270,7 +277,9 @@ class UserController extends MainController
             }
             $user->uparametr->notifications=$notifications;
             $user->uparametr->save();
-            return redirect()->back()->with(['success' => $message,'show' => true]);
+            session()->flash('success',$message);
+            session(['notifications' => $notifications]);
+            return redirect()->back();
             //dd(__METHOD__,$user);
         }
         return redirect()->back()->withErrors('You don`t have permission!');
@@ -287,7 +296,8 @@ class UserController extends MainController
                 $message=$user->login.' change nickname to '.$nickname;
                 $user->login = $nickname;
                 $user->save();
-                return redirect()->back()->with(['success' => $message,'show' => true]);
+                session()->flash('success',$message);
+                return redirect()->back();
             }
             return redirect()->back()->withErrors('You don`t have permission!');
         }
@@ -304,7 +314,8 @@ class UserController extends MainController
             {
                 $user->setPasswordAttribute($pass['new_password']);
                 $user->save();
-                return redirect()->back()->with(['success' => "Password changed!",'show' => true]);
+                session()->flash('success',"Password changed!");
+                return redirect()->back();
             }
             return redirect()->back()->withErrors('Incorrect current password!');
         }
@@ -321,7 +332,8 @@ class UserController extends MainController
             if(!is_null($about['interests'])){$user->uparametr->about = $about['about'];}
             if(!is_null($about['interests'])){$user->uparametr->notes = $about['notes'];}
             $user->uparametr->save();
-            return redirect()->back()->with(['success' => "About changed!",'show' => true]);
+            session()->flash('success',"About changed!");
+            return redirect()->back();
         }
         return redirect()->back()->withErrors('You don`t have permission!');
     }
@@ -343,7 +355,8 @@ class UserController extends MainController
                 ]);
                 $user->uparametr->reputation++;
                 $user->uparametr->save();
-                return redirect()->back()->with(['success' => "User ".$user->login." rated!",'show' => true]);
+                session()->flash('success',"User ".$user->login." rated!");
+                return redirect()->back();
             }
             return redirect()->back()->withErrors('You already rated this user!');
         }
@@ -366,7 +379,8 @@ class UserController extends MainController
                 ]);
                 $user->uparametr->reputation--;
                 $user->uparametr->save();
-                return redirect()->back()->with(['success' => "User ".$user->login." rated!",'show' => true]);
+                session()->flash('success',"User ".$user->login." rated!");
+                return redirect()->back();
             }
             return redirect()->back()->withErrors('You already rated this user!');
         }

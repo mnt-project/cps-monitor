@@ -1,9 +1,16 @@
 <div class="container-fluid mt-5">
     @if($group->avatar)
-        <a data-target="#imgview" role="button" data-toggle="modal">
-            <img class="img-thumbnail" src={{ Illuminate\Support\Facades\Storage::url($group->patch) }} class="img-thumbnail" alt={{ Illuminate\Support\Facades\Storage::url($group->hash_name) }}>
-        </a>
-        @include('inc.group.modal-imgview')
+        @if($group->user_id == \Illuminate\Support\Facades\Auth::id())
+            <a data-target="#avatar" role="button" data-toggle="modal">
+                <img class="img-thumbnail" src={{ Illuminate\Support\Facades\Storage::url($group->patch) }} class="img-thumbnail" alt={{ Illuminate\Support\Facades\Storage::url($group->hash_name) }}>
+            </a>
+            @include('inc.group.modal-avatar')
+        @else
+            <a data-target="#imgview" role="button" data-toggle="modal">
+                <img class="img-thumbnail" src={{ Illuminate\Support\Facades\Storage::url($group->patch) }} class="img-thumbnail" alt={{ Illuminate\Support\Facades\Storage::url($group->hash_name) }}>
+            </a>
+            @include('inc.group.modal-imgview')
+        @endif
     @else
         <img class="img-thumbnail" src={{ Illuminate\Support\Facades\Storage::url('group-no-avatar.png') }} class="card-img-top" alt={{ Illuminate\Support\Facades\Storage::url('group-no-avatar.png') }}>
     @endif

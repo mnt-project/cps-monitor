@@ -48,12 +48,17 @@ Route::name('user.')->group(function() {
     Route::post('/registration',[UserController::class, 'user_registration']);
 });
 Route::name('group.')->group(function() {
-    Route::get('group/list/{sort?}', [GroupController::class, 'group_list'])->name('list');
-    Route::get('group/info/{group?}/{text?}', [GroupController::class, 'group_info'])->name('info');
-    Route::post('group/add/', [GroupController::class, 'group_add'])->name('add');
-    Route::post('group/edit/{id?}', [GroupController::class, 'group_edit'])->name('edit');
-    Route::get('group/following/{group}', [FollowController::class, 'following'])->name('following');
-    Route::get('group/unfollowing/{group}', [FollowController::class, 'unfollowing'])->name('unfollowing');
+    Route::prefix('group')->group(function () {
+        Route::get('list/{sort?}', [GroupController::class, 'group_list'])->name('list');
+        Route::get('info/{group?}/{text?}', [GroupController::class, 'group_info'])->name('info');
+        Route::middleware(['auth'])->group(function () {
+            Route::post('add/', [GroupController::class, 'group_add'])->name('add');
+            Route::post('edit/{id?}', [GroupController::class, 'group_edit'])->name('edit');
+            Route::post('avatar/{id}', [GroupController::class, 'group_avatar'])->name('avatar');
+            Route::get('following/{group}', [FollowController::class, 'following'])->name('following');
+            Route::get('unfollowing/{group}', [FollowController::class, 'unfollowing'])->name('unfollowing');
+        });
+    });
 });
 
 Route::name('post.')->group(function() {

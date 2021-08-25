@@ -141,7 +141,8 @@ class GroupController extends MainController
                     'subscribe_key' => 'creator-'.$group_data->name,
                     'reputation' => 100
                 ]);
-                return redirect(route('group.info', $group_data->id))->with(['success' => 'Creator follow added!','show'=> $user->uparametr->notifications]);
+                session()->flash('success','Creator follow added!');
+                return redirect(route('group.info', $group_data->id));
             }
             if ($group_data) {
                 //dd(__METHOD__, $request);
@@ -183,11 +184,35 @@ class GroupController extends MainController
                     $group_data->about = $about;
                 }
                 $group_data->save();
-                return redirect(route('group.info', $group_data->id))->with(['success' => 'Group is modify!','show'=> $user->uparametr->notifications]);
+                session()->flash('success','Group '.$group_data->name.' is modify!');
+                return redirect(route('group.info', $group_data->id));
             }
             return redirect(route('group.list'))->withErrors(['saveError' => 'Group not find!']);
         }
         return redirect(route('group.list'))->withErrors(['saveError' => 'You dont have permission to edit this group!']);
+    }
+    public function group_avatar(Request $request,$id)
+    {
+        //dd(__METHOD__,$id);
+        if ($request->hasFile('avatar'))
+        {
+            $group = Group::find($id);
+            if($group->avatar)
+            {
+                Storage::delete($group->patch);
+            }
+            $file = $request->file('avatar');
+            $name = $file->hashName();
+            $path = $request->file('avatar')->storeAs(
+                'public/groups/avatars', $name
+            );
+            $group->patch = $path;
+            $group->hash_name = $name;
+            $group->save();
+            session()->flash('success','Group '.$group->name.' avatar changed!');
+            return redirect()->back();
+        }
+        return redirect()->back()->withErrors(['saveError' => 'Avatar is not selected!']);
     }
     public function group_info($groupid=0,$text='')
     {
@@ -225,7 +250,6 @@ class GroupController extends MainController
             if($request->hasFile('avatar'))
             {
                 $file = $request->file('avatar');
-
                 $path = $request->file('avatar')->storeAs(
                     'public/groups/avatars', $file->hashName()
                 );
@@ -253,7 +277,8 @@ class GroupController extends MainController
                             'subscribe_key' => 'creator-'.$group->name,
                             'reputation' => 100
                         ]);
-                    return redirect(route('group.list'))->with(['success' => 'Group is created!','show'=> $user->uparametr->notifications]);
+                    session()->flash('success','Group '.$group->name.' is created!');
+                    return redirect(route('group.list'));
                 }
                 else
                 {
