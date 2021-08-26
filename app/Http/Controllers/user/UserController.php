@@ -7,6 +7,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Requests\uLoginRequest;
 use App\Http\Requests\PasswordRequest;
 use App\Models\RatingUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\uParametr;
@@ -16,6 +17,7 @@ use App\Models\Follow;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends MainController
 {
@@ -41,10 +43,13 @@ class UserController extends MainController
         if(Auth::check())
         {
             $user=Auth::user();
-            //session()->flash('info','User: '.$user->login.' ID:['.$user->id.'] logout!');
+
             Cache::forget('user-is-online-'.Auth::id());
             Auth::logout();
-            session()->forget('notifications');
+            $message = 'User: '.$user->login.' ID:['.$user->id.'] logout!';
+            session()->flash('info',$message);
+            Log::channel('connections')->info('[IP:'.\Request::ip().'] '.$message);
+            session()->flash('notifications');
         }
         return redirect()->back();
     }
@@ -67,8 +72,10 @@ class UserController extends MainController
             }
             $user->uparametr->connected_at = now();
             $user->uparametr->save();
-            session(['notifications' => $user->uparametr->notifications]);
-            session()->flash('info','User: '.$user->login.' ID:['.$user->id.'] logged!');
+            $message = 'User: '.$user->login.' ID:['.$user->id.'] logged!';
+            session(['notifications' => $user->uparametr->notifications == 1 ]);
+            session()->flash('info',$message);
+            Log::channel('connections')->info('[IP:'.\Request::ip().'] '.$message);
             return redirect()->intended(route('user.info', $user->id));//Редирект на место
         }
         return redirect(route('user.login'))->withErrors('Неправильный пароль!');

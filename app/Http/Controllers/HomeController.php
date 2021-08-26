@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -29,6 +31,7 @@ class HomeController extends Controller
                 $groupsPublic->push($group);
             }
         }
+        Log::channel('connections')->info('[IP:'.\Request::ip().'] Guest income at '.Carbon::now());
         return view('home')
             ->with('usersOnline',$usersOnline)
             ->with('groupsPublic',$groupsPublic);
