@@ -23,7 +23,7 @@
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $ip->visitor }}</td>
-                    <td>{{ $ip->getCountConnections($ip->visitor) }}</td>
+                    <td>{{ $counts[$loop->index] }}</td>
                     <td>{{ $ip->created_at }}</td>
                 </tr>
             @endforeach

@@ -12,11 +12,20 @@ class DashboardController extends Controller
     {
         $items=['Connections','Community'];
         $ips = Connections::get();
-        $ips = $ips->unique('visitor');
-        $ips->values()->all();
-        //dd(__METHOD__,$ips);
+        $ipsunique = $ips->unique('visitor');
+        $ipsunique->values()->all();
+        $data = collect();
+        $counts = [];
+        foreach ($ipsunique as $ipunique)
+        {
+            $data = $data->push($ipunique);
+            $counts[] = $ips->where('visitor',$ipunique->visitor)->count();
+        }
+
+        //dd(__METHOD__,$data);
         return view('admin.connections')
-            ->with('ips',$ips)
+            ->with('ips',$data)
+            ->with('counts',$counts)
             ->with('items',$items);
     }
     public function community()
