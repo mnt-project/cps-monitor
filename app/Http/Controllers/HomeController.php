@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Models\Connections;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -13,6 +14,7 @@ class HomeController extends Controller
     //
     public function index()
     {
+        $userip = \Request::ip();
         $users = User::get();
         $groups = Group::get();
         $usersOnline = collect();
@@ -31,7 +33,10 @@ class HomeController extends Controller
                 $groupsPublic->push($group);
             }
         }
-        Log::channel('connections')->info('[IP:'.\Request::ip().'] Guest income at '.Carbon::now());
+        Connections::create([
+            'visitor' => $userip,
+        ]);
+        Log::channel('connections')->info('[IP:'.$userip.'] Guest income');
         return view('home')
             ->with('usersOnline',$usersOnline)
             ->with('groupsPublic',$groupsPublic);
