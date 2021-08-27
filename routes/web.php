@@ -7,6 +7,7 @@ use App\Http\Controllers\group\GroupController;
 use App\Http\Controllers\group\FollowController;
 use App\Http\Controllers\group\PostController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\admin\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,7 +61,16 @@ Route::name('group.')->group(function() {
         });
     });
 });
-
+Route::name('admin.')->group(function() {
+    Route::prefix('admin')->group(function () {
+        Route::middleware(['access'])->group(function () {//access
+            Route::prefix('dashboard')->group(function () {
+                Route::get('/connections',[DashboardController::class,'connections'])->name('connections');
+                Route::get('/community',[DashboardController::class,'community'])->name('community');
+            });
+        });
+    });
+});
 Route::name('post.')->group(function() {
     Route::post('post/create/{group}', [PostController::class, 'post_create'])->name('create');
     Route::get('post/reputation/{post}/{value}', [PostController::class, 'post_reputation'])->name('reputation');
