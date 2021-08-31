@@ -29,7 +29,6 @@
             @endforeach
         </tbody>
     </table>
-
 @endsection
 @section('dashboard-info')
 

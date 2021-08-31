@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@php $auth_user = Auth::user() @endphp
 @section('title-block')Users @endsection
 @section('content-aside')
 
@@ -28,7 +27,7 @@
                 <tr class='clickable-row-table' data-href='{{ route('user.info',$user->id) }}'>
                     <th scope="row">{{$loop->iteration}}</th>
                     <td><span class="bi bi-person-circle">{{ $user->login }}</span></td>
-                    @if($auth_user->role)
+                    @if(Illuminate\Support\Facades\Auth::user()->uparametr->admin > 0)
                         <td>{{ $user->email }}</td>
                     @else
                         <td>hidden</td>

@@ -119,10 +119,10 @@ class UserController extends MainController
     public function all_users()
     {
         $user = Auth::user();
-        $users = User::where('id','>',0)->paginate(30);
         //$users = $users->forget(0);
         if($user)
         {
+            $users = User::where('id','>',0)->paginate(30);
             if($users)
             {
                 return view('users')

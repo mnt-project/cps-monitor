@@ -65,6 +65,14 @@ class User extends Authenticatable
         }
         return false;
     }
+    public function userIsHidden()
+    {
+        return $this->uparametr->hidden === 1;
+    }
+    public function IsAdmin()
+    {
+        return $this->uparametr->admin === 1;
+    }
     public function isOnline()
     {
         return Cache::has('user-is-online-' . $this->id);

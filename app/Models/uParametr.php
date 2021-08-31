@@ -21,6 +21,7 @@ class uParametr extends Model
         'banned',
         'viewid',
         'notifications',
+        'hidden',
         'language',
         'private_profile',
         'status',
@@ -36,10 +37,6 @@ class uParametr extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        'user_id',
-        'admin',
-    ];
     public function user()
     {
         return $this->belongsTo(User::class);

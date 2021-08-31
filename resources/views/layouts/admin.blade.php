@@ -20,7 +20,7 @@
         <div class="col-12 col-lg-2 col-md-3">
             @yield('dashboard-aside')
         </div>
-        <div class="col-12 col-lg-8 col-md-7">
+        <div class="col-12 col-lg-8 col-md-7 app">
             <div class="text-center mb-5">@yield('dashboard-header')</div>
             <div class="position-fixed bottom-0 end-0 p-3 mb-5" style="z-index: 5">
                 @include('admin.inc.messages')

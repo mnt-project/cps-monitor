@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Connections;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -21,7 +22,6 @@ class DashboardController extends Controller
             $data = $data->push($ipunique);
             $counts[] = $ips->where('visitor',$ipunique->visitor)->count();
         }
-
         //dd(__METHOD__,$data);
         return view('admin.connections')
             ->with('ips',$data)
@@ -31,7 +31,12 @@ class DashboardController extends Controller
     public function community()
     {
         $items=['Connections','Community'];
+        //$users = User::with(['uparametr','avatar'])->get();
+        $users = User::all();
+        $users->load('uparametr','avatar');
+        //$user = $users->find(17);
         return view('admin.community')
+            ->with('users',$users)
             ->with('items',$items);
     }
 }
