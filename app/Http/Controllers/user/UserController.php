@@ -10,7 +10,7 @@ use App\Models\RatingUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\parametr;
+use App\Models\Parametr;
 use App\Models\Avatar;
 use App\Models\Group;
 use App\Models\Follow;
@@ -64,9 +64,9 @@ class UserController extends MainController
             $user = User::findOrFail(Auth::id());
             $user->connects += 1;
             $user->save();
-            $parametr = parametr::where('user_id', $user)->get();
+            $parametr = Parametr::where('user_id', $user)->get();
             if (is_null($parametr)) {
-                parametr::create([
+                Parametr::create([
                     'user_id' => $user,
                 ]);
             }
@@ -142,7 +142,7 @@ class UserController extends MainController
         //$user=User::create($request);
         $data = $request->only(['login','email','age','password']);
         $user = User::create($data);
-        $parametr = parametr::create([
+        $parametr = Parametr::create([
             'user_id' => $user->id,
         ]);
         //dd(__METHOD__,$parametr);
@@ -404,7 +404,7 @@ class UserController extends MainController
             $users = User::get();
             foreach ($users as $user)
             {
-                $parametr = parametr::where('user_id',$user->id)->get();
+                $parametr = Parametr::where('user_id',$user->id)->get();
                 if(empty($parametr))
                 {
                     $parametr = parametr::create([
