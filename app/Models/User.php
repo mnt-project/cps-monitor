@@ -61,17 +61,17 @@ class User extends Authenticatable
         $user=$query->where('id',$userid)->first();
         if(!is_null($user))
         {
-            return $user->uparametr->admin === 1;
+            return $user->parametr->admin === 1;
         }
         return false;
     }
     public function userIsHidden()
     {
-        return $this->uparametr->hidden === 1;
+        return $this->parametr->hidden === 1;
     }
     public function IsAdmin()
     {
-        return $this->uparametr->admin === 1;
+        return $this->parametr->admin === 1;
     }
     public function isOnline()
     {
@@ -79,29 +79,33 @@ class User extends Authenticatable
     }
     public function getNotifications()
     {
-        return $this->uparametr->notifications === 1;
+        return $this->parametr->notifications === 1;
     }
-    public function  uparametr()
+    public function getMuted()
     {
-        return $this->hasOne(uParametr::class,'user_id');
+        return $this->parametr->muted === 1;
     }
-    public function  avatar()
+    public function parametr()
+    {
+        return $this->hasOne(Parametr::class,'user_id');
+    }
+    public function avatar()
     {
         return $this->hasOne(Avatar::class,'user_id');
     }
-    public function  posts()
+    public function posts()
     {
         return $this->hasOne(Post::class,'user_id');
     }
-    public function  groups()
+    public function groups()
     {
         return $this->hasOne(Group::class,'user_id');
     }
-    public function  follow()
+    public function follow()
     {
         return $this->hasMany(Follow::class,'user_id');
     }
-    public function  ratinguser()
+    public function ratinguser()
     {
         return $this->hasMany(RatingUser::class,'user_id');
     }

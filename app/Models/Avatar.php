@@ -28,4 +28,8 @@ class Avatar extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function parametr()
+    {
+        return $this->belongsTo(Parametr::class, 'user_id');
+    }
 }

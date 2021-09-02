@@ -9,15 +9,15 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * @mixin Builder
  */
-class uParametr extends Model
+class Parametr extends Model
 {
     use HasFactory;
     protected $fillable = [
         'id',
-        'user_id',//Идентификатор пользователя
-        'muted',//Флаг мута
-        'admin',//
-        'sort',//
+        'user_id',
+        'muted',
+        'admin',
+        'sort',
         'banned',
         'viewid',
         'notifications',
@@ -29,16 +29,19 @@ class uParametr extends Model
         'reputation',
         'interests',
         'about',
-        'notes',//Заметка о пользователе
+        'notes',
         'connected_at',
     ];
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function avatar()
+    {
+        return $this->hasOne(Avatar::class,'user_id' , 'user_id');
+    }
+    public function scopeGetMutedUsers($query)
+    {
+        return $query->with('user')->where('muted',true);
     }
 }

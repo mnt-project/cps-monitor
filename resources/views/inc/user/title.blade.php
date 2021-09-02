@@ -17,20 +17,20 @@
         @if($user->isOnline())
             <span class="badge bg-success">Online</span>
         @endif
-        @if($user->uparametr->admin)
+        @if($user->parametr->admin)
             <span class="badge bg-info">Admin</span>
         @endif
     </div>
     <ul class="list-group list-group-flush">
-        @if($user->userIsHidden())
+        @if($user->parametr->status)
             <li class="list-group-item text-center">
                 @if($user->id == Illuminate\Support\Facades\Auth::id() or \App\Models\User::userIsAdmin(Illuminate\Support\Facades\Auth::id()))
                     <a class="text-secondary" data-target="#status" role="button" data-toggle="modal">
-                        {{ $user->uparametr->smessage }}
+                        {{ $user->parametr->smessage }}
                     </a>
-                    @include('inc.user.modal-status',['message'=>$user->uparametr->smessage])
+                    @include('inc.user.modal-status',['message'=>$user->parametr->smessage])
                 @else
-                    <p class="text-secondary">{{ $user->uparametr->smessage }}</p>
+                    <p class="text-secondary">{{ $user->parametr->smessage }}</p>
                 @endif
             </li>
         @elseif($user->id == Illuminate\Support\Facades\Auth::id() or \App\Models\User::userIsAdmin(Illuminate\Support\Facades\Auth::id()))
@@ -39,18 +39,18 @@
                 <a class="text-secondary" data-target="#status" role="button" data-toggle="modal">
                     Set status
                 </a>
-                @include('inc.user.modal-status',['message'=>$user->uparametr->smessage])
+                @include('inc.user.modal-status',['message'=>$user->parametr->smessage])
             </li>
         @endif
-        <li class="list-group-item">last seen: {{ \Carbon\Carbon::parse($user->uparametr->connected_at)->format('d.m.Y H:i') }}</li>
+        <li class="list-group-item">last seen: {{ \Carbon\Carbon::parse($user->parametr->connected_at)->format('d.m.Y H:i') }}</li>
         <li class="list-group-item">Created: {{ \Carbon\Carbon::parse($user->created_at)->format('d.m.Y H:i')}}</li>
         <li class="list-group-item text-center">
             Rate user:
             <a class="text-success" href="{{ route('user.reputationup',$user) }}"><span class="bi bi-hand-thumbs-up"></span></a>
-            @if($user->uparametr->reputation>=0)
-                <b class="text-success">{{$user->uparametr->reputation}}</b>
+            @if($user->parametr->reputation>=0)
+                <b class="text-success">{{$user->parametr->reputation}}</b>
             @else
-                <b class="text-danger">{{$user->uparametr->reputation}}</b>
+                <b class="text-danger">{{$user->parametr->reputation}}</b>
             @endif
             <a class="text-danger" href="{{ route('user.reputationdown',$user) }}"><span class="bi bi-hand-thumbs-down"></span></a>
         </li>

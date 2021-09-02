@@ -38,7 +38,7 @@
             <p><strong>Language:</strong></p>
         </div>
         <div class="col-8 text-start">
-            @switch($user->uparametr->language)
+            @switch($user->parametr->language)
                 @case(1)
                 English
                 @break
@@ -57,10 +57,10 @@
             <p><strong>Reputation:</strong></p>
         </div>
         <div class="col-8 text-start">
-            @if($user->uparametr->reputation > 0)
-                <p class="text-success"><strong>{{'+'.$user->uparametr->reputation}}</strong></p>
-            @elseif($user->uparametr->reputation < 0)
-                <p class="text-danger"><strong>{{'-'.$user->uparametr->reputation}}</strong></p>
+            @if($user->parametr->reputation > 0)
+                <p class="text-success"><strong>{{'+'.$user->parametr->reputation}}</strong></p>
+            @elseif($user->parametr->reputation < 0)
+                <p class="text-danger"><strong>{{'-'.$user->parametr->reputation}}</strong></p>
             @else
                 <p>No ratings</p>
             @endif
@@ -71,10 +71,10 @@
             <p><strong>Interests:</strong></p>
         </div>
         <div class="col-8 text-start">
-            @if($user->uparametr->interests == 'null')
+            @if($user->parametr->interests == 'null')
                 <p>Not specified</p>
             @else
-                <p>{{$user->uparametr->interests}}</p>
+                <p>{{$user->parametr->interests}}</p>
             @endif
         </div>
     </div>
@@ -83,10 +83,10 @@
             <p><strong>About:</strong></p>
         </div>
         <div class="col-8 text-start">
-            @if($user->uparametr->about == 'null')
+            @if($user->parametr->about == 'null')
                 <p>Not specified</p>
             @else
-                <p>{{$user->uparametr->about}}</p>
+                <p>{{$user->parametr->about}}</p>
             @endif
         </div>
     </div>
@@ -95,10 +95,10 @@
             <p><strong>Notes:</strong></p>
         </div>
         <div class="col-8 text-start">
-            @if($user->uparametr->notes == 'null')
+            @if($user->parametr->notes == 'null')
                 <p>Not specified</p>
             @else
-                <p>{{$user->uparametr->notes}}</p>
+                <p>{{$user->parametr->notes}}</p>
             @endif
         </div>
     </div>

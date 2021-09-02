@@ -1,9 +1,9 @@
 <div class="container">
     <div class="row border-bottom">
-        <x-switch-button :flag="$user->uparametr->notifications" :route="route('user.notifications',$user)">Notifications</x-switch-button>
+        <x-switch-button :flag="$user->parametr->notifications" :route="route('user.notifications',$user)">Notifications</x-switch-button>
     </div>
     <div class="row border-bottom">
-        <x-switch-button :flag="$user->uparametr->hidden" :route="route('user.hidden',$user)" labeltrue="Hidden" labelfalse="Public">Profile type</x-switch-button>
+        <x-switch-button :flag="$user->parametr->hidden" :route="route('user.hidden',$user)" labeltrue="Hidden" labelfalse="Public">Profile type</x-switch-button>
     </div>
     <div class="row border-bottom">
         <div class="col-lg-2 col-md-4 col-sm-6 my-5">

@@ -13,7 +13,7 @@ class CreateUParametrsTable extends Migration
      */
     public function up()
     {
-        Schema::create('u_parametrs', function (Blueprint $table) {
+        Schema::create('parametrs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->unique();//Идентификатор пользователя
             $table->foreign('user_id')->references('id')->on('users');
@@ -44,6 +44,6 @@ class CreateUParametrsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('u_parametrs');
+        Schema::dropIfExists('parametrs');
     }
 }

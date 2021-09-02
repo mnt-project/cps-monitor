@@ -66,7 +66,7 @@ Route::name('admin.')->group(function() {
         Route::middleware(['access'])->group(function () {//access
             Route::prefix('dashboard')->group(function () {
                 Route::get('/connections',[DashboardController::class,'connections'])->name('connections');
-                Route::get('/community',[DashboardController::class,'community'])->name('community');
+                Route::get('/community/{sort?}/{view?}',[DashboardController::class,'community'])->name('community');
             });
         });
     });

@@ -10,11 +10,11 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <label for="interests" class="sr-only">Interests:</label>
-                        <p><input type="text" name="interests" id="interests" class="form-control" value="{{$user->uparametr->interests}}" required></p>
+                        <p><input type="text" name="interests" id="interests" class="form-control" value="{{$user->parametr->interests}}" required></p>
                         <label for="about" class="sr-only">About:</label>
-                        <p><input type="text" name="about" id="about" class="form-control" value="{{$user->uparametr->about}}" required></p>
+                        <p><input type="text" name="about" id="about" class="form-control" value="{{$user->parametr->about}}" required></p>
                         <label for="notes" class="sr-only">Notes:</label>
-                        <p><input type="text"  name="notes" id="confirm_password" class="form-control" value="{{$user->uparametr->notes}}" required></p>
+                        <p><input type="text"  name="notes" id="confirm_password" class="form-control" value="{{$user->parametr->notes}}" required></p>
                     </div>
                 </div>
                 <div class="modal-footer">

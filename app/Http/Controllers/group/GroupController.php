@@ -20,7 +20,7 @@ class GroupController extends MainController
         if(Auth::check())
         {
             $user = User::find(Auth::id());
-            if($user->uparametr->admin)//Если админ, создать коллекцию всех групп
+            if($user->parametr->admin)//Если админ, создать коллекцию всех групп
             {
                 $group_data = Group::with(['follow'])->get();
             }
@@ -28,13 +28,13 @@ class GroupController extends MainController
             {
                 $group_data = Group::with(['follow'])->where('public', 1)->get();
             }
-            $sortid = $user->uparametr->sort;
+            $sortid = $user->parametr->sort;
             if($sort)
             {
                 if($sortid!=$sort)
                 {
-                    $user->uparametr->sort = $sort;
-                    $user->uparametr->save();
+                    $user->parametr->sort = $sort;
+                    $user->parametr->save();
                 }
             }
             else
@@ -129,7 +129,7 @@ class GroupController extends MainController
         //dd(__METHOD__,$request->ip());
         $user = User::find(Auth::id());;
         $group_data = Group::find($group);
-        if($user->id == $group_data->user_id or $user->uparametr->admin) {
+        if($user->id == $group_data->user_id or $user->parametr->admin) {
             $follow = Follow::where(['user_id' => $user->id, 'group_id' => $group_data->id])->get();
             if($follow->isEmpty())
             {
