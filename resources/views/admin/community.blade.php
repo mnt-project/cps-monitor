@@ -89,8 +89,8 @@
                                 <h6 class="card-subtitle mb-2 text-muted">{{$user->email}}</h6>
                                 <div class="card-text border-bottom">
                                     <p>Connects: {{ $user->connects }}</p>
-                                    @isset($user->parametr->status)
-                                        <p>{{ $user->parametr->smessage}}</p>
+                                    @isset($user->status)
+                                        <p>{{ $user->smessage}}</p>
                                     @endisset
                                     <p>Created:{{ \Carbon\Carbon::parse($user->created_at)->format('d.m.Y H:i')}}</p>
                                     <p>Updated:{{ \Carbon\Carbon::parse($user->updated_at)->format('d.m.Y H:i')}}</p>

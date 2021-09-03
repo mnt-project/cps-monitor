@@ -20,8 +20,18 @@
                 @endfor
             </ul>
         </div>
-        <div class="col-10">
+        <div class="col-8">
 
+        </div>
+        <div class="col-2">
+            <button id="btnGroupDrop1" type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                {{ $sortname[$sort] }}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                @for($i = 0; $i < sizeof($sortname); $i++)
+                    <li><a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route('admin.connections',['show'=>$i,'sort'=>$i])}}">{{ $sortname[$i] }}</a></li>
+                @endfor
+            </ul>
         </div>
     </div>
     <div class="row">
@@ -30,17 +40,17 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">IP:Adress</th>
-                <th scope="col">Connects</th>
+                <th scope="col">Connects [all:{{$counts}}]</th>
                 <th scope="col">Date</th>
             </tr>
             </thead>
             <tbody>
             @foreach($ips as $ip)
                 <tr>
-                    <th scope="row">{{ $loop->iteration }}</th>
+                    <th scope="row">{{ $ip->id }}</th>
                     <td>{{ $ip->visitor }}</td>
-                    <td>{{ $counts[$loop->index] }}</td>
-                    <td>{{ $ip->created_at }}</td>
+                    <td>{{ $ip->counts}}</td>
+                    <td>{{ \Carbon\Carbon::parse($ip->created_at)->format('d.m.Y H:i')}}</td>
                 </tr>
             @endforeach
             </tbody>
