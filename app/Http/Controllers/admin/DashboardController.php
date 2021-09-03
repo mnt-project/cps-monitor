@@ -37,7 +37,7 @@ class DashboardController extends Controller
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         $currentItems = array_slice($data, $perPage * ($currentPage - 1), $perPage);
         //with path of current page
-        $data = (new LengthAwarePaginator($currentItems, count($data ), $perPage, $currentPage))->setPath(route('admin.connections'));
+        $data = (new LengthAwarePaginator($currentItems, count($data ), $perPage, $currentPage))->setPath(route('admin.connections',$show));
         //Convert array of array to array of object
         $data->each(function ($item, $itemKey) use($data) {
             $data[$itemKey] = (Object)$item;
