@@ -16,13 +16,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 @for($i = 0; $i < sizeof($names); $i++)
-                    @if($i < sizeof($names)-1)
-                        <li><a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route('admin.community',['sort'=>$i,'view'=>$view])}}">{{ $names[$i] }}</a></li>
-                    @else
-                        @auth
-                            <li><a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route('admin.community',['sort'=>$i,'view'=>$view])}}">{{ $names[$i] }}</a></li>
-                        @endauth
-                    @endif
+                    <li><a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route('admin.community',['sort'=>$i,'view'=>$view])}}">{{ $names[$i] }}</a></li>
                 @endfor
             </ul>
         </div>
@@ -35,13 +29,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 @for($i = 0; $i < sizeof($viewnames); $i++)
-                    @if($i < sizeof($viewnames)-1)
-                        <li><a class="dropdown-item {{($i == $view) ? 'active' : ''}}" href="{{route('admin.community',['sort'=>$sort,'view'=>$i])}}">{{ $viewnames[$i] }}</a></li>
-                    @else
-                        @auth
-                            <li><a class="dropdown-item {{($i == $view) ? 'active' : ''}}" href="{{route('admin.community',['sort'=>$sort,'view'=>$i])}}">{{ $viewnames[$i] }}</a></li>
-                        @endauth
-                    @endif
+                    <li><a class="dropdown-item {{($i == $view) ? 'active' : ''}}" href="{{route('admin.community',['sort'=>$sort,'view'=>$i])}}">{{ $viewnames[$i] }}</a></li>
                 @endfor
             </ul>
         </div>

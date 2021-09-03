@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Controllers\Controller;
 use App\Models\Connections;
 use App\Models\User;
@@ -11,9 +12,10 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function connections()
+    public function connections($show=0)
     {
         $items=['Connections','Community'];
+        $lines=['20 items','50 items','100 items'];
         $ips = Connections::get();
         $ipsunique = $ips->unique('visitor');
         $ipsunique->values()->all();
@@ -25,7 +27,24 @@ class DashboardController extends Controller
             $counts[] = $ips->where('visitor',$ipunique->visitor)->count();
         }
         //dd(__METHOD__,$data);
+        $data = $data->toArray();
+        $perPage=20;
+        switch ($show)
+        {
+            case 1:{$perPage=50;break;}
+            case 2:{$perPage=100;break;}
+        }
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentItems = array_slice($data, $perPage * ($currentPage - 1), $perPage);
+        //with path of current page
+        $data = (new LengthAwarePaginator($currentItems, count($data ), $perPage, $currentPage))->setPath(route('admin.connections'));
+        //Convert array of array to array of object
+        $data->each(function ($item, $itemKey) use($data) {
+            $data[$itemKey] = (Object)$item;
+        });
         return view('admin.connections')
+            ->with('show',$show)
+            ->with('lines',$lines)
             ->with('ips',$data)
             ->with('counts',$counts)
             ->with('items',$items);
