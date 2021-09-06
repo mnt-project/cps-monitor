@@ -43,7 +43,7 @@ Route::name('user.')->group(function() {
     Route::get('/info/{id?}', [UserController::class, 'user_info'])->name('info');
     Route::get('/login', [UserController::class, 'user_signin'])->name('login');
     Route::post('/avatar/{id}', [UserController::class, 'user_avatar'])->name('avatar');//Создание/изменение аватара
-    Route::post('/save/{id}', [UserController::class, 'user_save'])->name('save');//
+    //Route::post('/save/{id}', [UserController::class, 'user_save'])->name('save');
     Route::post('/login', [UserController::class, 'user_login']);
     Route::get('/registration', [UserController::class, 'user_getreg'])->name('registration');
     Route::post('/registration',[UserController::class, 'user_registration']);
@@ -67,6 +67,7 @@ Route::name('admin.')->group(function() {
             Route::prefix('dashboard')->group(function () {
                 Route::get('/connections/{show?}/{sort?}',[DashboardController::class,'connections'])->name('connections');
                 Route::get('/community/{sort?}/{view?}',[DashboardController::class,'community'])->name('community');
+                Route::get('/user/{user}',[DashboardController::class,'userEdit'])->name('useredit');
             });
         });
     });

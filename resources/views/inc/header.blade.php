@@ -19,10 +19,10 @@
                     <a class="nav-link" href="{{ route('group.list') }}">Groups</a>
                 </li>
                 @auth
-                    <li class="nav-item @isadmin border border-danger @else me-4 @endisadmin">
+                    <li class="nav-item @isadmin(Illuminate\Support\Facades\Auth::user()) border border-danger @else me-4 @endisadmin">
                         <a class="nav-link" href="{{ route('user.profile',Illuminate\Support\Facades\Auth::id()) }}">Profile</a>
                     </li>
-                    @isadmin
+                    @isadmin(Illuminate\Support\Facades\Auth::user())
                         <li class="nav-item me-4">
                             <a class="nav-link" href="{{ route('admin.connections')}}">Admin Panel</a>
                         </li>

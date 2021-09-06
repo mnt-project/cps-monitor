@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * @mixin Builder
  */
-class Parametr extends Model
+class Settings extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'id',
         'user_id',
@@ -32,6 +33,7 @@ class Parametr extends Model
         'notes',
         'connected_at',
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

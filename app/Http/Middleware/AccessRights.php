@@ -20,8 +20,8 @@ class AccessRights
     {
         if(Auth::check())
         {
-            $isadmin = User::userIsAdmin(Auth::id());
-            if($isadmin)
+            $user = User::findOrFail(Auth::id());
+            if($user->IsAdmin())
             {
                 return $next($request);
             }

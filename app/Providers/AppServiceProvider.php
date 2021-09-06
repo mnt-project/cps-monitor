@@ -33,8 +33,12 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         Blade::component('switch-button', SwitchButton::class);
         Blade::component('login-button', loginButton::class);
-        Blade::if('isadmin', function () {
-            return User::userIsAdmin(Auth::id());
+        Blade::if('isadmin', function (User $user) {
+            return $user->settings->admin === 1;
+        });
+        Blade::if('ishidden',function (User $user){
+            return $user->settings->hidden === 1;
+
         });
     }
 }

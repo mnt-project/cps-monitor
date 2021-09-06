@@ -56,22 +56,9 @@ class User extends Authenticatable
     {
         return Hash::check($password, $this->password);
     }
-    public function scopeUserIsAdmin($query,$userid)
-    {
-        $user=$query->where('id',$userid)->first();
-        if(!is_null($user))
-        {
-            return $user->parametr->admin === 1;
-        }
-        return false;
-    }
-    public function userIsHidden()
-    {
-        return $this->parametr->hidden === 1;
-    }
     public function IsAdmin()
     {
-        return $this->parametr->admin === 1;
+        return $this->settings->admin === 1;
     }
     public function isOnline()
     {
@@ -79,15 +66,15 @@ class User extends Authenticatable
     }
     public function getNotifications()
     {
-        return $this->parametr->notifications === 1;
+        return $this->settings->notifications === 1;
     }
     public function getMuted()
     {
-        return $this->parametr->muted === 1;
+        return $this->settings->muted === 1;
     }
-    public function parametr()
+    public function settings()
     {
-        return $this->hasOne(Parametr::class,'user_id');
+        return $this->hasOne(Settings::class,'user_id');
     }
     public function avatar()
     {

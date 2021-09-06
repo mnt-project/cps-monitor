@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title-block'){{ $user->name }}@endsection
+@section('title-block'){{ $user->login }}@endsection
 @section('content-aside')
     @include('inc.user.title',['user'=>$user])
 @endsection

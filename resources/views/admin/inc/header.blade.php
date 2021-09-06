@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg mb-5">
     <div class="container-fluid">
-        <a class="navbar-brand" href={{ route('home') }}>CPSadmin [ {{ Illuminate\Support\Facades\Auth::user()->login }} ] IP:[ {{ \Request::ip() }} ]</a>
+        <a class="navbar-brand" href={{ route('home') }}>CPSadmin [ {{ auth()->user()->login }} ] IP:[ {{ Request::ip() }} ]</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_navbar" aria-controls="main_navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,7 +9,7 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href={{ route('home') }}>Home</a>
                 </li>
-                @isadmin
+                @isadmin(Illuminate\Support\Facades\Auth::user())
                 <li class="nav-item me-4">
                     <a class="nav-link border border-danger" href="{{ route('home')}}">Exit</a>
                 </li>

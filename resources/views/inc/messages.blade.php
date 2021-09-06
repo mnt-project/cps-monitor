@@ -1,3 +1,19 @@
+@guest
+    @if(session('guest'))
+        <div aria-live="polite" aria-atomic="true" class="position-relative">
+            <div class="toast bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Warning</strong>
+                    <small class="text-muted">{{\Carbon\Carbon::now()}}</small>
+                    <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    {{ session('warning') }}
+                </div>
+            </div>
+        </div>
+    @endif
+@endguest
 @if(session('notifications'))
     @if(session('success'))
         <div aria-live="polite" aria-atomic="true" class="position-relative">

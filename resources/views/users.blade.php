@@ -27,7 +27,7 @@
                 <tr class='clickable-row-table' data-href='{{ route('user.info',$user->id) }}'>
                     <th scope="row">{{$loop->iteration}}</th>
                     <td><span class="bi bi-person-circle">{{ $user->login }}</span></td>
-                    @if(Illuminate\Support\Facades\Auth::user()->uparametr->admin > 0)
+                    @isset($user->settings->public)
                         <td>{{ $user->email }}</td>
                     @else
                         <td>hidden</td>

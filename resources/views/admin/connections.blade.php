@@ -6,7 +6,6 @@
 @section('dashboard-header')
 
     <h3>Connections</h3>
-
 @endsection
 @section('dashboard-text')
     <div class="row mb-3">
@@ -16,7 +15,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 @for($i = 0; $i < sizeof($lines); $i++)
-                    <li><a class="dropdown-item {{($i == $show) ? 'active' : ''}}" href="{{route('admin.connections',$i)}}">{{ $lines[$i] }}</a></li>
+                    <li><a class="dropdown-item {{($i == $show) ? 'active' : ''}}" href="{{route('admin.connections',['show'=>$i,'sort'=>$sort])}}">{{ $lines[$i] }}</a></li>
                 @endfor
             </ul>
         </div>
@@ -29,7 +28,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 @for($i = 0; $i < sizeof($sortname); $i++)
-                    <li><a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route('admin.connections',['show'=>$i,'sort'=>$i])}}">{{ $sortname[$i] }}</a></li>
+                    <li><a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route('admin.connections',['show'=>$show,'sort'=>$i])}}">{{ $sortname[$i] }}</a></li>
                 @endfor
             </ul>
         </div>

@@ -10,7 +10,7 @@ use App\Models\RatingUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Parametr;
+use App\Models\Settings;
 use App\Models\Avatar;
 use App\Models\Group;
 use App\Models\Follow;
@@ -25,7 +25,7 @@ class UserController extends MainController
     {
         if(Auth::check())
         {
-            return redirect()->back()->withErrors(['saveError' => 'You are already authenticate as '.Auth::user()->login]);
+            return redirect()->back()->withErrors(['saveError' => 'You are already authenticate as '.auth()->user()->login]);
         }
         return view('login');
     }
@@ -33,24 +33,18 @@ class UserController extends MainController
     {
         if(Auth::check())
         {
-            $user = Auth::user();
-            return redirect()->route('user.profile',$user);
+            return redirect()->route('user.profile',auth()->user()->id);
         }
         return view('registration');
     }
     public function user_logout()
     {
-        if(Auth::check())
-        {
-            $user=Auth::user();
-
-            Cache::forget('user-is-online-'.Auth::id());
-            Auth::logout();
-            $message = 'User: '.$user->login.' ID:['.$user->id.'] logout!';
-            session()->flash('info',$message);
-            Log::channel('connections')->info('[IP:'.\Request::ip().'] '.$message);
-            session()->flash('notifications');
-        }
+        $message = 'User: '.auth()->user()->login.' ID:['.auth()->user()->id.'] logout!';
+        session()->flash('info',$message);
+        session()->flash('notifications');
+        Cache::forget('user-is-online-'.auth()->user()->id);
+        Auth::logout();
+        Log::channel('connections')->info('[IP:'.\Request::ip().'] '.$message);
         return redirect()->back();
     }
     public function user_login(uLoginRequest $request)
@@ -61,19 +55,16 @@ class UserController extends MainController
         else $rember = false;
         if (Auth::attempt($data, $rember))
         {
-            $user = User::findOrFail(Auth::id());
+            $user = User::findOrFail(auth()->user()->id);
             $user->connects += 1;
             $user->save();
-            $parametr = Parametr::where('user_id', $user)->get();
-            if (is_null($parametr)) {
-                Parametr::create([
-                    'user_id' => $user,
-                ]);
-            }
-            $user->parametr->connected_at = now();
-            $user->parametr->save();
+            $settings = Settings::where('user_id', $user)->get();
+            self::user_create_settings($user);
+            $user->load('settings');
+            $user->settings->connected_at = now();
+            $user->settings->save();
             $message = 'User: '.$user->login.' ID:['.$user->id.'] logged!';
-            session(['notifications' => $user->parametr->notifications == 1 ]);
+            session(['notifications' => $user->settings->notifications == 1 ]);
             session()->flash('info',$message);
             Log::channel('connections')->info('[IP:'.\Request::ip().'] '.$message);
             return redirect()->intended(route('user.info', $user->id));//Редирект на место
@@ -91,7 +82,7 @@ class UserController extends MainController
             {
                 return redirect()->route('user.users')->withErrors('User not found!');
             }
-            $user->load('parametr','avatar','follow','messages');
+            $user->load('settings','avatar','follow','messages');
             return view('profile')
                 ->with('user', $user)
                 ->with('tabid', $tabid);
@@ -100,7 +91,8 @@ class UserController extends MainController
     }
     public function user_info($id = 1)
     {
-        $user = User::with(['parametr','avatar'])->findOrFail($id);
+        $user = User::with(['settings','avatar'])->findOrFail($id);
+        self::user_create_settings($user);
         $follows = Follow::where('user_id',$user->id)->get();
         $groups = Group::get();
         $subscribes = collect();
@@ -118,19 +110,13 @@ class UserController extends MainController
     }
     public function all_users()
     {
-        $user = Auth::user();
-        //$users = $users->forget(0);
-        if($user)
+        $users = User::with('settings')->where('id','>',0)->paginate(30);
+        if($users)
         {
-            $users = User::where('id','>',0)->paginate(30);
-            if($users)
-            {
-                return view('users')
-                    ->with('users', $users);
-            }
-            return redirect()->back()->withErrors('Users not found!');
+            return view('users')
+                ->with('users', $users);
         }
-        return redirect(route('user.login'))->withErrors('Ошибка авторизации!');
+        return redirect()->back()->withErrors('Users not found!');
     }
     public function user_registration(uLoginRequest $request)
     {
@@ -142,13 +128,13 @@ class UserController extends MainController
         //$user=User::create($request);
         $data = $request->only(['login','email','age','password']);
         $user = User::create($data);
-        $parametr = Parametr::create([
+        $settings = Settings::create([
             'user_id' => $user->id,
         ]);
-        //dd(__METHOD__,$parametr);
+        //dd(__METHOD__,$settings);
         if($user)
         {
-            if($parametr)
+            if($settings)
             {
                 Auth::login($user);
                 return redirect(route('user.profile', $user));
@@ -169,19 +155,19 @@ class UserController extends MainController
             $admin = $request->get('admin',0);
             if($muted)
             {
-                $user->parametr->muted = $muted;
+                $user->settings->muted = $muted;
             }
             if($admin)
             {
-                $user->parametr->admin = $admin;
+                $user->settings->admin = $admin;
             }
-            //dd(__METHOD__,$user->parametr);
+            //dd(__METHOD__,$user->settings);
             $user->fill($udata);
             if($pass)
             {
                 $user->password = $pass;
             }
-            $user->parametr->save();
+            $user->settings->save();
             $user->save();
             session()->flash('success','User: '.$user->login.' ID:['.$id.'] updated!');
             return redirect(route('user.profile',$id));
@@ -226,17 +212,17 @@ class UserController extends MainController
         {
             if(empty($message))
             {
-                $user->parametr->status = false;
-                $user->parametr->smessage = '';
+                $user->settings->status = false;
+                $user->settings->smessage = '';
                 $message = 'Status message deleted';
             }
             else
             {
-                $user->parametr->status = true;
-                $user->parametr->smessage = $message;
+                $user->settings->status = true;
+                $user->settings->smessage = $message;
                 $message = 'New status message: '.$message;
             }
-            $user->parametr->save();
+            $user->settings->save();
             session()->flash('success',$message);
             return redirect()->back();
         }
@@ -245,7 +231,7 @@ class UserController extends MainController
     public function user_hidden($id)
     {
         $user=User::find($id);
-        $hidden=$user->parametr->hidden;
+        $hidden=$user->settings->hidden;
         //$message = '';
         if($user)
         {
@@ -259,18 +245,17 @@ class UserController extends MainController
                 $hidden=true;
                 $message = 'Profile is closed';
             }
-            $user->parametr->hidden=$hidden;
-            $user->parametr->save();
+            $user->settings->hidden=$hidden;
+            $user->settings->save();
             session()->flash('success',$message);
             return redirect()->back();
-            //dd(__METHOD__,$user);
         }
         return redirect()->back()->withErrors('You don`t have permission!');
     }
     public function user_notifications($id)
     {
         $user=User::find($id);
-        $notifications=$user->parametr->notifications;
+        $notifications=$user->settings->notifications;
         //$message = '';
         if($user)
         {
@@ -284,8 +269,8 @@ class UserController extends MainController
                 $notifications=true;
                 $message = 'Notifications on';
             }
-            $user->parametr->notifications=$notifications;
-            $user->parametr->save();
+            $user->settings->notifications=$notifications;
+            $user->settings->save();
             session()->flash('success',$message);
             session(['notifications' => $notifications]);
             return redirect()->back();
@@ -300,7 +285,7 @@ class UserController extends MainController
         $nickname = $request->get('newnickname');
         if(!empty($nickname))
         {
-            if($auth_user->id == $user->id or $auth_user->parametr->admin)
+            if($auth_user->id == $user->id or $auth_user->settings->admin)
             {
                 $message=$user->login.' change nickname to '.$nickname;
                 $user->login = $nickname;
@@ -337,10 +322,10 @@ class UserController extends MainController
         $about = $request->only('interests','about','notes');
         if(Auth::id()==$user->id)
         {
-            if(!is_null($about['interests'])){$user->parametr->interests = $about['interests'];}
-            if(!is_null($about['interests'])){$user->parametr->about = $about['about'];}
-            if(!is_null($about['interests'])){$user->parametr->notes = $about['notes'];}
-            $user->parametr->save();
+            if(!is_null($about['interests'])){$user->settings->interests = $about['interests'];}
+            if(!is_null($about['interests'])){$user->settings->about = $about['about'];}
+            if(!is_null($about['interests'])){$user->settings->notes = $about['notes'];}
+            $user->settings->save();
             session()->flash('success',"About changed!");
             return redirect()->back();
         }
@@ -362,8 +347,8 @@ class UserController extends MainController
                     'rate'=>true,
                     'value'=>1,
                 ]);
-                $user->parametr->reputation++;
-                $user->parametr->save();
+                $user->settings->reputation++;
+                $user->settings->save();
                 session()->flash('success',"User ".$user->login." rated!");
                 return redirect()->back();
             }
@@ -386,8 +371,8 @@ class UserController extends MainController
                     'rated_id'=>$id,
                     'value'=>-1,
                 ]);
-                $user->parametr->reputation--;
-                $user->parametr->save();
+                $user->settings->reputation--;
+                $user->settings->save();
                 session()->flash('success',"User ".$user->login." rated!");
                 return redirect()->back();
             }
@@ -395,30 +380,15 @@ class UserController extends MainController
         }
         return redirect()->back()->withErrors('You can`t rate yourself!');
     }
-    public function users_parametrs_update()
+    public static function user_create_settings(User $user)
     {
-        $auth_user=User::findOrFail(Auth::id());
-        if($auth_user->role)
+        $settings = $user->settings;
+        if(!$settings)
         {
-            $affected = 0;
-            $users = User::get();
-            foreach ($users as $user)
-            {
-                $parametr = Parametr::where('user_id',$user->id)->get();
-                if(empty($parametr))
-                {
-                    $parametr = parametr::create([
-                        'user_id' => $user->id,
-                    ]);
-                    if($parametr)
-                    {
-                        $affected++;
-                    }
-                }
-            }
-            return redirect(route('user.info',$auth_user->id))->with(['success' => 'Users parametrs: '.$affected.' added in base !','show'=> $auth_user->parametr->notifications]);
+            Settings::create([
+                'user_id' => $user->id,
+            ]);
         }
-        return redirect(route('home'))->withErrors('You don`t have permission!');
     }
     //
 }

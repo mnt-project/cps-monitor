@@ -30,6 +30,6 @@ class Avatar extends Model
     }
     public function parametr()
     {
-        return $this->belongsTo(Parametr::class, 'user_id');
+        return $this->belongsTo(Settings::class, 'user_id');
     }
 }

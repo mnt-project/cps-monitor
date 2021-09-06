@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Models\Group;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Controllers\Controller;
 use App\Models\Connections;
 use App\Models\User;
-use App\Models\Parametr;
+use App\Models\Settings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -75,77 +76,94 @@ class DashboardController extends Controller
     public function community($sort=0,$view=0)
     {
         $items=['Connections','Community'];
-        $names=['All users','Muted users','Banned users','Last connected users','Last register users'];
+        $names=['All users','Muted users','Banned users','Last connected users','Last register users','Config error'];
         $viewnames=['Thumbnail','Table','Cards'];
         //$users = User::with(['uparametr','avatar'])->get();
-        $users=collect();
+        $sorted=collect();
         switch ($sort)
         {
             case 0:
             {
-                $users = User::where('id','>',0)->with(['parametr','avatar'])->get();
+                $sorted = User::where('id','>',0)->with(['settings','avatar'])->get();
                 break;
             }
             case 1:
             {
-                $parametrs = Parametr::with(['user','avatar'])->get();
-                foreach ($parametrs as $parametr)
+                $users = User::where('id','>',0)->with(['settings','avatar'])->get();
+                foreach ($users as $user)
                 {
-                    //$user=$parametr->user;
-                    if($parametr->muted)
+                    if($user->settings->muted)
                     {
-                        $user=$parametr->user;
-                        $user->avatar = $parametr->avatar;
-                        $users->push($user);
+                        $sorted->push($user);
                     }
-
                 }
-                //dd($users->parametr->user_id);
                 break;
             }
             case 2:
             {
-                $parametrs = Parametr::with(['user','avatar'])->get();
-                foreach ($parametrs as $parametr)
+                $users = User::where('id','>',0)->with(['settings','avatar'])->get();
+                foreach ($users as $user)
                 {
-                    //$user=$parametr->user;
-                    if($parametr->banned)
+                    if($user->settings->banned)
                     {
-                        $user=$parametr->user;
-                        $user->avatar = $parametr->avatar;
-                        $users->push($user);
+                        $sorted->push($user);
                     }
-
                 }
                 break;
             }
             case 3:
             {
-                $parametrs = Parametr::where('id','>',0)->with(['user', 'avatar'])->get()->sortByDesc('connected_at');
-                foreach ($parametrs as $parametr)
+                $settings = Settings::where('id','>',0)->with(['user', 'avatar'])->get()->sortByDesc('connected_at');
+                foreach ($settings as $parametr)
                 {
                     $user=$parametr->user;
                     $user['status']=$parametr->status;
                     $user['smessage']=$parametr->smessage;
                     $user->avatar = $parametr->avatar;
-                    $users->push($user);
+                    $sorted->push($user);
 
                 }
                 break;
             }
             case 4:
             {
-                $users = User::where('id','>',0)->with(['parametr','avatar'])->get()->sortByDesc('created_at');
+                $sorted = User::where('id','>',0)->with(['settings','avatar'])->get()->sortByDesc('created_at');
+                break;
+            }
+            case 5:
+            {
+                $users = User::where('id','>',0)->with(['settings','avatar'])->get();
+                foreach ($users as $user)
+                {
+                    if($user->settings->status)
+                    {
+                        $sorted->push($user);
+                    }
+                }
                 break;
             }
         }
-        //$user = $users->find(17);
         return view('admin.community')
             ->with('view',$view)
             ->with('sort',$sort)
             ->with('names',$names)
             ->with('viewnames',$viewnames)
-            ->with('users',$users)
+            ->with('users',$sorted)
             ->with('items',$items);
+    }
+    public function userEdit(User $user)
+    {
+        $user->load('settings','avatar','posts','follow','groups');
+        $groups = Group::get();
+        $subscribes = collect();
+        $follows =$user->follow;
+        //dd(__METHOD__,$follows);
+        foreach ($follows as $follow)
+        {
+            $subscribes = $subscribes->push($groups->find($follow->group_id));
+        }
+        return view('admin.user')
+            ->with('groups', $subscribes)
+            ->with('user',$user);
     }
 }

@@ -40,7 +40,7 @@
                 @foreach($users as $user)
                     <div class="container col-lg-2 col-3 mx-2 my-2">
                         <div class="row mt-3 mx-1 my-1">
-                            <a href="{{route('user.info',$user)}}">
+                            <a href="{{route('admin.useredit',$user)}}">
                                 <img class="card-img-top rounded-circle" width="150" height="150" src="{{$user->avatar ? Illuminate\Support\Facades\Storage::url($user->avatar->patch) : Illuminate\Support\Facades\Storage::url('no-avatar.png')}}"
                                      alt="{{ $user->avatar ? Illuminate\Support\Facades\Storage::url($user->avatar->hash_name) : Illuminate\Support\Facades\Storage::url('no-avatar.png') }}">
                             </a>
@@ -69,7 +69,7 @@
                     </thead>
                     <tbody>
                         @foreach($users as $user)
-                            <tr class='clickable-row-table' data-href='{{ route('user.info',$user->id) }}'>
+                            <tr class='clickable-row-table' data-href='{{ route('admin.useredit',$user->id) }}'>
                                 <th scope="row">{{$loop->iteration}}</th>
                                 <td><span class="bi bi-person-circle">{{ $user->login }}</span></td>
                                 <td>{{ $user->email }}</td>
