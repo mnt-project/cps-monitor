@@ -13,27 +13,24 @@
 </head>
 <body>
 <header>
-    @include('admin.inc.header')
+    @include('inc.header')
 </header>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-12 col-md-4 col-lg-2 col-xl-2 col-xxl-2">
-            @yield('dashboard-aside')
-        </div>
-        <div class="col-sm-12 col-md-4 col-lg-7 col-xl-7 col-xxl-8">
-            <div class="text-center mb-5">@yield('dashboard-header')</div>
+        <div class="col-sm-12 col-md-12 col-lg-8 col-xl-10 col-xxl-11">
+            <div class="text-center mb-5">@yield('group-header')</div>
             <div class="position-fixed bottom-0 end-0 p-3 mb-5" style="z-index: 5">
-                @include('admin.inc.messages')
+                @include('inc.messages')
             </div>
-            @yield('dashboard-text')
+            @yield('group-list')
         </div>
-        <div class="col-sm-12 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
-            @yield('dashboard-info')
+        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-2 col-xxl-1">
+            @yield('group-info')
         </div>
     </div>
 </div>
 <footer>
-    @include('admin.inc.footer')
+    @include('inc.footer')
 </footer>
 
 <!-- Подключается для java script-->
@@ -42,34 +39,7 @@
 {{--        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>--}}
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
-<script>
-    //Всплывающие окна инфо-сообщений
-    $(document).ready(function() {
-        $('.toast').toast({
-            'delay': 5000
-        });
 
-        $('.toast').toast('show');
-    });
-    $('#postbtn').hide();
-
-    $('#post').on('keyup', function() {
-        if (this.value.length) {
-            $('#postbtn').show();
-        }else{
-            $('#postbtn').hide();
-        }
-    });
-    //Кликабельность таблиц
-    jQuery(document).ready(function($) {
-        $(".clickable-row-table").click(function() {
-            window.location = $(this).data("href");
-        });
-    });
-    $(function () {
-        $('#myTab a:last').tab('show');
-    });
-</script>
 </body>
 </html>
 

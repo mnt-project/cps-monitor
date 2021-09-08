@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.group-list')
 
 @section('title-block')Groups @endsection
 
@@ -6,8 +6,8 @@
 
 @endsection
 
-@section('content-header')<h4>Groups page</h4>@endsection
-@section('content-text')
+@section('group-header')<h4>Groups page</h4>@endsection
+@section('group-list')
     <div class="container">
         <div class="row">
             <div class="col-10">
@@ -43,7 +43,7 @@
         @endforeach
     </div>
 @endsection
-@section('content-info')
+@section('group-info')
 
 @endsection
 

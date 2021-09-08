@@ -47,7 +47,7 @@
             </div>
             @if($group->open and $group->user_id != \Illuminate\Support\Facades\Auth::id())
                 <div class="row">
-                    @if($followers->count())
+                    @if($followers)
                         @foreach($followers as $follower)
                             @if($follower->user_id === \Illuminate\Support\Facades\Auth::id())
                                 <a href="{{ route('group.unfollowing',$group->id) }}" class="btn btn-primary mt-2">Unfollow</a>

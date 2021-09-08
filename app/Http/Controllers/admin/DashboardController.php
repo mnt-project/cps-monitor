@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\cps\Groups;
 use App\Models\Group;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Controllers\Controller;
@@ -15,7 +16,7 @@ class DashboardController extends Controller
 {
     public function connections($show=0,$sort=0)
     {
-        $items=['Connections','Community'];
+        $items=['Connections','Community','Groups'];
         $lines=['20 items','50 items','100 items'];
         $sortname=['By id','By connects','By date'];
         $ips = Connections::get();
@@ -75,19 +76,19 @@ class DashboardController extends Controller
     }
     public function community($sort=0,$view=0)
     {
-        $items=['Connections','Community'];
+        $items=['Connections','Community','Groups'];
         $names=['All users','Muted users','Banned users','Last connected users','Last register users','Config error'];
         $viewnames=['Thumbnail','Table','Cards'];
         //$users = User::with(['uparametr','avatar'])->get();
         $sorted=collect();
         switch ($sort)
         {
-            case 0:
+            case 0://All users
             {
                 $sorted = User::where('id','>',0)->with(['settings','avatar'])->get();
                 break;
             }
-            case 1:
+            case 1://Muted users
             {
                 $users = User::where('id','>',0)->with(['settings','avatar'])->get();
                 foreach ($users as $user)
@@ -99,7 +100,7 @@ class DashboardController extends Controller
                 }
                 break;
             }
-            case 2:
+            case 2://Banned users
             {
                 $users = User::where('id','>',0)->with(['settings','avatar'])->get();
                 foreach ($users as $user)
@@ -111,7 +112,7 @@ class DashboardController extends Controller
                 }
                 break;
             }
-            case 3:
+            case 3://Last connected users
             {
                 $settings = Settings::where('id','>',0)->with(['user', 'avatar'])->get()->sortByDesc('connected_at');
                 foreach ($settings as $parametr)
@@ -125,12 +126,12 @@ class DashboardController extends Controller
                 }
                 break;
             }
-            case 4:
+            case 4://Last register users
             {
-                $sorted = User::where('id','>',0)->with(['settings','avatar'])->get()->sortByDesc('created_at');
+                $sorted = User::latest()->with(['settings','avatar'])->get();
                 break;
             }
-            case 5:
+            case 5://Config error
             {
                 $users = User::where('id','>',0)->with(['settings','avatar'])->get();
                 foreach ($users as $user)
@@ -165,5 +166,15 @@ class DashboardController extends Controller
         return view('admin.user')
             ->with('groups', $subscribes)
             ->with('user',$user);
+    }
+    public function groups($sort=0,$view=0)
+    {
+
+        $items = ['Connections', 'Community', 'Groups'];
+        $group = new Groups(1);
+        $text='test';
+        return view('admin.group')
+            ->with('text',$text)
+            ->with('group',$group->getGroup());
     }
 }

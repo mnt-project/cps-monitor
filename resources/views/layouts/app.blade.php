@@ -17,17 +17,17 @@
         </header>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12 col-lg-2 col-md-3">
+                <div class="col-sm-12 col-md-4 col-lg-2 col-xl-3 col-xxl-2">
                     @yield('content-aside')
                 </div>
-                <div class="col-12 col-lg-8 col-md-7">
+                <div class="col-sm-12 col-md-4 col-lg-7 col-xl-6 col-xxl-8">
                     <div class="text-center mb-5">@yield('content-header')</div>
                     <div class="position-fixed bottom-0 end-0 p-3 mb-5" style="z-index: 5">
                         @include('inc.messages')
                     </div>
                     @yield('content-text')
                 </div>
-                <div class="col-12 col-lg-2 col-md-3">
+                <div class="col-sm-12 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
                     @yield('content-info')
                 </div>
             </div>

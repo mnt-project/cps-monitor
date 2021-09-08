@@ -49,7 +49,7 @@
                     <th scope="row">{{ $ip->id }}</th>
                     <td>{{ $ip->visitor }}</td>
                     <td>{{ $ip->counts}}</td>
-                    <td>{{ \Carbon\Carbon::parse($ip->created_at)->format('d.m.Y H:i')}}</td>
+                    <td>{{ date('Y-m-d / H:i:s', strtotime($ip->created_at)) }}</td>
                 </tr>
             @endforeach
             </tbody>

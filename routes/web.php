@@ -67,6 +67,7 @@ Route::name('admin.')->group(function() {
             Route::prefix('dashboard')->group(function () {
                 Route::get('/connections/{show?}/{sort?}',[DashboardController::class,'connections'])->name('connections');
                 Route::get('/community/{sort?}/{view?}',[DashboardController::class,'community'])->name('community');
+                Route::get('/groups/{sort?}/{view?}',[DashboardController::class,'groups'])->name('groups');
                 Route::get('/user/{user}',[DashboardController::class,'userEdit'])->name('useredit');
             });
         });

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\group;
 
 use App\Http\Controllers\MainController;
+use App\cps\Groups;
 use App\Models\Follow;
-use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\Group;
 use Illuminate\Support\Facades\Auth;
@@ -217,16 +217,19 @@ class GroupController extends MainController
     public function group_info($groupid=0,$text='')
     {
         //dd(__METHOD__,$text);
-        $group = Group::where('id',$groupid)->first();
-        $followers = Follow::with('user')->where('group_id',$groupid)->get();
-        $posts = Post::with(['user','group'])->where('group_id',$groupid)->orderBy('created_at', 'desc')->get();
+        $group = new Groups($groupid);
+        $followers = $group->getGroupFollows();
+        $followers->load('user');
+        $posts = $group->getGroupPosts();
+        $posts->load('user','group');
+        $group = $group->getGroup();
         if($group)
         {
             //dd(__METHOD__,$group_data);
             return view('group')
-                ->with('group', $group)
-                ->with('posts',$posts)
                 ->with('followers',$followers)
+                ->with('posts',$posts)
+                ->with('group', $group)
                 ->with('text',$text);
         }
         else

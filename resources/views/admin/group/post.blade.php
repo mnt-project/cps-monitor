@@ -3,7 +3,7 @@
         <h1><i>No posts</i></h1>
     </div>
 @endif
-@foreach($posts as $post)
+@foreach($group->post as $post)
     <div class="container col-md-8 col-lg-10">
         <div class="bg-light border my-2">
             <div class="container">

@@ -9,7 +9,6 @@ class Connections extends Model
 {
     use HasFactory;
     protected $fillable = ['visitor'];
-
     public function scopeCountConnections($query,$ip)
     {
         return $query->where('visitor',$ip)->count();

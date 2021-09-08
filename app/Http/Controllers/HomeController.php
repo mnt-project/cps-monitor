@@ -6,15 +6,15 @@ use App\Models\Group;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Models\Connections;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 
 class HomeController extends Controller
 {
     //
     public function index()
     {
-        $userip = \Request::ip();
+        $userip = Request::ip();
         $users = User::get();
         $groups = Group::get();
         $usersOnline = collect();
@@ -34,7 +34,7 @@ class HomeController extends Controller
             }
         }
         Connections::create([
-            'visitor' => $userip,
+            'visitor' => $userip
         ]);
         Log::channel('connections')->info('[IP:'.$userip.'] Guest income');
         return view('home')
