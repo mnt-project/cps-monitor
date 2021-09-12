@@ -65,7 +65,9 @@ Route::name('admin.')->group(function() {
     Route::prefix('admin')->group(function () {
         Route::middleware(['access'])->group(function () {//access
             Route::prefix('dashboard')->group(function () {
-                Route::get('/connections/{sort?}/{method?}/{show?}',[DashboardController::class,'connections'])->name('connections');
+                Route::get('/connections/{sort?}/{method?}/{show?}/{connect?}',[DashboardController::class,'connections'])->name('connections');
+                Route::post('/address/add/{id}',[DashboardController::class,'address_add'])->name('addressadd');
+                Route::get('/address/{id}',[DashboardController::class,'address_info'])->name('addressinfo');
                 Route::get('/community/{sort?}/{view?}',[DashboardController::class,'community'])->name('community');
                 Route::get('/groups/{sort?}/{view?}',[DashboardController::class,'groups'])->name('groups');
                 Route::get('/user/{user}',[DashboardController::class,'userEdit'])->name('useredit');

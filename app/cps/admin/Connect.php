@@ -2,6 +2,7 @@
 
 
 namespace App\cps\admin;
+use App\Http\Requests\PasswordRequest;
 use App\Models\Connections;
 
 
@@ -34,7 +35,16 @@ class Connect
     {
         return Connections::get()->count();
     }
-
+    public static function getAllConnectionsCount()
+    {
+        $connections = Connections::get();
+        $count = 0;
+        foreach ($connections as $connect)
+        {
+            $count+=$connect->visits;
+        }
+        return $count;
+     }
     /**
      * @return mixed
      */

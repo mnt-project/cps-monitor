@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\cps\admin\Connect;
 use App\cps\Groups;
+use App\Models\Address;
 use App\Models\Group;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Controllers\Controller;
@@ -14,8 +16,9 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function connections($sort=0,$method='asc',$show=0)
+    public function connections($sort=0,$method='asc',$show=0,$connect=0)
     {
+        $userip = \Request::ip();
         $items = ['Connections', 'Community', 'Groups'];
         $lines = ['20 items', '50 items', '100 items'];
         $sortname = ['By id', 'By connects', 'By date'];
@@ -31,7 +34,17 @@ class DashboardController extends Controller
             case 1:{$order='visits';break;}
             case 2:{$order='updated_at';break;}
         }
-        $ips = Connections::orderBy($order, $method)->paginate($perPage);
+        $ips = Connections::with('address')->orderBy($order, $method)->paginate($perPage);
+        if($connect>0)
+        {
+            $ipinfo=Connections::findOrFail($connect);
+            $ipinfo->load('address');
+            //dd(__METHOD__,$ipinfo);
+        }
+        else
+        {
+            $ipinfo=(new Connect($userip))->getIp();
+        }
         //dd(__METHOD__,$ips);
         return view('admin.connections')
             ->with('sort',$sort)
@@ -39,8 +52,32 @@ class DashboardController extends Controller
             ->with('show',$show)
             ->with('lines',$lines)
             ->with('ips',$ips)
+            ->with('connect',$connect)
+            ->with('ipinfo',$ipinfo)
             ->with('method',$method)
             ->with('items',$items);
+    }
+    public function address_info($id)
+    {
+        $ip=Connections::findOrFail($id);
+        dd(__METHOD__,$ip);
+
+    }
+    public function address_add(Request $request,$id)
+    {
+        $ip = Connections::findOrFail($id);
+        $address = Address::where('ipaddress',$ip->visitor)->get();
+        if(!empty($address))
+        {
+            //dd(__METHOD__,$address);
+            Address::create([
+                'ipaddress'=>$ip->visitor,
+                'titel'=>$request->get('titel'),
+                'note'=>$request->get('note'),
+            ]);
+            session()->flash('success','IP:['.$ip->visitor.'] addeded in address book!');
+        }
+        return redirect()->back();
     }
     public function community($sort=0,$view=0)
     {

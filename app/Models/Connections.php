@@ -13,4 +13,8 @@ class Connections extends Model
     {
         return $query->where('visitor',$ip)->count();
     }
+    public function address()
+    {
+        return $this->hasOne(Address::class , 'ipaddress','visitor');
+    }
 }

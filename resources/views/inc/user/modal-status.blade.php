@@ -4,7 +4,7 @@
             <form method="post" action="{{ route('user.smessage',$user) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addGroupModal">Change status</h5>
+                    <h5 class="modal-title" id="status">Change status</h5>
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
