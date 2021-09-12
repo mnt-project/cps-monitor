@@ -24,7 +24,7 @@
         <div class="list-unstyled text-center mb-4"><h4>Follows</h4></div>
         <div class="list-group">
             @foreach($groups as $group)
-                    <a class="list-group-item" href={{ route('group.info',$group->id) }}><span class="bi bi-people"> {{$group->name}}</span></a>
+                    <a class="list-group-item" href="{{ route('group.info',$group) }}"><span class="bi bi-people">{{$group->name}}</span></a>
             @endforeach
         </div>
     @endif

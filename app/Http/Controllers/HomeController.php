@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\cps\admin\Connect;
 use App\Models\Group;
 use App\Models\User;
 use Carbon\Carbon;
-use App\Models\Connections;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
@@ -33,10 +33,8 @@ class HomeController extends Controller
                 $groupsPublic->push($group);
             }
         }
-        Connections::create([
-            'visitor' => $userip
-        ]);
-        Log::channel('connections')->info('[IP:'.$userip.'] Guest income');
+        $connection = new Connect($userip);
+        Log::channel('connections')->info('[IP:'.$connection->getIp()->visitor.'] Guest income | Last connect: '.$connection->getLastconnect());
         return view('home')
             ->with('usersOnline',$usersOnline)
             ->with('groupsPublic',$groupsPublic);

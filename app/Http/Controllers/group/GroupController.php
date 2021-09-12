@@ -216,7 +216,6 @@ class GroupController extends MainController
     }
     public function group_info($groupid=0,$text='')
     {
-        //dd(__METHOD__,$text);
         $group = new Groups($groupid);
         $followers = $group->getGroupFollows();
         $followers->load('user');
@@ -225,7 +224,6 @@ class GroupController extends MainController
         $group = $group->getGroup();
         if($group)
         {
-            //dd(__METHOD__,$group_data);
             return view('group')
                 ->with('followers',$followers)
                 ->with('posts',$posts)
@@ -241,34 +239,26 @@ class GroupController extends MainController
     {
         //dd(__METHOD__,$request);
         //Storage::delete($user->avatar->patch);
+        $group = new Group();
+
         $user = User::find(Auth::id());;
         if($user)
         {
-            $name = $request->get('groupName');
-            $notes = $request->get('groupNotes');
-            $public = $request->get('public',0);
-            $open = $request->get('open',0);
-            $invite = $request->get('invite',0);
-            $about = $request->get('groupAbout');
+            $group->name = $request->get('groupName');
+            $group->notes = $request->get('groupNotes');
+            $group->public = $request->boolean('public');
+            $group->open = $request->boolean('open');
+            $group->invite = $request->boolean('invite');
+            $group->about = $request->get('groupAbout');
+
             if($request->hasFile('avatar'))
             {
+                $group->avatar = true;
                 $file = $request->file('avatar');
-                $path = $request->file('avatar')->storeAs(
-                    'public/groups/avatars', $file->hashName()
-                );
-                $group = Group::create(
-                    [
-                        'name' => $name,
-                        'user_id' => $user->id,
-                        'public' => $public,
-                        'open' => $open,
-                        'invite' => $invite,
-                        'avatar' => true,
-                        'hash_name' => $file->hashName(),
-                        'patch' => $path,
-                        'notes' => $notes,
-                        'about' => $about,
-                    ]);
+                $group->hash_name = $file->hashName();
+                $group->patch = $request->file('avatar')->storeAs('public/groups/avatars', $file->hashName());
+
+                $group = (new Groups(0,true))->createGroup($group);
                 if($group)
                 {
                     Follow::create(

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Connections extends Model
 {
     use HasFactory;
-    protected $fillable = ['visitor'];
+    protected $fillable = ['visitor','visits'];
     public function scopeCountConnections($query,$ip)
     {
         return $query->where('visitor',$ip)->count();

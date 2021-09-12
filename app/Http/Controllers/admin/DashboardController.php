@@ -14,64 +14,32 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function connections($show=0,$sort=0)
+    public function connections($sort=0,$method='asc',$show=0)
     {
-        $items=['Connections','Community','Groups'];
-        $lines=['20 items','50 items','100 items'];
-        $sortname=['By id','By connects','By date'];
-        $ips = Connections::get();
-        $ipsunique = $ips->unique('visitor');
-        $ipsunique->values()->all();
-        $data = collect();
-        $counts = 0;
-        foreach ($ipsunique as $ipunique)
-        {
-            $count = $ips->where('visitor',$ipunique->visitor)->count();
-            $ipunique['counts'] = $count;
-            $data = $data->push($ipunique);
-            $counts += $count;
-        }
-        //dd(__METHOD__,$counts);
+        $items = ['Connections', 'Community', 'Groups'];
+        $lines = ['20 items', '50 items', '100 items'];
+        $sortname = ['By id', 'By connects', 'By date'];
         $perPage=20;
         switch ($show)
         {
             case 1:{$perPage=50;break;}
             case 2:{$perPage=100;break;}
         }
-        switch($sort)
+        switch ($sort)
         {
-            case 0:
-            {
-                $data = $data->sortBy('id');
-                break;
-            }
-            case 1:
-            {
-                $data = $data->sortByDesc('counts');
-                break;
-            }
-            case 2:
-            {
-                $data = $data->sortByDesc('updated_at');
-                break;
-            }
+            case 0:{$order='id';break;}
+            case 1:{$order='visits';break;}
+            case 2:{$order='updated_at';break;}
         }
-        $data = $data->toArray();
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $currentItems = array_slice($data, $perPage * ($currentPage - 1), $perPage);
-        //with path of current page
-        $data = (new LengthAwarePaginator($currentItems, count($data ), $perPage, $currentPage))->setPath(route('admin.connections',['show'=>$show,'sort'=>$sort]));
-        //Convert array of array to array of object
-        $data->each(function ($item, $itemKey) use($data) {
-            $data[$itemKey] = (Object)$item;
-        });
+        $ips = Connections::orderBy($order, $method)->paginate($perPage);
+        //dd(__METHOD__,$ips);
         return view('admin.connections')
             ->with('sort',$sort)
             ->with('sortname',$sortname)
             ->with('show',$show)
             ->with('lines',$lines)
-            ->with('ips',$data)
-            ->with('counts',$counts)
+            ->with('ips',$ips)
+            ->with('method',$method)
             ->with('items',$items);
     }
     public function community($sort=0,$view=0)

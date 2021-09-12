@@ -94,13 +94,12 @@ class UserController extends MainController
         $user = User::with(['settings','avatar'])->findOrFail($id);
         self::user_create_settings($user);
         $follows = Follow::where('user_id',$user->id)->get();
-        $groups = Group::get();
         $subscribes = collect();
         if($follows)
         {
             foreach ($follows as $follow)
             {
-                $subscribes = $subscribes->push($groups->find($follow->group_id));
+                $subscribes->push(Group::find($follow->group_id));
             }
 
         }
