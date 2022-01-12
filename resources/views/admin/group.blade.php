@@ -1,27 +1,19 @@
-@extends('layouts.app')
-@section('title-block'){{ $group->name }}@endsection
-@section('content-aside')
-    @include('inc.group.titel')
-
+@extends('layouts.admin')
+@section('title-block')Admin panel @endsection
+@section('dashboard-aside')
+    @include('admin.inc.aside',['itemid' => 3])
 @endsection
-@section('content-header')
+@section('dashboard-header')
 
-    <h4>{{ $group->name }}</h4>
-    <div class="container ms-4">
-        <div class="col-12 text-start">
-            <a href="{{route('group.list')}}">Groups</a><b> / </b>
-            <a href="{{route('group.info', $group->id)}}">{{ $group->name }}</a>
-        </div>
+    <h3>Connections</h3>
+@endsection
+@section('dashboard-text')
+    <div class="row">
+        @foreach ($groups as $group)
+            @include('admin.group.group-thumbnail',$group)
+        @endforeach
     </div>
 @endsection
-@section('content-text')
+@section('dashboard-info')
 
-    @auth
-        @include('admin.group.post-form',['text' => $text,'group'=>$group->id])
-    @endauth
-    @include('admin.group.post')
-
-@endsection
-@section('content-info')
-    @include('admin.group.info')
 @endsection

@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Auth;
 
 class Groups
 {
-    protected $group;
-    public function __construct($groupid,$create=false)
+    public $group;
+    public function __construct($groupid=0,$sortid=0,$create=false)
     {
         if($create)
         {
@@ -15,7 +15,14 @@ class Groups
         }
         else
         {
-            $this->group = Group::with(['post','follow','user'])->findOrFail($groupid);
+            if($groupid>0)
+            {
+                $this->group = Group::with(['post','follow','user'])->findOrFail($groupid);
+            }
+            else
+            {
+                $this->group = Group::with(['post','follow','user'])->get();
+            }
         }
     }
 

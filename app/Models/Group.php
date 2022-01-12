@@ -20,6 +20,15 @@ class Group extends Model
         'public',
         'open',
         'invite',
+        'rate',
+        'visits',
+        'online',
+        'balance',
+        'albumid',
+        'galleryid',
+        'visibility',
+        'position',
+        'state',
         'user_id',
         'public',
         'notes',
@@ -28,6 +37,7 @@ class Group extends Model
         'hash_name',
         'patch',
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

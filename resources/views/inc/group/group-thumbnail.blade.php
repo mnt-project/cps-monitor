@@ -1,3 +1,4 @@
+@if($group->visibility)
 <div class="container {{ $group->public ? 'border' : 'border border-danger'}} col-lg-2 col-3 mx-2 my-2">
     <div class="row mt-3 mx-1 my-1">
         <a href="{{route('group.info',$group)}}">
@@ -14,7 +15,7 @@
         <small>{{$group->notes}}</small>
         <small>Followers: {{ $group->follow->count() }}</small>
         <div class="text-center mt-4">
-            @if($group->open or $group->user_id === $user->id)
+            @if($group->open or $group->user_id === Illuminate\Support\Facades\Auth::id())
                 <a href="{{route('group.info',$group)}}" class="btn btn-primary">Open</a>
             @else
                 <a href="{{route('group.info',$group)}}" class="btn btn-secondary">Info</a>
@@ -22,3 +23,4 @@
         </div>
     </div>
 </div>
+@endif

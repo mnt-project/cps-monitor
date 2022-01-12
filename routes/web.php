@@ -71,6 +71,8 @@ Route::name('admin.')->group(function() {
                 Route::get('/community/{sort?}/{view?}',[DashboardController::class,'community'])->name('community');
                 Route::get('/groups/{sort?}/{view?}',[DashboardController::class,'groups'])->name('groups');
                 Route::get('/user/{user}',[DashboardController::class,'userEdit'])->name('useredit');
+                Route::get('/group/visibility/{id}',[DashboardController::class,'groupVisibility'])->name('visibility');
+                Route::get('/group/open/{id}',[DashboardController::class,'groupOpen'])->name('open');
             });
         });
     });

@@ -98,6 +98,7 @@ class DashboardController extends Controller
                 $users = User::where('id','>',0)->with(['settings','avatar'])->get();
                 foreach ($users as $user)
                 {
+                    //dd($user->settings->muted);
                     if($user->settings->muted)
                     {
                         $sorted->push($user);
@@ -174,12 +175,48 @@ class DashboardController extends Controller
     }
     public function groups($sort=0,$view=0)
     {
-
         $items = ['Connections', 'Community', 'Groups'];
-        $group = new Groups(1);
-        $text='test';
+        //$group_data = Group::with(['follow'])->get();
+        $groups = (new Groups())->getGroup();
+        //$groups = $groups->getGroup();
+        // $group_data = collect();
+//        foreach ($groups as $group)
+//        {
+//            dump($group);
+//        }
+//        dd(1);
+        //dd($group->getGroupFollows());
+        $text='test a reply comment';
         return view('admin.group')
-            ->with('text',$text)
-            ->with('group',$group->getGroup());
+            ->with('groups',$groups)
+            ->with('items',$items);
+    }
+    public function groupVisibility($groupid)
+    {
+        $group = Group::find($groupid);
+        if ($group->visibility) {
+            $group->visibility = false;
+        }
+        else
+        {
+            $group->visibility = true;
+        }
+        $group->save();
+        session()->flash('success','Group '.$group->name.' is modify!');
+        return redirect(route('admin.groups'));
+    }
+    public function groupOpen($groupid)
+    {
+        $group = Group::find($groupid);
+        if ($group->open) {
+            $group->open = false;
+        }
+        else
+        {
+            $group->open = true;
+        }
+        $group->save();
+        session()->flash('success','Group '.$group->name.' is modify!');
+        return redirect(route('admin.groups'));
     }
 }

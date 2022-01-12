@@ -258,7 +258,7 @@ class GroupController extends MainController
                 $group->hash_name = $file->hashName();
                 $group->patch = $request->file('avatar')->storeAs('public/groups/avatars', $file->hashName());
 
-                $group = (new Groups(0,true))->createGroup($group);
+                $group = (new Groups(0,0,true))->createGroup($group);
                 if($group)
                 {
                     Follow::create(
