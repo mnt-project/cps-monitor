@@ -217,13 +217,16 @@ class GroupController extends MainController
     public function group_info($groupid=0,$text='')
     {
         $group = new Groups($groupid);
-        $followers = $group->getGroupFollows();
-        $followers->load('user');
-        $posts = $group->getGroupPosts();
-        $posts->load('user','group');
-        $group = $group->getGroup();
+
         if($group)
         {
+            $followers = $group->getGroupFollows();
+            $followers->load('user');
+            $posts = $group->getGroupPosts();
+            $posts->load('user','group');
+            $group = $group->getGroup();
+            $group->visits++;
+            $group->save();
             return view('group')
                 ->with('followers',$followers)
                 ->with('posts',$posts)

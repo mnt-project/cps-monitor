@@ -15,7 +15,7 @@
         <small>Followers: {{ $group->follow->count() }}</small>
         <div class="container mt-4">
             <div class="row">
-                <div class="col-6">
+                <div class="col-lg-3 col-sm-2">
                     @if($group->visibility)
                         <a class="text-dark" href="{{ route('admin.visibility',$group->id)}}" title="hide">
                             <span class="bi bi-eye" style="font-size: 1.5rem; color: black;"></span>
@@ -26,7 +26,7 @@
                         </a>
                     @endif
                 </div>
-                <div class="col-6">
+                <div class="col-lg-3 col-sm-2">
                     @if($group->open)
                         <a class="text-dark" href="{{ route('admin.open',$group->id)}}" title="lock">
                             <span class="bi bi-lock" style="font-size: 1.5rem; color: black;"></span>
@@ -36,6 +36,20 @@
                             <span class="bi bi-lock-fill" style="font-size: 1.5rem; color: black;"></span>
                         </a>
                     @endif
+                </div>
+                <div class="col-lg-3 col-sm-2">
+                    @if($group->warnings)
+                        <a class="text-dark" href="{{ route('admin.visibility',$group->id)}}" title="hide">
+                            <span class="bi bi-exclamation-triangle-fill" style="font-size: 1.5rem; color: red;"></span>
+                        </a><b>{{ $group->warnings }}</b>
+                    @else
+                        <a class="text-dark" href="{{ route('admin.visibility',$group->id)}}" title="show">
+                            <span class="bi bi-exclamation-triangle" style="font-size: 1.5rem; color: green;"></span>
+                        </a>
+                    @endif
+                </div>
+                <div class="col-lg-3 col-sm-2">
+                    <span class="bi bi-globe" style="font-size: 1.5rem; color: blue;"></span><b>{{ $group->visits }}</b>
                 </div>
             </div>
         </div>

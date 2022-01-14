@@ -186,7 +186,6 @@ class DashboardController extends Controller
 //        }
 //        dd(1);
         //dd($group->getGroupFollows());
-        $text='test a reply comment';
         return view('admin.group')
             ->with('groups',$groups)
             ->with('items',$items);
