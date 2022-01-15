@@ -21,6 +21,23 @@ use App\Http\Controllers\admin\DashboardController;
 
 Route::get('/', [HomeController::class,'index'])->name('home');
 
+Route::name('admin.')->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::middleware(['access'])->group(function () {//access
+            Route::prefix('dashboard')->group(function () {
+                Route::get('/connections/{sort?}/{method?}/{show?}/{connect?}', [DashboardController::class, 'connections'])->name('connections');
+                Route::post('/address/add/{id}', [DashboardController::class, 'address_add'])->name('addressadd');
+                Route::get('/address/{id}', [DashboardController::class, 'address_info'])->name('addressinfo');
+                Route::get('/community/{sort?}/{view?}', [DashboardController::class, 'community'])->name('community');
+                Route::get('/groups/{sort?}/{view?}', [DashboardController::class, 'groups'])->name('groups');
+                Route::get('/user/{user}', [DashboardController::class, 'userEdit'])->name('useredit');
+                Route::get('/group/visibility/{id}', [DashboardController::class, 'groupVisibility'])->name('visibility');
+                Route::get('/group/open/{id}', [DashboardController::class, 'groupOpen'])->name('open');
+            });
+        });
+    });
+});
+
 Route::middleware(['connect'])->group(function () {
     Route::name('user.')->group(function () {
         Route::middleware(['auth'])->group(function () {
@@ -59,22 +76,6 @@ Route::middleware(['connect'])->group(function () {
                 Route::post('avatar/{id}', [GroupController::class, 'group_avatar'])->name('avatar');
                 Route::get('following/{group}', [FollowController::class, 'following'])->name('following');
                 Route::get('unfollowing/{group}', [FollowController::class, 'unfollowing'])->name('unfollowing');
-            });
-        });
-    });
-    Route::name('admin.')->group(function () {
-        Route::prefix('admin')->group(function () {
-            Route::middleware(['access'])->group(function () {//access
-                Route::prefix('dashboard')->group(function () {
-                    Route::get('/connections/{sort?}/{method?}/{show?}/{connect?}', [DashboardController::class, 'connections'])->name('connections');
-                    Route::post('/address/add/{id}', [DashboardController::class, 'address_add'])->name('addressadd');
-                    Route::get('/address/{id}', [DashboardController::class, 'address_info'])->name('addressinfo');
-                    Route::get('/community/{sort?}/{view?}', [DashboardController::class, 'community'])->name('community');
-                    Route::get('/groups/{sort?}/{view?}', [DashboardController::class, 'groups'])->name('groups');
-                    Route::get('/user/{user}', [DashboardController::class, 'userEdit'])->name('useredit');
-                    Route::get('/group/visibility/{id}', [DashboardController::class, 'groupVisibility'])->name('visibility');
-                    Route::get('/group/open/{id}', [DashboardController::class, 'groupOpen'])->name('open');
-                });
             });
         });
     });
