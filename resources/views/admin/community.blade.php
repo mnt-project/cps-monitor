@@ -53,6 +53,41 @@
                             <div class="text-center mt-4">
                             </div>
                         </div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-1">
+                                    <a class="text-dark" href="{{ route('admin.userblock',$user->id)}}" title="lock">
+                                        @if(optional($user->settings)->banned)
+                                            <span class="bi bi-lock-fill" style="font-size: 1.5rem; color: red;"></span>
+                                        @else
+                                            <span class="bi bi-lock" style="font-size: 1.5rem; color: black;"></span>
+                                        @endif
+                                    </a>
+                                </div>
+                                <div class="col-lg-3 col-sm-1">
+                                    <a class="text-dark" href="{{ route('admin.usermuted',$user->id)}}" title="lock">
+                                        @if(optional($user->settings)->muted)
+                                            <span class="bi bi-mic-mute" style="font-size: 1.5rem; color: red;"></span>
+                                        @else
+                                            <span class="bi bi-mic" style="font-size: 1.5rem; color: black;"></span>
+                                        @endif
+                                    </a>
+                                </div>
+                                <div class="col-lg-3 col-sm-1">
+                                    <a class="text-dark" href="{{ route('admin.userhidden',$user->id)}}" title="lock">
+                                        @if(optional($user->settings)->hidden)
+                                            <span class="bi bi-eye-slash" style="font-size: 1.5rem; color: red;"></span>
+                                        @else
+                                            <span class="bi bi-eye" style="font-size: 1.5rem; color: black;"></span>
+                                        @endif
+                                    </a>
+                                </div>
+                                <div class="col-lg-3 col-sm-1">
+                                    <span class="bi bi-lightning-charge" style="font-size: 1.5rem; color: blue;"></span>
+                                    <b>{{ optional($user->settings)->hidden }}</b>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 @endforeach
                 @break

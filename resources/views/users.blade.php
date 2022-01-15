@@ -26,11 +26,17 @@
             @foreach($users as $user)
                 <tr class='clickable-row-table' data-href='{{ route('user.info',$user->id) }}'>
                     <th scope="row">{{$loop->iteration}}</th>
-                    <td><span class="bi bi-person-circle">{{ $user->login }}</span></td>
-                    @isset($user->settings->public)
-                        <td>{{ $user->email }}</td>
-                    @else
+                    <td>
+                        @if(optional($user->settings)->banned)
+                            <span class="bi bi-person-circle" style="color: red;">{{ $user->login }}</span>
+                        @else
+                            <span class="bi bi-person-circle" style="color: black;">{{ $user->login }}</span>
+                        @endif
+                    </td>
+                    @if(optional($user->settings)->hidden)
                         <td>hidden</td>
+                    @else
+                        <td>{{ $user->email }}</td>
                     @endif
                     <td>{{ $user->connects }}</td>
                     <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d.m.Y H:i') }}</td>

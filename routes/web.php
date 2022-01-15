@@ -31,6 +31,9 @@ Route::name('admin.')->group(function () {
                 Route::get('/community/{sort?}/{view?}', [DashboardController::class, 'community'])->name('community');
                 Route::get('/groups/{sort?}/{view?}', [DashboardController::class, 'groups'])->name('groups');
                 Route::get('/user/{user}', [DashboardController::class, 'userEdit'])->name('useredit');
+                Route::get('/user/block/{id}', [DashboardController::class, 'user_block'])->name('userblock');
+                Route::get('/user/muted/{id}', [DashboardController::class, 'user_muted'])->name('usermuted');
+                Route::get('/user/hidden/{id}', [DashboardController::class, 'user_hidden'])->name('userhidden');
                 Route::get('/group/visibility/{id}', [DashboardController::class, 'groupVisibility'])->name('visibility');
                 Route::get('/group/open/{id}', [DashboardController::class, 'groupOpen'])->name('open');
             });

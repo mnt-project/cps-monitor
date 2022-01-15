@@ -16,9 +16,9 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function connections($sort=0,$method='asc',$show=0,$connect=0)
+    public function connections(Request $request,$sort=0,$method='asc',$show=0,$connect=0)
     {
-        $userip = \Request::ip();
+        $userip = $request->ip();
         $items = ['Connections', 'Community', 'Groups'];
         $lines = ['20 items', '50 items', '100 items'];
         $sortname = ['By id', 'By connects', 'By date'];
@@ -160,6 +160,7 @@ class DashboardController extends Controller
     }
     public function userEdit(User $user)
     {
+        $items=['Connections','Community','Groups'];
         $user->load('settings','avatar','posts','follow','groups');
         $groups = Group::get();
         $subscribes = collect();
@@ -171,7 +172,61 @@ class DashboardController extends Controller
         }
         return view('admin.user')
             ->with('groups', $subscribes)
-            ->with('user',$user);
+            ->with('user',$user)
+            ->with('items',$items);
+
+    }
+    public function user_block($userid)
+    {
+        $user = User::with('settings')->findOrFail($userid);
+        if($user->settings->banned)
+        {
+            $user->settings->banned=0;
+            $message='unbanned';
+        }
+        else
+        {
+            $user->settings->banned=1;
+            $message='banned';
+        }
+        $user->settings->save();
+        //dd(__METHOD__,$user->settings->smessage);
+        session()->flash('success','User '.$user->login.' is are '.$message.'!');
+        return redirect()->back();
+    }
+    public function user_muted($userid)
+    {
+        $user = User::with('settings')->findOrFail($userid);
+        if($user->settings->muted)
+        {
+            $user->settings->muted=0;
+            $message='unmuted';
+        }
+        else
+        {
+            $user->settings->muted=1;
+            $message='muted';
+        }
+        $user->settings->save();
+        session()->flash('success','User '.$user->login.' is are '.$message.'!');
+        return redirect()->back();
+    }
+    public function user_hidden($userid)
+    {
+        $user = User::with('settings')->findOrFail($userid);
+        if($user->settings->hidden)
+        {
+            $user->settings->hidden=0;
+            $message='visible';
+        }
+        else
+        {
+            $user->settings->hidden=1;
+            $message='hidden';
+        }
+        $user->settings->save();
+        session()->flash('success','You make user '.$user->login.' is a '.$message.'!');
+        return redirect()->back();
     }
     public function groups($sort=0,$view=0)
     {

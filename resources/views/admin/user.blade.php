@@ -1,14 +1,8 @@
 @extends('layouts.admin')
 @section('title-block'){{ $user->login }}@endsection
 @section('dashboard-aside')
-    @if($groups->count()>0)
-        <div class="list-unstyled text-center mb-4"><h4>Follows</h4></div>
-        <div class="list-group">
-            @foreach($groups as $group)
-                <a class="list-group-item" href={{ route('group.info',$group->id) }}><span class="bi bi-people"> {{$group->name}}</span></a>
-            @endforeach
-        </div>
-    @endif
+    @include('admin.inc.aside',['itemid' => 2])
+
 @endsection
 @section('dashboard-header')
 
@@ -28,5 +22,14 @@
 @endsection
 @section('dashboard-info')
     @include('admin.user.title',['user'=>$user])
-
+    <div class="container">
+        @if($groups->count()>0)
+            <div class="list-unstyled text-center mb-4"><h4>Follows</h4></div>
+            <div class="list-group">
+                @foreach($groups as $group)
+                    <a class="list-group-item" href={{ route('group.info',$group->id) }}><span class="bi bi-people"> {{$group->name}}</span></a>
+                @endforeach
+            </div>
+        @endif
+    </div>
 @endsection
