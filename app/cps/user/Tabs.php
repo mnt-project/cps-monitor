@@ -24,19 +24,18 @@ class Tabs
                 do{//Проверка свободного слота в базе
                     if($tabid<4)$tabid++;
                     else {$tabid=0;break;}
-                } while (\App\Models\Tabs::where("tabid", "=", $tabid)->first() instanceof \App\Models\Tabs);
+                } while (session()->has('tab'.$tabid));
                 if($tabid)
                 {
-                    $this->tab = \App\Models\Tabs::create([
-                        'user_id' => Auth::id(),
+                    $this->tab = [
                         'tabid' => $tabid,
                         'titel' => $titel,
                         'type' => $type,
                         'value' => $value,
                         'route' => $route,
-                        'life' => 1,
-                        'visible' => 1
-                    ]);
+                    ];
+                    session(['tab'.$tabid=>$this->tab]);
+                    session()->put('tabid',$tabid);
                 }
                 else
                 {
@@ -45,8 +44,15 @@ class Tabs
             }
             else
             {
-                $tabs = \App\Models\Tabs::where('user_id', Auth::id())->get();
-                //dd(__METHOD__,$tabs);
+                $tabs = collect();
+                for($t=1;$t<5;$t++)
+                {
+                    $stab=session('tab'.$t);
+                    if($stab)
+                    {
+                        $tabs = $tabs->push($stab);
+                    }
+                }
                 if(is_null($tabs))
                 {
                     $tabs = $this->defaultTab();
@@ -61,16 +67,21 @@ class Tabs
     }
     protected function defaultTab()
     {
-        return new \App\Models\Tabs([
-            'user_id' => Auth::id(),
+        return $this->tab=[
             'tabid' => 0,
             'titel' => 'Default',
             'type' => 'default.index',
             'value' => 0,
             'route' => 'tab.index',
-            'life' => 1,
-            'visible' => 1
-        ]);
+        ];
+    }
+    public static function deleteTabs()
+    {
+        for($t=1;$t<6;$t++)
+        {
+            if(session()->has('tab'.$t))session()->forget('tab'.$t);
+        }
+        if(session()->has('tabid'))session()->forget('tabid');
     }
     /**
      * @return mixed
@@ -78,6 +89,15 @@ class Tabs
     public function getTab()
     {
         return $this->tab;
+    }
+    public static function getUser($value)
+    {
+        if($value)
+        {
+            $user=User::findOrFail($value);
+            //dd(__METHOD__,$user);
+            return $user;
+        }
     }
 
     /**

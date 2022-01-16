@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\user;
 
+use App\cps\user\Tabs;
 use App\cps\Users;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\uLoginRequest;
@@ -64,6 +65,7 @@ class UserController extends MainController
             $user->settings->connected_at = now();
             $user->settings->save();
             $message = 'User: '.$user->login.' ID:['.$user->id.'] logged!';
+            Tabs::deleteTabs();
             session(['notifications' => $user->settings->notifications == 1 ]);
             session()->flash('info',$message);
             Log::channel('connections')->info('[IP:'.\Request::ip().'] '.$message);

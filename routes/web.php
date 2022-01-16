@@ -41,15 +41,15 @@ Route::name('admin.')->group(function () {
         });
     });
 });
-
-Route::middleware(['connect'])->group(function () {
-    Route::name('tab.')->group(function () {
-        Route::prefix('tab')->group(function () {
-            Route::get('/index/{tabid?}', [DefaultTab::class, 'index'])->name('index');
-            Route::get('/create/{value}/{titel}/{type}/{route}', [DefaultTab::class, 'create'])->name('create');
-            Route::get('/close/{tab}', [DefaultTab::class, 'close'])->name('close');
-        });
+Route::name('tab.')->group(function () {
+    Route::prefix('tab')->group(function () {
+        Route::get('/index/{tabid?}', [DefaultTab::class, 'index'])->name('index');
+        Route::get('/create/{value}/{titel}/{type}/{route}', [DefaultTab::class, 'create'])->name('create');
+        Route::get('/close/{tabid}', [DefaultTab::class, 'close'])->name('close');
     });
+});
+Route::middleware(['connect'])->group(function () {
+
     Route::name('user.')->group(function () {
         Route::middleware(['auth'])->group(function () {
             Route::get('/profile/{id?}/{tabid?}', [UserController::class, 'user_profile'])->name('profile');

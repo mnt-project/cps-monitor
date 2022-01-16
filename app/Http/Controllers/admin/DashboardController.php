@@ -80,38 +80,33 @@ class DashboardController extends Controller
         }
         return redirect()->back();
     }
-    public function community($tabid=0,$sort=0,$view=0)
+    public function community($sort=0,$view=0)
     {
         $items=['Connections','Community','Groups'];
         $names=['All users','Muted users','Banned users','Last connected users','Last register users','Config error'];
         $viewnames=['Thumbnail','Table','Cards'];
         $sorted=collect();
+        $tabid=session('tabid');
         $tabs=(new Tabs())->getTab();
         $tabscount=$tabs->count();
-        //dump('tab-count',$tabscount);
         if($tabid>0)
         {
             if($tabscount>0)
             {
                 foreach ($tabs as $key=>$tab)
                 {
-                    if($tabid != $tab->tabid)
+                    if($tabid != $tab['tabid'])
                     {
-                        if($tab->tabid == $tabid+1)
-                        {
-                            $tabid = $tab->tabid;
-                            //dump('tabid_low',$tabid);
-                            break;
-                        }
                         if($key == $tabscount-1)
                         {
-                            $tabid = $tab->tabid;
+                            $tabid = $tab['tabid'];
                             //dump('tabid_app',$tabid);
                         }
                     }else break;
                 }
             }else $tabid = 0;
         }
+        session()->put('tabid',$tabid);
         switch ($sort)
         {
             case 0://All users
