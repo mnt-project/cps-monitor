@@ -33,11 +33,7 @@
                             <span class="bi bi-person-circle" style="color: black;">{{ $user->login }}</span>
                         @endif
                     </td>
-                    @if(optional($user->settings)->hidden)
-                        <td>hidden</td>
-                    @else
-                        <td>{{ $user->email }}</td>
-                    @endif
+                    <td>{{ optional($user->settings)->hidden ? 'hidden' : $user->email }}</td>
                     <td>{{ $user->connects }}</td>
                     <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d.m.Y H:i') }}</td>
                 </tr>

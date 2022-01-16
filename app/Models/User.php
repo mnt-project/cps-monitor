@@ -100,4 +100,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Messages::class,'user_id');
     }
+    public function tabs()
+    {
+        return $this->hasMany(Tabs::class,'user_id');
+    }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\group\FollowController;
 use App\Http\Controllers\group\PostController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\DefaultTab;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,7 +29,7 @@ Route::name('admin.')->group(function () {
                 Route::get('/connections/{sort?}/{method?}/{show?}/{connect?}', [DashboardController::class, 'connections'])->name('connections');
                 Route::post('/address/add/{id}', [DashboardController::class, 'address_add'])->name('addressadd');
                 Route::get('/address/{id}', [DashboardController::class, 'address_info'])->name('addressinfo');
-                Route::get('/community/{sort?}/{view?}', [DashboardController::class, 'community'])->name('community');
+                Route::get('/community/{tabid?}/{sort?}/{view?}', [DashboardController::class, 'community'])->name('community');
                 Route::get('/groups/{sort?}/{view?}', [DashboardController::class, 'groups'])->name('groups');
                 Route::get('/user/{user}', [DashboardController::class, 'userEdit'])->name('useredit');
                 Route::get('/user/block/{id}', [DashboardController::class, 'user_block'])->name('userblock');
@@ -42,6 +43,13 @@ Route::name('admin.')->group(function () {
 });
 
 Route::middleware(['connect'])->group(function () {
+    Route::name('tab.')->group(function () {
+        Route::prefix('tab')->group(function () {
+            Route::get('/index/{tabid?}', [DefaultTab::class, 'index'])->name('index');
+            Route::get('/create/{value}/{titel}/{type}/{route}', [DefaultTab::class, 'create'])->name('create');
+            Route::get('/close/{tab}', [DefaultTab::class, 'close'])->name('close');
+        });
+    });
     Route::name('user.')->group(function () {
         Route::middleware(['auth'])->group(function () {
             Route::get('/profile/{id?}/{tabid?}', [UserController::class, 'user_profile'])->name('profile');
