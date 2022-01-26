@@ -37,6 +37,7 @@ Route::name('admin.')->group(function () {
                 Route::get('/user/hidden/{id}', [DashboardController::class, 'user_hidden'])->name('userhidden');
                 Route::get('/group/visibility/{id}', [DashboardController::class, 'groupVisibility'])->name('visibility');
                 Route::get('/group/open/{id}', [DashboardController::class, 'groupOpen'])->name('open');
+                Route::get('/journal/{sort?}/{method?}/{show?}', [DashboardController::class, 'journalList'])->name('journal');
             });
         });
     });

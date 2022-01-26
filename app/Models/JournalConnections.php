@@ -16,4 +16,9 @@ class JournalConnections extends Model
         'filename',
         'agent',
     ];
+
+    public function address()
+    {
+        return $this->hasOne(Address::class , 'ipaddress','visitor');
+    }
 }

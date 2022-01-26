@@ -19,4 +19,8 @@ class Address extends Model
     {
         return $this->belongsTo(Connections::class,'visitor', 'ipaddress');
     }
+    public function journal()
+    {
+        return $this->belongsTo(JournalConnections::class,'visitor', 'ipaddress');
+    }
 }

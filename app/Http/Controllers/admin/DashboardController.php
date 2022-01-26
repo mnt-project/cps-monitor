@@ -7,6 +7,7 @@ use App\cps\Groups;
 use App\cps\user\Tabs;
 use App\Models\Address;
 use App\Models\Group;
+use App\Models\JournalConnections;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Controllers\Controller;
 use App\Models\Connections;
@@ -17,10 +18,10 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    protected $items = ['Connections', 'Community', 'Groups','Journal'];
     public function connections(Request $request,$sort=0,$method='asc',$show=0,$connect=0)
     {
         $userip = $request->ip();
-        $items = ['Connections', 'Community', 'Groups'];
         $lines = ['20 items', '50 items', '100 items'];
         $sortname = ['By id', 'By connects', 'By date'];
         $perPage=20;
@@ -56,7 +57,35 @@ class DashboardController extends Controller
             ->with('connect',$connect)
             ->with('ipinfo',$ipinfo)
             ->with('method',$method)
-            ->with('items',$items);
+            ->with('items',$this->items);
+    }
+    public function journalList($sort=0,$method='asc',$show=0)
+    {
+        $lines = ['20 items', '50 items', '100 items'];
+        $sortname = ['By id', 'By connects', 'By date'];
+        $perPage=20;
+        switch ($show)
+        {
+            case 1:{$perPage=50;break;}
+            case 2:{$perPage=100;break;}
+        }
+        switch ($sort)
+        {
+            case 0:{$order='id';break;}
+            case 1:{$order='visits';break;}
+            case 2:{$order='updated_at';break;}
+        }
+        $ips = JournalConnections::with('address')->orderBy($order, $method)->paginate($perPage);
+
+        //dd(__METHOD__,$ips);
+        return view('admin.journal')
+            ->with('sort',$sort)
+            ->with('sortname',$sortname)
+            ->with('show',$show)
+            ->with('lines',$lines)
+            ->with('ips',$ips)
+            ->with('method',$method)
+            ->with('items',$this->items);
     }
     public function address_info($id)
     {
@@ -82,7 +111,6 @@ class DashboardController extends Controller
     }
     public function community($sort=0,$view=0)
     {
-        $items=['Connections','Community','Groups'];
         $names=['All users','Muted users','Banned users','Last connected users','Last register users','Config error'];
         $viewnames=['Thumbnail','Table','Cards'];
         $sorted=collect();
@@ -176,13 +204,12 @@ class DashboardController extends Controller
             ->with('names',$names)
             ->with('viewnames',$viewnames)
             ->with('users',$sorted)
-            ->with('items',$items)
+            ->with('items',$this->items)
             ->with('tabs',$tabs)
             ->with('tabid',$tabid);
     }
     public function userEdit(User $user)
     {
-        $items=['Connections','Community','Groups'];
         $user->load('settings','avatar','posts','follow','groups');
         $groups = Group::get();
         $subscribes = collect();
@@ -195,7 +222,7 @@ class DashboardController extends Controller
         return view('admin.user')
             ->with('groups', $subscribes)
             ->with('user',$user)
-            ->with('items',$items);
+            ->with('items',$this->items);
 
     }
     public function user_block($userid)
@@ -252,7 +279,6 @@ class DashboardController extends Controller
     }
     public function groups($sort=0,$view=0)
     {
-        $items = ['Connections', 'Community', 'Groups'];
         //$group_data = Group::with(['follow'])->get();
         $groups = (new Groups())->getGroup();
         //$groups = $groups->getGroup();
@@ -265,7 +291,7 @@ class DashboardController extends Controller
         //dd($group->getGroupFollows());
         return view('admin.group')
             ->with('groups',$groups)
-            ->with('items',$items);
+            ->with('items',$this->items);
     }
     public function groupVisibility($groupid)
     {
