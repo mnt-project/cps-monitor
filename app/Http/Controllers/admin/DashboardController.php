@@ -62,7 +62,7 @@ class DashboardController extends Controller
     public function journalList($sort=0,$method='asc',$show=0)
     {
         $lines = ['20 items', '50 items', '100 items'];
-        $sortname = ['By id', 'By connects', 'By date'];
+        $sortname = ['By id', 'By agents', 'By date'];
         $perPage=20;
         switch ($show)
         {
@@ -72,11 +72,10 @@ class DashboardController extends Controller
         switch ($sort)
         {
             case 0:{$order='id';break;}
-            case 1:{$order='visits';break;}
+            case 1:{$order='agent';break;}
             case 2:{$order='updated_at';break;}
         }
         $ips = JournalConnections::with('address')->orderBy($order, $method)->paginate($perPage);
-
         //dd(__METHOD__,$ips);
         return view('admin.journal')
             ->with('sort',$sort)

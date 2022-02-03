@@ -36,11 +36,12 @@
             </div>
         </div>
     </div>
-
-    <div class="row">
-        @foreach ($groups as $group)
-            @include('inc.group.group-thumbnail',$group)
-        @endforeach
+    <div class="container">
+        <div class="row">
+            @foreach ($groups as $group)
+                @include('inc.group.group-thumbnail',$group)
+            @endforeach
+        </div>
     </div>
 @endsection
 @section('group-info')

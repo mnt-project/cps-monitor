@@ -217,25 +217,33 @@ class GroupController extends MainController
     public function group_info($groupid=0,$text='')
     {
         $group = new Groups($groupid);
-
         if($group)
         {
-            $followers = $group->getGroupFollows();
-            $followers->load('user');
-            $posts = $group->getGroupPosts();
-            $posts->load('user','group');
-            $group = $group->getGroup();
-            $group->visits++;
-            $group->save();
-            return view('group')
-                ->with('followers',$followers)
-                ->with('posts',$posts)
-                ->with('group', $group)
-                ->with('text',$text);
+            if($group->getGroup()->open)
+            {
+                $followers = $group->getGroupFollows();
+                $followers->load('user');
+                $posts = $group->getGroupPosts();
+                $posts->load('user','group');
+                $group = $group->getGroup();
+                $group->visits++;
+                $group->save();
+                return view('group')
+                    ->with('followers',$followers)
+                    ->with('posts',$posts)
+                    ->with('group', $group)
+                    ->with('text',$text);
+            }
+            else
+            {
+                session()->flash('warning','Access denied');
+                return redirect()->back();
+            }
+
         }
         else
         {
-            return redirect(route('group.list'))->withErrors(['saveError' => 'Group not found!']);
+            return redirect()->back()->withErrors('Group not found!');
         }
     }
     public function group_add(Request $request)
