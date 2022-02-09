@@ -18,6 +18,7 @@ class CreateAlbumsTable extends Migration
             $table->unsignedBigInteger('album_id');
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('user_id');
+            $table->string('name')->default('unknown');
             $table->string('format')->default('unknown');
             $table->string('discription')->default('empty');
             $table->integer('rate')->default(0);

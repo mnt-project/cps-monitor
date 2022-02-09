@@ -13,6 +13,7 @@ class Album extends Model
         'album_id',
         'post_id',
         'user_id',
+        'name',
         'format',
         'discription',
         'rate',

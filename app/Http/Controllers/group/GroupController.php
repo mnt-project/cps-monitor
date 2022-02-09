@@ -223,6 +223,7 @@ class GroupController extends MainController
             $file = $request->file('album');
             $discription = $request->input('discription');
             $extension = $file->extension();
+            $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $hash_name = $file->hashName();
             $path = $file->storeAs(
                 'public/groups/albums', $hash_name
@@ -243,6 +244,7 @@ class GroupController extends MainController
                 'album_id' => $id,
                 'post_id' => 0,
                 'user_id' => Auth::id(),
+                'name' => $name,
                 'format'=> $extension,
                 'discription'=>$discription,
                 'rate'=> 0,
