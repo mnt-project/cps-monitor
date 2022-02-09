@@ -15,7 +15,7 @@
 
                     </div>
                     <div class="col-4 text-end">
-                        <a class="bi bi-reply-fill" href="{{route('group.info',['group'=>$post->group_id,'text'=>$post->description])}}"></a>
+                        <a class="bi bi-reply-fill" href="{{route('post.quote',$post->description)}}"></a>
                         <a class="bi bi-x-square-fill text-danger ms-3" href={{route('post.delete',$post->id)}}></a>
                     </div>
                 </div>

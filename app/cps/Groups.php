@@ -41,6 +41,14 @@ class Groups
     {
         return $this->group->post;
     }
+    public function getGroupAlbum()
+    {
+        return $this->group->album->sortBy('updated_at')->take(5);
+    }
+    public function isGroupOpen()
+    {
+        return $this->group->open;
+    }
     public function createGroup(Group $creategroup)
     {
         if(Auth::check())
@@ -56,7 +64,6 @@ class Groups
         $this->group->save();
         return $this->group;
     }
-
 }
 
 

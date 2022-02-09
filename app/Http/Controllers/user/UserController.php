@@ -43,6 +43,7 @@ class UserController extends MainController
         $message = 'User: '.auth()->user()->login.' ID:['.auth()->user()->id.'] logout!';
         session()->flash('info',$message);
         session()->flash('notifications');
+        if(session()->has('quote'))session()->forget('quote');
         Cache::forget('user-is-online-'.auth()->user()->id);
         Auth::logout();
         Log::channel('connections')->info('[IP:'.\Request::ip().'] '.$message);
@@ -59,7 +60,7 @@ class UserController extends MainController
             $user = User::findOrFail(auth()->user()->id);
             $user->connects += 1;
             $user->save();
-            $settings = Settings::where('user_id', $user)->get();
+            //$settings = Settings::where('user_id', $user)->get();
             self::user_create_settings($user);
             $user->load('settings');
             $user->settings->connected_at = now();
@@ -96,18 +97,10 @@ class UserController extends MainController
         $user = User::with(['settings','avatar'])->findOrFail($id);
         self::user_create_settings($user);
         $follows = Follow::where('user_id',$user->id)->get();
-        $subscribes = collect();
-        if($follows)
-        {
-            foreach ($follows as $follow)
-            {
-                $subscribes->push(Group::find($follow->group_id));
-            }
-
-        }
+        if($follows)$follows->load('group');
         return view('user')
             ->with('user', $user)
-            ->with('groups', $subscribes);
+            ->with('follows', $follows);
     }
     public function all_users()
     {
@@ -389,6 +382,7 @@ class UserController extends MainController
             Settings::create([
                 'user_id' => $user->id,
             ]);
+            //dd(__METHOD__,$settings);
         }
     }
     //

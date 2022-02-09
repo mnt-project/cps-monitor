@@ -4,6 +4,7 @@ namespace App\Http\Controllers\group;
 
 use App\Http\Controllers\MainController;
 use App\cps\Groups;
+use App\Models\Album;
 use App\Models\Follow;
 use Illuminate\Http\Request;
 use App\Models\Group;
@@ -20,7 +21,7 @@ class GroupController extends MainController
         if(Auth::check())
         {
             $user = User::find(Auth::id());
-            if($user->settings->admin)//Если админ, создать коллекцию всех групп
+            if($user->IsAdmin())//Если админ, создать коллекцию всех групп
             {
                 $group_data = Group::with(['follow'])->get();
             }
@@ -214,25 +215,69 @@ class GroupController extends MainController
         }
         return redirect()->back()->withErrors(['saveError' => 'Avatar is not selected!']);
     }
-    public function group_info($groupid=0,$text='')
+    public function group_album(Request $request,Group $group)
+    {
+        //dd(__METHOD__,$group);
+        if ($request->hasFile('album'))
+        {
+            $file = $request->file('album');
+            $discription = $request->input('discription');
+            $extension = $file->extension();
+            $hash_name = $file->hashName();
+            $path = $file->storeAs(
+                'public/groups/albums', $hash_name
+            );
+            if(empty($group->albumid))
+            {
+                $id=$group->id;
+                while (Album::where("album_id", "=", $id)->first() instanceof Album)
+                {
+                    $id++;
+                }
+                $group->albumid = $id;
+                $group->save();
+            }else $id=$group->albumid;
+
+            //dd(__METHOD__,$id,$discription,$extension,$path);
+            Album::create([
+                'album_id' => $id,
+                'post_id' => 0,
+                'user_id' => Auth::id(),
+                'format'=> $extension,
+                'discription'=>$discription,
+                'rate'=> 0,
+                'hash_name'=>$hash_name,
+                'patch'=>$path,
+            ]);
+            session()->flash('success','Group '.$group->name.' album foto added!');
+            return redirect()->back();
+        }
+        return redirect()->back()->withErrors(['saveError' => 'Avatar is not selected!']);
+    }
+    public function group_info($groupid=0)
     {
         $group = new Groups($groupid);
         if($group)
         {
-            if($group->getGroup()->open)
+            if($group->isGroupOpen())
             {
                 $followers = $group->getGroupFollows();
                 $followers->load('user');
-                $posts = $group->getGroupPosts();
-                $posts->load('user','group');
+                //$posts->load('user','group');
+                $posts = $group->getGroupPosts()->load('user','group');
+                //dd(__METHOD__,$posts->count());
+                $posts = self::paginateCollection($posts,20);
+                //dd(__METHOD__,$posts);
+                $albums = $group->getGroupAlbum();
+                //dd(__METHOD__,$album);
                 $group = $group->getGroup();
                 $group->visits++;
                 $group->save();
                 return view('group')
                     ->with('followers',$followers)
                     ->with('posts',$posts)
-                    ->with('group', $group)
-                    ->with('text',$text);
+                    ->with('albums',$albums)
+                    ->with('group', $group);
             }
             else
             {
@@ -245,6 +290,27 @@ class GroupController extends MainController
         {
             return redirect()->back()->withErrors('Group not found!');
         }
+    }
+    public function paginateCollection($collection, $perPage, $pageName = 'page', $fragment = null)
+    {
+        $currentPage = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage($pageName);
+        $currentPageItems = $collection->slice(($currentPage - 1) * $perPage, $perPage);
+        parse_str(request()->getQueryString(), $query);
+        unset($query[$pageName]);
+        $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
+            $currentPageItems,
+            $collection->count(),
+            $perPage,
+            $currentPage,
+            [
+                'pageName' => $pageName,
+                'path' => \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPath(),
+                'query' => $query,
+                'fragment' => $fragment
+            ]
+        );
+
+        return $paginator;
     }
     public function group_add(Request $request)
     {

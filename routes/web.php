@@ -81,22 +81,27 @@ Route::middleware(['connect'])->group(function () {
     Route::name('group.')->group(function () {
         Route::prefix('group')->group(function () {
             Route::get('list/{sort?}', [GroupController::class, 'group_list'])->name('list');
-            Route::get('info/{group?}/{text?}', [GroupController::class, 'group_info'])->name('info');
+            Route::get('info/{group?}', [GroupController::class, 'group_info'])->name('info');
             Route::middleware(['auth'])->group(function () {
                 Route::post('add/', [GroupController::class, 'group_add'])->name('add');
                 Route::post('edit/{id?}', [GroupController::class, 'group_edit'])->name('edit');
                 Route::post('avatar/{id}', [GroupController::class, 'group_avatar'])->name('avatar');
                 Route::get('following/{group}', [FollowController::class, 'following'])->name('following');
                 Route::get('unfollowing/{group}', [FollowController::class, 'unfollowing'])->name('unfollowing');
+                Route::post('album/{group}', [GroupController::class, 'group_album'])->name('album');
             });
         });
     });
-    Route::name('post.')->group(function () {
-        Route::post('post/create/{group}', [PostController::class, 'post_create'])->name('create');
-        Route::get('post/reputation/{post}/{value}', [PostController::class, 'post_reputation'])->name('reputation');
-        Route::get('post/reputation/{post}', [PostController::class, 'post_delete'])->name('delete');
+    Route::prefix('post')->group(function () {
+        Route::name('post.')->group(function () {
+            Route::middleware(['auth'])->group(function () {
+                Route::post('create/{group}', [PostController::class, 'post_create'])->name('create');
+                Route::get('reputation/{post}/{value}', [PostController::class, 'post_reputation'])->name('reputation');
+                Route::get('delete/{post}', [PostController::class, 'post_delete'])->name('delete');
+                Route::get('quote/{text}', [PostController::class, 'post_quote'])->name('quote');
+            });
+        });
     });
-
     Route::view('/credits', 'credits')->name('credits');
     Route::view('/about', 'about')->name('about');
 });

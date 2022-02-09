@@ -20,11 +20,11 @@
 
 @endsection
 @section('content-info')
-    @if($groups->count()>0)
+    @if($follows->count()>0)
         <div class="list-unstyled text-center mb-4"><h4>Follows</h4></div>
         <div class="list-group">
-            @foreach($groups as $group)
-                    <a class="list-group-item" href="{{ route('group.info',$group) }}"><span class="bi bi-people">{{$group->name}}</span></a>
+            @foreach($follows as $follow)
+                    <a class="list-group-item" href="{{ route('group.info',$follow->group->id) }}"><span class="bi bi-people">{{$follow->group->name}}</span></a>
             @endforeach
         </div>
     @endif

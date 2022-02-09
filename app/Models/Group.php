@@ -50,6 +50,10 @@ class Group extends Model
     {
         return $this->hasMany(Follow::class,'group_id');
     }
+    public function  album()
+    {
+        return $this->hasMany(Album::class,'album_id', 'albumid');
+    }
     public function groupFollowCount()
     {
         return $this->follow->count();

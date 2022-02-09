@@ -24,8 +24,8 @@ class ConnectLog
             $visitor->visitor = $request->ip();;
             $visitor->status = 1;
             $visitor->dirname = $location['dirname'];
-            $visitor->basename = $location['basename'];
-            $visitor->filename = $location['filename'];
+            $visitor->basename = mb_substr($location['basename'],0,32);
+            $visitor->filename = mb_substr($location['filename'],0,32);
             $visitor->agent = $request->userAgent();
             $visitor->save();
         }
