@@ -43,7 +43,7 @@ class Groups
     }
     public function getGroupAlbum()
     {
-        return $this->group->album->sortBy('updated_at')->take(5);
+        return $this->group->album->sortByDesc('updated_at')->take(5);
     }
     public function isGroupOpen()
     {

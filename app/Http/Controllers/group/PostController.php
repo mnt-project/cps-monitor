@@ -22,18 +22,15 @@ class PostController extends MainController
         $post=$request->input('post');
         if($post)
         {
-            if ($user) {
-                //dd(__METHOD__,$group);
-                $post = Post::create([
-                    'group_id' => $group,
-                    'user_id' => Auth::id(),
-                    'description' => $post,
-                    'winfo' => 'null',
-                ]);
-                //dd(__METHOD__,$post);
-                return redirect()->back()->with(['success' => 'Post was created!']);
-            }
-            return redirect()->back()->withErrors('Need to authenticate!');
+            //dd(__METHOD__,$group);
+            $post = Post::create([
+                'group_id' => $group,
+                'user_id' => Auth::id(),
+                'description' => $post,
+                'winfo' => 'null',
+            ]);
+            //dd(__METHOD__,$post);
+            return redirect()->back()->with(['success' => 'Post was created!']);
         }
         return redirect()->back()->withErrors('Message is empty!');
     }

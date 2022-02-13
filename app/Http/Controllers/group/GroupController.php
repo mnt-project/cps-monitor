@@ -215,66 +215,98 @@ class GroupController extends MainController
         }
         return redirect()->back()->withErrors(['saveError' => 'Avatar is not selected!']);
     }
-    public function group_album(Request $request,Group $group)
+    public function group_album(Album $album)
     {
-        //dd(__METHOD__,$group);
-        if ($request->hasFile('album'))
+        if($album)
         {
-            $file = $request->file('album');
-            $discription = $request->input('discription');
-            $extension = $file->extension();
-            $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $hash_name = $file->hashName();
-            $path = $file->storeAs(
-                'public/groups/albums', $hash_name
-            );
-            if(empty($group->albumid))
+            $group = new Groups($album->group_id);
+            if($group)
             {
-                $id=$group->id;
-                while (Album::where("album_id", "=", $id)->first() instanceof Album)
+                if($group->isGroupOpen() or Auth::user()->IsAdmin())
                 {
-                    $id++;
+                    if($album->open)
+                    {
+                        $albumunits = $album->albumunit;
+                        $albums = $group->getGroupAlbum()->reverse();
+                        $albums->load('albumunit');
+                        //dd(__METHOD__,$albums);
+                        //$albums->push($followers);
+                        $group = $group->getGroup();
+                        session()->flash('groupid',$group->id);
+                        return view('album')
+                            ->with('album',$album)
+                            ->with('albums',$albums)
+                            ->with('albumunits',$albumunits)
+                            ->with('group', $group);
+                    }
+                    else
+                    {
+                        session()->flash('warning','Access to album denied');
+                        return redirect()->back();
+                    }
                 }
-                $group->albumid = $id;
-                $group->save();
-            }else $id=$group->albumid;
+                else
+                {
+                    session()->flash('warning','Access to group denied');
+                    return redirect()->back();
+                }
 
-            //dd(__METHOD__,$id,$discription,$extension,$path);
-            Album::create([
-                'album_id' => $id,
-                'post_id' => 0,
-                'user_id' => Auth::id(),
-                'name' => $name,
-                'format'=> $extension,
-                'discription'=>$discription,
-                'rate'=> 0,
-                'hash_name'=>$hash_name,
-                'patch'=>$path,
-            ]);
-            session()->flash('success','Group '.$group->name.' album foto added!');
-            return redirect()->back();
+            }
+            else
+            {
+                return redirect()->back()->withErrors('Group not found!');
+            }
         }
-        return redirect()->back()->withErrors(['saveError' => 'Avatar is not selected!']);
+        return redirect()->back()->withErrors(['Album' => 'Album not found!']);
     }
     public function group_info($groupid=0)
     {
         $group = new Groups($groupid);
         if($group)
         {
-            if($group->isGroupOpen())
+            if($group->isGroupOpen() or Auth::user()->IsAdmin())
             {
                 $followers = $group->getGroupFollows();
                 $followers->load('user');
                 //$posts->load('user','group');
                 $posts = $group->getGroupPosts()->load('user','group');
                 //dd(__METHOD__,$posts->count());
-                $posts = self::paginateCollection($posts,20);
-                //dd(__METHOD__,$posts);
-                $albums = $group->getGroupAlbum();
-                //dd(__METHOD__,$album);
+                $posts = parent::paginateCollection($posts,20);
+                //dd(__METHOD__,$albums);
+                $albums = $group->getGroupAlbum()->reverse();
+                $albums->load('albumunit');
+                //dd(__METHOD__,$albums);
+                //$albums->push($followers);
                 $group = $group->getGroup();
+                if($albums->count() == 0)
+                {
+                    $hash_name = 'no-avatar.png';
+                    $patch = 'no-avatar.png';
+                    if($group->avatar)
+                    {
+                        $hash_name = $group->hash_name;
+                        $patch = $group->patch;
+                    }
+                    $albums = Album::create([
+                        'group_id'=>$group->id,
+                        'user_id'=>$group->user_id,
+                        'name' => $group->name,
+                        'visible'=>true,
+                        'dir'=>'group/'.$group->name,
+                        'location'=>'group',
+                        'description'=>'Main Album',
+                        'public'=>true,
+                        'open'=>true,
+                        'lock'=>false,
+                        'lock_key'=>'null',
+                        'rate'=>0,
+                        'hash_name'=>$hash_name,
+                        'patch'=>$patch,
+                    ]);
+                }
                 $group->visits++;
                 $group->save();
+                session()->flash('groupid',$group->id);
                 return view('group')
                     ->with('followers',$followers)
                     ->with('posts',$posts)
@@ -292,27 +324,6 @@ class GroupController extends MainController
         {
             return redirect()->back()->withErrors('Group not found!');
         }
-    }
-    public function paginateCollection($collection, $perPage, $pageName = 'page', $fragment = null)
-    {
-        $currentPage = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage($pageName);
-        $currentPageItems = $collection->slice(($currentPage - 1) * $perPage, $perPage);
-        parse_str(request()->getQueryString(), $query);
-        unset($query[$pageName]);
-        $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
-            $currentPageItems,
-            $collection->count(),
-            $perPage,
-            $currentPage,
-            [
-                'pageName' => $pageName,
-                'path' => \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPath(),
-                'query' => $query,
-                'fragment' => $fragment
-            ]
-        );
-
-        return $paginator;
     }
     public function group_add(Request $request)
     {

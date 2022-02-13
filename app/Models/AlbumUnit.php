@@ -6,37 +6,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Album extends Model
+class AlbumUnit extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
-        'group_id',
+        'album_id',
+        'post_id',
         'user_id',
         'name',
-        'visible',
-        'dir',
-        'location',
-        'description',
-        'public',
-        'open',
-        'lock',
-        'lock_key',
+        'format',
+        'discription',
         'rate',
-        'avatar',
         'hash_name',
         'patch',
     ];
 
     protected $dates = ['deleted_at'];
 
-    public function  albumunit()
+    public function album()
     {
-        return $this->hasMany(AlbumUnit::class,'album_id');
-    }
-    public function user()
-    {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Album::class);
     }
 }

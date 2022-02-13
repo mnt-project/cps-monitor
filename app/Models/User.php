@@ -104,4 +104,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tabs::class,'user_id');
     }
+    public function albums()
+    {
+        return $this->hasMany(Album::class,'user_id');
+    }
 }

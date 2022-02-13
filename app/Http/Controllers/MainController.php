@@ -9,14 +9,6 @@ use Illuminate\Support\Facades\App;
 
 class MainController extends Controller
 {
-
-    public function index()
-    {
-        if(Auth::check())
-        {
-
-        }return redirect(route('user.login'))->withErrors('Ошибка авторизации!');
-    }
     public function set_language($lang)
     {
         //
@@ -26,6 +18,27 @@ class MainController extends Controller
             App::setLocale($lang);
             return redirect(route('group.list'));
         }
+    }
+    public function paginateCollection($collection, $perPage, $pageName = 'page', $fragment = null)
+    {
+        $currentPage = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage($pageName);
+        $currentPageItems = $collection->slice(($currentPage - 1) * $perPage, $perPage);
+        parse_str(request()->getQueryString(), $query);
+        unset($query[$pageName]);
+        $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
+            $currentPageItems,
+            $collection->count(),
+            $perPage,
+            $currentPage,
+            [
+                'pageName' => $pageName,
+                'path' => \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPath(),
+                'query' => $query,
+                'fragment' => $fragment
+            ]
+        );
+
+        return $paginator;
     }
     //
 }

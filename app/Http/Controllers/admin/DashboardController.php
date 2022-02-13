@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\cps\admin\Connect;
 use App\cps\Groups;
 use App\cps\user\Tabs;
+use App\Http\Controllers\MainController;
 use App\Models\Address;
 use App\Models\Group;
 use App\Models\JournalConnections;
@@ -16,7 +17,7 @@ use App\Models\Settings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class DashboardController extends MainController
 {
     protected $items = ['Connections', 'Community', 'Groups','Journal'];
     public function connections(Request $request,$sort=0,$method='asc',$show=0,$connect=0)
@@ -61,11 +62,12 @@ class DashboardController extends Controller
     }
     public function journalList($sort=0,$method='asc',$show=0)
     {
-        $lines = ['20 items', '50 items', '100 items'];
+        $lines = ['unique','20 items', '50 items', '100 items'];
         $sortname = ['By id', 'By agents', 'By date'];
         $perPage=20;
         switch ($show)
         {
+            case 0:{$perPage=-1;break;}
             case 1:{$perPage=50;break;}
             case 2:{$perPage=100;break;}
         }
@@ -75,8 +77,16 @@ class DashboardController extends Controller
             case 1:{$order='agent';break;}
             case 2:{$order='updated_at';break;}
         }
-        $ips = JournalConnections::with('address')->orderBy($order, $method)->paginate($perPage);
-        //dd(__METHOD__,$ips);
+        //$ips = JournalConnections::with('address')->orderBy($order, $method)->paginate($perPage);
+        if($perPage<0)
+        {
+            $ips = JournalConnections::with('address')->get()->unique('visitor');
+            $ips = parent::paginateCollection($ips,20);
+        }
+        else
+        {
+            $ips = JournalConnections::with('address')->orderBy($order, $method)->paginate($perPage);
+        }
         return view('admin.journal')
             ->with('sort',$sort)
             ->with('sortname',$sortname)

@@ -52,7 +52,7 @@ class Group extends Model
     }
     public function  album()
     {
-        return $this->hasMany(Album::class,'album_id', 'albumid');
+        return $this->hasMany(Album::class,'group_id');
     }
     public function groupFollowCount()
     {

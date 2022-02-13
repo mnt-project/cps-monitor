@@ -1,7 +1,7 @@
 <div class="modal fade" id="album" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action={{ route('group.album',$group) }} enctype="multipart/form-data">
+            <form method="post" action={{ route('album.unit.store',$group->id) }} enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title">Add new image</h5>
