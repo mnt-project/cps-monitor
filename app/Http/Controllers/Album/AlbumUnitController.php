@@ -6,6 +6,8 @@ use App\cps\Groups;
 use App\Http\Controllers\MainController;
 use App\Models\Album;
 use App\Models\AlbumUnit;
+use App\Models\Group;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,57 +45,37 @@ class AlbumUnitController extends MainController
     public function store(Request $request,Album $album)
     {
         //dd(__METHOD__,$album);
-        if(session()->has('groupid'))
+        if ($request->hasFile('image'))
         {
-            $group = (new Groups(session('groupid')))->getGroup();
-            if(empty($group->albumid))
-            {
-                $id=$group->id;
-                while (AlbumUnit::where("album_id", "=", $id)->first() instanceof AlbumUnit)
-                {
-                    $id++;
-                }
-                $group->albumid = $id;
-                $group->save();
-            }else $id=$group->albumid;
-        }
-        else
-        {
-            //Todo: Привязка к альбомов к постам if(session()->has('postid'))
-            $id=0;
-            while (AlbumUnit::where("album_id", "=", $id)->first() instanceof AlbumUnit)
-            {
-                $id++;
-            }
-        }
-        //Todo: change file name
-        if ($request->hasFile('album'))
-        {
-            $file = $request->file('album');
-            $discription = $request->input('discription');
+            $file = $request->file('image');
             $extension = $file->extension();
-            $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $name = $request->get('unitName');
+            if(empty($name))$name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $hash_name = $file->hashName();
             $path = $file->storeAs(
                 'public/groups/albums', $hash_name
             );
             AlbumUnit::create([
-                'album_id' => $id,
+                'album_id' => $album->id,
                 'post_id' => 0,
                 'user_id' => Auth::id(),
+                'comment_id'=>0,
+                'blocked'=>false,
+                'visible'=>$request->get('visible',0),
+                'public'=>$request->get('public',0),
+                'open'=>$request->get('open',0),
                 'name' => $name,
                 'format'=> $extension,
-                'discription'=>$discription,
+                'discription'=>$request->get('description'),
                 'rate'=> 0,
                 'hash_name'=>$hash_name,
                 'patch'=>$path,
             ]);
-            session()->flash('success','Group '.$group->name.' album foto added!');
+            session()->flash('success',$album->name.' album foto added!');
             return redirect()->back();
         }
-        return redirect()->back()->withErrors(['saveError' => 'Avatar is not selected!']);
+        return redirect()->back()->withErrors('Image not found!');
     }
-
     /**
      * Display the specified resource.
      *
@@ -134,14 +116,13 @@ class AlbumUnitController extends MainController
      * Remove the specified resource from storage.
      *
      * @param Album $album
-     * @param \App\Models\AlbumUnit $albumUnit
+     * @param AlbumUnit $unit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Album $album, AlbumUnit $albumUnit)
+    public function destroy(Album $album, AlbumUnit $unit)
     {
-        //
-        session()->flash('warning','Album unit '.$album->id.' delete!');
-        $album->delete();
-        return redirect()->route('group.info',session('groupid'));
+        session()->flash('warning',$album->name.' unit delete!');
+        $unit->delete();
+        return redirect()->route('group.album',$album->id);
     }
 }

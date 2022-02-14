@@ -1,16 +1,18 @@
-<div class="container-fluid mt-5">
+<div class="container-fluid">
     @if($album->user_id == \Illuminate\Support\Facades\Auth::id())
         <a data-target="#avatar" role="button" data-toggle="modal">
             <img class="img-thumbnail" src={{ Illuminate\Support\Facades\Storage::url($album->patch) }} class="img-thumbnail" alt={{ Illuminate\Support\Facades\Storage::url($album->hash_name) }}>
         </a>
         @include('inc.album.modal-titel')
     @else
-        <a data-target="#imgview" role="button" data-toggle="modal">
+        <a data-target="#album" role="button" data-toggle="modal">
             <img class="img-thumbnail" src={{ Illuminate\Support\Facades\Storage::url($album->patch) }} class="img-thumbnail" alt={{ Illuminate\Support\Facades\Storage::url($album->hash_name) }}>
         </a>
-        @include('inc.group.modal-imgview')
+        @include('inc.album.modal-albumavatar')
     @endif
-    <div class="text-center"><p><h3>{{ $album->name }}</h3>
+    <h4 class="text-center">{{ $album->name }}</h4>
+    <div class="text-center">
+
         @if($album->lock)
             <span class="badge bg-warning">locked</span>
         @endif
@@ -27,15 +29,13 @@
         @else
             <span class="badge bg-warning">unvisible</span>
         @endif
-        {{--            <span class="badge bg-info">{{$group->user->login}}</span>--}}
     </div>
-    <div class="row">
-        <h5>{{$album->name}}</h5>
-        <p>{{$album->description}}</p>
-        <p class="mt-2">{{$album->location}}</p>
-        <p class="mt-2">{{ \Carbon\Carbon::parse($album->created_at)->format('d.m.Y H:i')}}</p>
-        <p class="mt-2">Creator: <a href="{{ route('user.info',$album->user->id) }}"><span class="bi bi-person-circle">{{$album->user->login}}</span></a></p>
-        <p class="mt-2">Uploads: {{$albumunits->count()}}</p>
+    <div class="row text-center">
+        <strong>{{$album->dir}}</strong>
+        <p><small>{{$album->description}}</small></p>
+        <p>{{ \Carbon\Carbon::parse($album->created_at)->format('d.m.Y H:i')}}</p>
+        <p>Creator: <a href="{{ route('user.info',$album->user->id) }}"><span class="bi bi-person-circle">{{$album->user->login}}</span></a></p>
+        <p>Uploads: {{$albumunits->count()}}</p>
         @auth
             @if($album->open)
                 <div class="row mt-2">

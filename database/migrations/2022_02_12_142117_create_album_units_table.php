@@ -18,6 +18,11 @@ class CreateAlbumUnitsTable extends Migration
             $table->unsignedBigInteger('album_id');
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('comment_id');
+            $table->boolean('blocked')->default(false);
+            $table->boolean('visible')->default(true);
+            $table->boolean('public')->default(true);
+            $table->boolean('open')->default(true);
             $table->string('name')->default('unknown');
             $table->string('format')->default('unknown');
             $table->string('discription')->default('empty');

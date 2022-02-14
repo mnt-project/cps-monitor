@@ -55,7 +55,7 @@ class AlbumController extends MainController
             $path = 'no-avatar.png';
         }
         $group = (new Groups(session('groupid')))->getGroup();
-        $albums = Album::create([
+        $album = Album::create([
             'group_id'=>$group->id,
             'user_id'=>Auth::id(),
             'name' => $request->get('AlbumName'),
@@ -71,7 +71,7 @@ class AlbumController extends MainController
             'hash_name'=>$hash_name,
             'patch'=>$path,
         ]);
-        dd(__METHOD__,$albums);
+        return redirect()->route('group.album',$album);
     }
     /**
      * Display the specified resource.

@@ -39,7 +39,7 @@
     <div class="container">
         <div class="row">
             @foreach ($groups as $group)
-                @include('inc.group.group-thumbnail',$group)
+                @include('inc.group.group-thumbnail')
             @endforeach
         </div>
     </div>

@@ -7,19 +7,30 @@
 @section('content-header')
 
     <h4>{{ $album->name }}</h4>
-    <div class="container ms-4">
-        <div class="col-12 text-start">
-            <a href="{{route('group.list')}}">Groups</a><b> / </b>
-            <a href="{{route('group.info', $group->id)}}">{{ $group->name }}</a><b> / </b>
-            <a href="{{route('group.album', $album)}}">{{ $album->name }}</a>
-        </div>
-    </div>
+    <nav style="--bs-breadcrumb-divider: '<';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('group.list')}}">Groups</a></li>
+            <li class="breadcrumb-item"><a href="{{route('group.info', $group->id)}}">{{ $group->name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $album->name }}</li>
+        </ol>
+    </nav>
+    @include('inc.group.album',['addflag'=>false])
 @endsection
 @section('content-text')
-
-    @auth
-        @include('inc.group.album')
-    @endauth
+    @if($albumunits->count()>0)
+        <div class="container">
+            <div class="row">
+                @foreach($albumunits as $albumunit)
+                    @include('inc.album.unit-thumbnail')
+                @endforeach
+            </div>
+        </div>
+    @else
+        <a data-target="#unitadd" role="button" data-toggle="modal">
+            <img class="img_wrap my-5" src="{{Illuminate\Support\Facades\Storage::url('add-picture.png')}}" alt="{{ Illuminate\Support\Facades\Storage::url('add-picture.png') }}">
+        </a>
+        @include('inc.album.modal-unitadd',['action'=>0,'name'=>'Create'])
+    @endisset
 @endsection
 @section('content-info')
 

@@ -13,12 +13,13 @@
             <a href="{{route('group.info', $group->id)}}">{{ $group->name }}</a>
         </div>
     </div>
+    @include('inc.group.album',['addflag'=>true])
 @endsection
 @section('content-text')
 
     @auth
         @include('inc.group.post-form',['text' => session()->has('quote') ? session('quote') : '' ,'group'=>$group->id])
-        @include('inc.group.album')
+
     @endauth
     @include('inc.group.post')
     <div class="d-flex justify-content-center">
