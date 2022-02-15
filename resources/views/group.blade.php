@@ -7,12 +7,7 @@
 @section('content-header')
 
     <h4>{{ $group->name }}</h4>
-    <div class="container ms-4">
-        <div class="col-12 text-start">
-            <a href="{{route('group.list')}}">Groups</a><b> / </b>
-            <a href="{{route('group.info', $group->id)}}">{{ $group->name }}</a>
-        </div>
-    </div>
+    <x-breadcrumb :links="$links"/>
     @include('inc.group.album',['addflag'=>true])
 @endsection
 @section('content-text')

@@ -47,7 +47,6 @@
                     <button class="btn btn-outline-warning" data-target="#albumedit" role="button" data-toggle="modal">
                         Edit Album
                     </button>
-                    @include('inc.album.modal-edit',['action'=>1,'name'=>'Edit'])
                 </div>
             @endif
         @endauth
@@ -55,4 +54,5 @@
             <a href="{{ route('group.info',session('groupid')) }}" class="btn btn-primary mt-2">Exit</a>
         </div>
     </div>
+    @include('inc.album.modal-edit',['action'=>1,'name'=>'Edit'])
 </div>

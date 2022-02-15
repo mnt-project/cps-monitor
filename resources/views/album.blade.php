@@ -7,13 +7,8 @@
 @section('content-header')
 
     <h4>{{ $album->name }}</h4>
-    <nav style="--bs-breadcrumb-divider: '<';" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('group.list')}}">Groups</a></li>
-            <li class="breadcrumb-item"><a href="{{route('group.info', $group->id)}}">{{ $group->name }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ $album->name }}</li>
-        </ol>
-    </nav>
+    <x-breadcrumb :links="$links"/>
+
     @include('inc.group.album',['addflag'=>false])
 @endsection
 @section('content-text')

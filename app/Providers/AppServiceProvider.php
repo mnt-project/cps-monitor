@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\View\Components\Breadcrumb;
 use App\View\Components\loginButton;
 use App\View\Components\SwitchButton;
 use Illuminate\Support\ServiceProvider;
@@ -32,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         Blade::component('switch-button', SwitchButton::class);
         Blade::component('login-button', loginButton::class);
+        Blade::component('breadcrumb', Breadcrumb::class);
         Blade::if('isadmin', function (User $user) {
             return !empty($user->settings->admin);
         });

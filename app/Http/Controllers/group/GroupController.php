@@ -226,14 +226,21 @@ class GroupController extends MainController
                 {
                     if($album->open)
                     {
+
                         $albumunits = $album->albumunit;
                         $albums = $group->getGroupAlbum()->reverse();
                         $albums->load('albumunit');
                         //dd(__METHOD__,$albums);
                         //$albums->push($followers);
                         $group = $group->getGroup();
+                        $links = [
+                            ['name'=>'Groups','route'=>'group.list','id'=>null],
+                            ['name'=>$group->name,'route'=>'group.info','id'=>$group->id],
+                            ['name'=>$album->name,'route'=>'group.album','id'=>$album->id]
+                        ];
                         session()->flash('groupid',$group->id);
                         return view('album')
+                            ->with('links',$links)
                             ->with('album',$album)
                             ->with('albums',$albums)
                             ->with('albumunits',$albumunits)
@@ -278,6 +285,10 @@ class GroupController extends MainController
                 //dd(__METHOD__,$albums);
                 //$albums->push($followers);
                 $group = $group->getGroup();
+                $links = [
+                    ['name'=>'Groups','route'=>'group.list','id'=>null],
+                    ['name'=>$group->name,'route'=>'group.info','id'=>$group->id]
+                ];
                 if($albums->count() == 0)
                 {
                     $hash_name = 'no-avatar.png';
@@ -308,6 +319,7 @@ class GroupController extends MainController
                 $group->save();
                 session()->flash('groupid',$group->id);
                 return view('group')
+                    ->with('links',$links)
                     ->with('followers',$followers)
                     ->with('posts',$posts)
                     ->with('albums',$albums)

@@ -29,3 +29,12 @@ $primary: white;
     object-fit: cover;
     object-position: 0 0;
 }
+.link_text
+{
+    text-decoration: none;
+    color: black;
+    &:hover
+    {
+        color: dimgrey;
+    }
+}
