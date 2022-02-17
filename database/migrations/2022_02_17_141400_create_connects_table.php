@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateConnectionsTable extends Migration
+class CreateConnectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class CreateConnectionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('connections', function (Blueprint $table) {
+        Schema::create('connects', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('ip_id');
+            $table->unsignedBigInteger('user_id');
             $table->ipAddress('visitor');
+            $table->string('agent');
+            $table->string('route')->default('unknown');
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ class CreateConnectionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('connections');
+        Schema::dropIfExists('connects');
     }
 }

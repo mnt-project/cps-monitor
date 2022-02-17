@@ -108,4 +108,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Album::class,'user_id');
     }
+    public function ip()
+    {
+        return $this->hasMany(Ip::class,'user_id');
+    }
 }

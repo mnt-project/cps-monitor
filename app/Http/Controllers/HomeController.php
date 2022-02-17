@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\cps\admin\Connect;
 use App\Models\Group;
 use App\Models\User;
 use Carbon\Carbon;
@@ -14,7 +13,6 @@ class HomeController extends Controller
     //
     public function index()
     {
-        $userip = Request::ip();
         $users = User::get();
         $groups = Group::get();
         $usersOnline = collect();
@@ -33,8 +31,7 @@ class HomeController extends Controller
                 $groupsPublic->push($group);
             }
         }
-        $connection = new Connect($userip);
-        Log::channel('connections')->info('[IP:'.$connection->getIp()->visitor.'] Guest income | Last connect: '.$connection->getLastconnect());
+        Log::channel('connections')->info('[IP:] Guest income | Last connect: ');
         return view('home')
             ->with('usersOnline',$usersOnline)
             ->with('groupsPublic',$groupsPublic);

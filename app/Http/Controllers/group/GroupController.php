@@ -282,7 +282,10 @@ class GroupController extends MainController
                 //dd(__METHOD__,$albums);
                 $albums = $group->getGroupAlbum()->reverse();
                 $albums->load('albumunit');
-                //dd(__METHOD__,$albums);
+//                $albums->map(function ($item, $key) {
+//                    return dump($item);
+//                });
+//                dd(__METHOD__,$albums);
                 //$albums->push($followers);
                 $group = $group->getGroup();
                 $links = [

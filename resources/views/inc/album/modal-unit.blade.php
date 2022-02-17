@@ -1,5 +1,5 @@
 <div class="modal fade" id="{{'unit_'.$loop->iteration}}" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 @if($albumunit->format == 'webp')

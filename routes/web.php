@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Album\AlbumController;
+use App\Http\Controllers\Album\AlbumUnitController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\user\MessagesController;
@@ -26,9 +28,7 @@ Route::name('admin.')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::middleware(['access'])->group(function () {//access
             Route::prefix('dashboard')->group(function () {
-                Route::get('/connections/{sort?}/{method?}/{show?}/{connect?}', [DashboardController::class, 'connections'])->name('connections');
-                Route::post('/address/add/{id}', [DashboardController::class, 'address_add'])->name('addressadd');
-                Route::get('/address/{id}', [DashboardController::class, 'address_info'])->name('addressinfo');
+                Route::get('/connections/{show?}/{sort?}/{method?}', [DashboardController::class, 'connections'])->name('connections');
                 Route::get('/community/{tabid?}/{sort?}/{view?}', [DashboardController::class, 'community'])->name('community');
                 Route::get('/groups/{sort?}/{view?}', [DashboardController::class, 'groups'])->name('groups');
                 Route::get('/user/{user}', [DashboardController::class, 'userEdit'])->name('useredit');
@@ -92,8 +92,8 @@ Route::middleware(['connect'])->group(function () {
             });
         });
     });
-    Route::resource('album.unit', \App\Http\Controllers\Album\AlbumUnitController::class);
-    Route::resource('album', \App\Http\Controllers\Album\AlbumController::class);
+    Route::resource('album.unit',AlbumUnitController::class);
+    Route::resource('album',AlbumController::class);
     Route::prefix('post')->group(function () {
         Route::name('post.')->group(function () {
             Route::middleware(['auth'])->group(function () {

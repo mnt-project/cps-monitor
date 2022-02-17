@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\cps\admin\Connect;
+use App\cps\admin\Network;
 use App\cps\Groups;
 use App\cps\user\Tabs;
 use App\Http\Controllers\MainController;
-use App\Models\Address;
 use App\Models\Group;
-use App\Models\JournalConnections;
-use Illuminate\Pagination\LengthAwarePaginator;
-use App\Http\Controllers\Controller;
-use App\Models\Connections;
+use App\Models\Connect;
+use App\Models\Ip;
 use App\Models\User;
 use App\Models\Settings;
 use Carbon\Carbon;
@@ -20,45 +17,34 @@ use Illuminate\Http\Request;
 class DashboardController extends MainController
 {
     protected $items = ['Connections', 'Community', 'Groups','Journal'];
-    public function connections(Request $request,$sort=0,$method='asc',$show=0,$connect=0)
+    public function connections(Request $request,$show=0,$sort=0,$method='asc')
     {
-        $userip = $request->ip();
         $lines = ['20 items', '50 items', '100 items'];
-        $sortname = ['By id', 'By connects', 'By date'];
-        $perPage=20;
+        $sortname = ['By ip', 'By name', 'By date', 'By user_id', 'By rights', 'By ban', 'By bandate'];
         switch ($show)
         {
             case 1:{$perPage=50;break;}
             case 2:{$perPage=100;break;}
+            default:{$perPage=20;break;}
         }
         switch ($sort)
         {
-            case 0:{$order='id';break;}
-            case 1:{$order='visits';break;}
-            case 2:{$order='updated_at';break;}
+            case 0:{$order='ip';break;}
+            case 1:{$order='name';break;}
+            case 2:{$order='user_id';break;}
+            case 3:{$order='rights';break;}
+            case 4:{$order='ban';break;}
+            case 5:{$order='bandate';break;}
         }
-        $ips = Connections::with('address')->orderBy($order, $method)->paginate($perPage);
-        if($connect>0)
-        {
-            $ipinfo=Connections::findOrFail($connect);
-            $ipinfo->load('address');
-            //dd(__METHOD__,$ipinfo);
-        }
-        else
-        {
-            $ipinfo=(new Connect($userip))->getIp();
-        }
-        //dd(__METHOD__,$ips);
+        $ips = Ip::with('connect','user')->orderBy($order, $method)->paginate($perPage);
         return view('admin.connections')
-            ->with('sort',$sort)
-            ->with('sortname',$sortname)
             ->with('show',$show)
-            ->with('lines',$lines)
-            ->with('ips',$ips)
-            ->with('connect',$connect)
-            ->with('ipinfo',$ipinfo)
+            ->with('sort',$sort)
             ->with('method',$method)
-            ->with('items',$this->items);
+            ->with('sortname',$sortname)
+            ->with('lines',$lines)
+            ->with('items',$this->items)
+            ->with('ips',$ips);
     }
     public function journalList($sort=0,$method='asc',$show=0)
     {
@@ -77,16 +63,7 @@ class DashboardController extends MainController
             case 1:{$order='agent';break;}
             case 2:{$order='updated_at';break;}
         }
-        //$ips = JournalConnections::with('address')->orderBy($order, $method)->paginate($perPage);
-        if($perPage<0)
-        {
-            $ips = JournalConnections::with('address')->get()->unique('visitor');
-            $ips = parent::paginateCollection($ips,20);
-        }
-        else
-        {
-            $ips = JournalConnections::with('address')->orderBy($order, $method)->paginate($perPage);
-        }
+        $ips = Connect::with('ip')->orderBy($order, $method)->paginate($perPage);
         return view('admin.journal')
             ->with('sort',$sort)
             ->with('sortname',$sortname)
@@ -95,28 +72,6 @@ class DashboardController extends MainController
             ->with('ips',$ips)
             ->with('method',$method)
             ->with('items',$this->items);
-    }
-    public function address_info($id)
-    {
-        $ip=Connections::findOrFail($id);
-        dd(__METHOD__,$ip);
-
-    }
-    public function address_add(Request $request,$id)
-    {
-        $ip = Connections::findOrFail($id);
-        $address = Address::where('ipaddress',$ip->visitor)->get();
-        if(!empty($address))
-        {
-            //dd(__METHOD__,$address);
-            Address::create([
-                'ipaddress'=>$ip->visitor,
-                'titel'=>$request->get('titel'),
-                'note'=>$request->get('note'),
-            ]);
-            session()->flash('success','IP:['.$ip->visitor.'] addeded in address book!');
-        }
-        return redirect()->back();
     }
     public function community($sort=0,$view=0)
     {
