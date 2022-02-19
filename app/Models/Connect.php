@@ -19,6 +19,10 @@ class Connect extends Model
     {
         return $this->belongsTo(Ip::class);
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public static function connectCreate($ip_id, $user_id, $visitor, $agent, $route)
     {
         return Connect::create([

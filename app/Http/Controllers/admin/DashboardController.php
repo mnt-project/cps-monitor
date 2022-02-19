@@ -16,62 +16,53 @@ use Illuminate\Http\Request;
 
 class DashboardController extends MainController
 {
-    protected $items = ['Connections', 'Community', 'Groups','Journal'];
-    public function connections(Request $request,$show=0,$sort=0,$method='asc')
+    protected $items = ['Connects', 'Community', 'Groups'];
+    public function connects(Request $request,$ip='all',$show=0,$sort=0,$method='asc')
     {
         $lines = ['20 items', '50 items', '100 items'];
-        $sortname = ['By ip', 'By name', 'By date', 'By user_id', 'By rights', 'By ban', 'By bandate'];
         switch ($show)
         {
             case 1:{$perPage=50;break;}
             case 2:{$perPage=100;break;}
             default:{$perPage=20;break;}
         }
-        switch ($sort)
+        if($ip != 'all')
         {
-            case 0:{$order='ip';break;}
-            case 1:{$order='name';break;}
-            case 2:{$order='user_id';break;}
-            case 3:{$order='rights';break;}
-            case 4:{$order='ban';break;}
-            case 5:{$order='bandate';break;}
+            $sortname = ['By ID', 'By user', 'By agent', 'By route'];
+            switch ($sort)
+            {
+                case 0:{$order='id';break;}
+                case 1:{$order='user_id';break;}
+                case 2:{$order='agent';break;}
+                case 3:{$order='route';break;}
+            }
+            $connects = Connect::with('ip','user')->where('visitor',$ip)->orderBy($order, $method)->paginate($perPage);
+            $ips = $ip;
         }
-        $ips = Ip::with('connect','user')->orderBy($order, $method)->paginate($perPage);
-        return view('admin.connections')
+        else
+        {
+            $sortname = ['By ip', 'By name', 'By date', 'By user_id', 'By rights', 'By ban', 'By bandate'];
+            switch ($sort)
+            {
+                case 0:{$order='ip';break;}
+                case 1:{$order='name';break;}
+                case 2:{$order='user_id';break;}
+                case 3:{$order='rights';break;}
+                case 4:{$order='ban';break;}
+                case 5:{$order='bandate';break;}
+            }
+            $ips = Ip::with('connect','user')->orderBy($order, $method)->paginate($perPage);
+            $connects = null;
+        }
+        return view('admin.connects')
             ->with('show',$show)
             ->with('sort',$sort)
             ->with('method',$method)
             ->with('sortname',$sortname)
             ->with('lines',$lines)
             ->with('items',$this->items)
-            ->with('ips',$ips);
-    }
-    public function journalList($sort=0,$method='asc',$show=0)
-    {
-        $lines = ['unique','20 items', '50 items', '100 items'];
-        $sortname = ['By id', 'By agents', 'By date'];
-        $perPage=20;
-        switch ($show)
-        {
-            case 0:{$perPage=-1;break;}
-            case 1:{$perPage=50;break;}
-            case 2:{$perPage=100;break;}
-        }
-        switch ($sort)
-        {
-            case 0:{$order='id';break;}
-            case 1:{$order='agent';break;}
-            case 2:{$order='updated_at';break;}
-        }
-        $ips = Connect::with('ip')->orderBy($order, $method)->paginate($perPage);
-        return view('admin.journal')
-            ->with('sort',$sort)
-            ->with('sortname',$sortname)
-            ->with('show',$show)
-            ->with('lines',$lines)
             ->with('ips',$ips)
-            ->with('method',$method)
-            ->with('items',$this->items);
+            ->with('connects',$connects);
     }
     public function community($sort=0,$view=0)
     {

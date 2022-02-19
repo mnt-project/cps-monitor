@@ -28,7 +28,7 @@ Route::name('admin.')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::middleware(['access'])->group(function () {//access
             Route::prefix('dashboard')->group(function () {
-                Route::get('/connections/{show?}/{sort?}/{method?}', [DashboardController::class, 'connections'])->name('connections');
+                Route::get('/connects/{ip?}/{show?}/{sort?}/{method?}', [DashboardController::class, 'connects'])->name('connects');
                 Route::get('/community/{tabid?}/{sort?}/{view?}', [DashboardController::class, 'community'])->name('community');
                 Route::get('/groups/{sort?}/{view?}', [DashboardController::class, 'groups'])->name('groups');
                 Route::get('/user/{user}', [DashboardController::class, 'userEdit'])->name('useredit');
@@ -37,7 +37,6 @@ Route::name('admin.')->group(function () {
                 Route::get('/user/hidden/{id}', [DashboardController::class, 'user_hidden'])->name('userhidden');
                 Route::get('/group/visibility/{id}', [DashboardController::class, 'groupVisibility'])->name('visibility');
                 Route::get('/group/open/{id}', [DashboardController::class, 'groupOpen'])->name('open');
-                Route::get('/journal/{sort?}/{method?}/{show?}', [DashboardController::class, 'journalList'])->name('journal');
             });
         });
     });

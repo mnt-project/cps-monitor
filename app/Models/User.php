@@ -100,10 +100,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Messages::class,'user_id');
     }
-    public function tabs()
-    {
-        return $this->hasMany(Tabs::class,'user_id');
-    }
     public function albums()
     {
         return $this->hasMany(Album::class,'user_id');
@@ -111,5 +107,9 @@ class User extends Authenticatable
     public function ip()
     {
         return $this->hasMany(Ip::class,'user_id');
+    }
+    public function connect()
+    {
+        return $this->hasMany(Connect::class,'user_id');
     }
 }

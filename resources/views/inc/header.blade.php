@@ -24,7 +24,7 @@
                     </li>
                     @isadmin(Illuminate\Support\Facades\Auth::user())
                         <li class="nav-item me-4">
-                            <a class="nav-link" href="{{ route('admin.connections')}}">Admin Panel</a>
+                            <a class="nav-link" href="{{ route('admin.connects')}}">Admin Panel</a>
                         </li>
                     @endisadmin
                 @endauth
