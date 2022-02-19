@@ -20,7 +20,7 @@ class Network
         if(empty($ip))
         {
             $ip = Ip::ipCreate($visitor,$user_id);
-            dd(__METHOD__,'empty',$ip);
+            //dd(__METHOD__,'empty',$ip);
         }
         if($ip->user_id == 0 and $user_id != 0)
         {
