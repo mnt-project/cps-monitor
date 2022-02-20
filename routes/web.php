@@ -87,7 +87,7 @@ Route::middleware(['connect'])->group(function () {
                 Route::post('avatar/{id}', [GroupController::class, 'group_avatar'])->name('avatar');
                 Route::get('following/{group}', [FollowController::class, 'following'])->name('following');
                 Route::get('unfollowing/{group}', [FollowController::class, 'unfollowing'])->name('unfollowing');
-                Route::get('album/{album}', [GroupController::class, 'group_album'])->name('album');
+                Route::get('album/{album?}', [GroupController::class, 'group_album'])->name('album');
             });
         });
     });

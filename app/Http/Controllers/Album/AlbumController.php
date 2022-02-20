@@ -120,11 +120,14 @@ class AlbumController extends MainController
             );
             $album->avatar = true;
         }
-        $album->name = $request->get('AlbumName');
-        $album->visible = $request->get('visible',0);
-        $album->description = $request->get('description');
-        $album->public = $request->get('public',0);
-        $album->open = $request->get('open',0);
+        if($request->has('Albumname'))
+        {
+            $album->name = $request->get('AlbumName', 'Noname');
+            $album->visible = $request->get('visible',0);
+            $album->description = $request->get('description', 'empty');
+            $album->public = $request->get('public',0);
+            $album->open = $request->get('open',0);
+        }
         $album->save();
         return redirect()->route('group.album',$album);
     }

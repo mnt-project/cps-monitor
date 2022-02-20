@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title-block'){{ $album->name }}@endsection
 @section('content-aside')
+
     @include('inc.album.titel')
 
 @endsection

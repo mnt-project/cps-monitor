@@ -215,7 +215,7 @@ class GroupController extends MainController
         }
         return redirect()->back()->withErrors(['saveError' => 'Avatar is not selected!']);
     }
-    public function group_album(Album $album)
+    public function group_album(Album $album=null)
     {
         if($album)
         {
@@ -264,7 +264,7 @@ class GroupController extends MainController
                 return redirect()->back()->withErrors('Group not found!');
             }
         }
-        return redirect()->back()->withErrors(['Album' => 'Album not found!']);
+        return redirect()->route(session()->has('groupid') ? 'group.info' : 'group.list',session()->has('groupid') ? session('groupid') : null)->withErrors(['Album' => 'Album not found!']);
     }
     public function group_info($groupid=0)
     {
