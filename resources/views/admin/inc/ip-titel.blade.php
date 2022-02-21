@@ -5,7 +5,11 @@
             <p>{{ $ips->name }}</p>
         </div>
         <div class="card-title text-center mt-4">
-            <a class="link_text" href="{{ route('user.info',$ips->user->id) }}"><span class="bi bi-person-circle">{{ $ips->user->login }}</span></a>
+            @isset($ips->user)
+                <a class="link_text" href="{{ route('user.info',$ips->user->id) }}"><span class="bi bi-person-circle">{{ $ips->user->login }}</span></a>
+            @else
+                <a class="link_text" href="#"><span class="bi bi-person-circle">Guest</span></a>
+            @endisset
         </div>
         <div class="card-text">
             <p class="text-center">{{ $ips->description }}</p>

@@ -5,7 +5,7 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="showDrop">
             @for($i = 0; $i < sizeof($lines); $i++)
-                <li><a class="dropdown-item {{($i == $show) ? 'active' : ''}}" href="{{route('admin.connects',['ip'=>$ips,'show'=>$i,'sort'=>$sort,'method'=>$method])}}">{{ $lines[$i] }}</a></li>
+                <li><a class="dropdown-item {{($i == $show) ? 'active' : ''}}" href="{{route('admin.connects',['ip'=>$ips->ip,'show'=>$i,'sort'=>$sort,'method'=>$method])}}">{{ $lines[$i] }}</a></li>
             @endfor
         </ul>
     </div>
@@ -20,7 +20,7 @@
             <ul class="dropdown-menu" aria-labelledby="sortDrop">
 
                 @for($i = 0; $i < sizeof($sortname); $i++)
-                    <li><a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route('admin.connects',['ip'=>$ips,'show'=>$show,'sort'=>$i,'method'=>$method])}}">{{ $sortname[$i] }}</a></li>
+                    <li><a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route('admin.connects',['ip'=>$ips->ip,'show'=>$show,'sort'=>$i,'method'=>$method])}}">{{ $sortname[$i] }}</a></li>
                 @endfor
             </ul>
             <button id="methodDrop" type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -28,7 +28,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="methodDrop">
                 @foreach(['asc','desc'] as $i)
-                    <li><a class="dropdown-item {{($i == $method) ? 'active' : ''}}" href="{{route('admin.connects',['ip'=>$ips,'show'=>$show,'sort'=>$sort,'method'=>$i])}}">{{ $i }}</a></li>
+                    <li><a class="dropdown-item {{($i == $method) ? 'active' : ''}}" href="{{route('admin.connects',['ip'=>$ips->ip,'show'=>$show,'sort'=>$sort,'method'=>$i])}}">{{ $i }}</a></li>
                 @endforeach
             </ul>
         </div>

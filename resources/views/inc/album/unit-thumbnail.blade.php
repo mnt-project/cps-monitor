@@ -13,7 +13,10 @@
                     </div>
                     <div class="row">
                         <div class="d-block d-sm-block d-md-none d-lg-none d-xl-none d-xxl-block">
-                            <p>{{$albumunit->name}}</p>
+                            <i>{{mb_substr($albumunit->name,0,24)}}</i>
+                            @if(strlen($albumunit->name)>24)
+                                <i>{{mb_substr($albumunit->name,24,strlen($albumunit->name))}}</i>
+                            @endif
                             <p>{{$albumunit->discription}}</p>
                         </div>
                     </div>
