@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\IpController;
 use App\Http\Controllers\Album\AlbumController;
 use App\Http\Controllers\Album\AlbumUnitController;
 use Illuminate\Support\Facades\Route;
@@ -21,9 +22,6 @@ use App\Http\Controllers\DefaultTab;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', [HomeController::class,'index'])->name('home');
-
 Route::name('admin.')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::middleware(['access'])->group(function () {//access
@@ -37,6 +35,7 @@ Route::name('admin.')->group(function () {
                 Route::get('/user/hidden/{id}', [DashboardController::class, 'user_hidden'])->name('userhidden');
                 Route::get('/group/visibility/{id}', [DashboardController::class, 'groupVisibility'])->name('visibility');
                 Route::get('/group/open/{id}', [DashboardController::class, 'groupOpen'])->name('open');
+                Route::resource('ip',IpController::class)->only(['update', 'destroy']);
             });
         });
     });
@@ -50,6 +49,7 @@ Route::name('tab.')->group(function () {
 });
 Route::middleware(['connect'])->group(function () {
 
+    Route::get('/', [HomeController::class,'index'])->name('home');
     Route::name('user.')->group(function () {
         Route::middleware(['auth'])->group(function () {
             Route::get('/profile/{id?}/{tabid?}', [UserController::class, 'user_profile'])->name('profile');

@@ -1,10 +1,6 @@
 <div class="list-unstyled text-center mb-4"><h4>Main menu</h4></div>
 <div class="list-group">
-    @empty($connects)
-        @foreach($items as $item)
-            <a class="list-group-item {{$loop->iteration == $itemid ? 'list-group-item-dark' : ''}}" href={{route('admin.'.mb_strtolower($item))}}>{{$item}}</a>
-        @endforeach
-    @else
-        <a class="list-group-item" href={{route('admin.connects','all')}}>Back</a>
-    @endempty
+    @foreach($items as $item)
+        <a class="list-group-item {{$loop->iteration == $itemid ? 'list-group-item-dark' : ''}}" href={{route('admin.'.mb_strtolower($item))}}>{{$item}}</a>
+    @endforeach
 </div>

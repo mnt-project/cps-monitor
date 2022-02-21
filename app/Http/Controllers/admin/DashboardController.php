@@ -37,7 +37,7 @@ class DashboardController extends MainController
                 case 3:{$order='route';break;}
             }
             $connects = Connect::with('ip','user')->where('visitor',$ip)->orderBy($order, $method)->paginate($perPage);
-            $ips = $ip;
+            $ips = Ip::with('user')->where('ip',$ip)->first();
         }
         else
         {
@@ -46,10 +46,11 @@ class DashboardController extends MainController
             {
                 case 0:{$order='ip';break;}
                 case 1:{$order='name';break;}
-                case 2:{$order='user_id';break;}
-                case 3:{$order='rights';break;}
-                case 4:{$order='ban';break;}
-                case 5:{$order='bandate';break;}
+                case 2:{$order='created_at';break;}
+                case 3:{$order='user_id';break;}
+                case 4:{$order='rights';break;}
+                case 5:{$order='ban';break;}
+                case 6:{$order='bandate';break;}
             }
             $ips = Ip::with('connect','user')->orderBy($order, $method)->paginate($perPage);
             $connects = null;

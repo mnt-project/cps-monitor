@@ -6,6 +6,7 @@ namespace App\cps\admin;
 
 use App\Models\Connect;
 use App\Models\Ip;
+use Carbon\Carbon;
 
 class Network
 {
@@ -25,8 +26,9 @@ class Network
         if($ip->user_id == 0 and $user_id != 0)
         {
             $ip->user_id = $user_id;
-            $ip->save();
         }
+        $ip->updated_at = Carbon::now();
+        $ip->save();
         $this->incoming = Connect::connectCreate($ip->id,$user_id,$visitor,$agent,$route);
     }
 
@@ -40,5 +42,9 @@ class Network
     public function getIp()
     {
         return $this->incoming->ip;
+    }
+    public function getIpBan()
+    {
+        return $this->incoming->ip->ban === 1;
     }
 }

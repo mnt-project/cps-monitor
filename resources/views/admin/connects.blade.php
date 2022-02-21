@@ -1,7 +1,12 @@
 @extends('layouts.admin')
 @section('title-block')Admin panel @endsection
 @section('dashboard-aside')
-    @include('admin.inc.aside',['itemid' => 1])
+    @empty($connects)
+        @include('admin.inc.aside',['itemid' => 1])
+    @else
+        @include('admin.inc.ip-titel')
+    @endempty
+
 @endsection
 @section('dashboard-header')
     @empty($connects)

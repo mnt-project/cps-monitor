@@ -20,7 +20,7 @@ class Ip extends Model
         'ban',
         'bandate',
     ];
-    protected $dates = ['deleted_at'];
+    protected $dates = ['bandate','deleted_at'];
 
     public function connect()
     {
