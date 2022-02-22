@@ -12,20 +12,16 @@
                     <div class="form-group row">
                         <label for="ipName" class="sr-only">Ip name:</label>
                         <p><input name="ipName" id="ipName" class="form-control" value=""></p>
-                        <div class="form-group">
-                            <div class="checkbox mb-3">
-                                @if($ips->ban)
-                                    <label><input name="unban" type="checkbox" value=1>Unban</label>
-                                @else
-                                    <label><input name="ban" type="checkbox" value=1>Ban</label>
-                                @endif
-                            </div>
-                        </div>
                         <label for="description" class="sr-only">Ip description:</label>
                         <p><input name="description" id="description" class="form-control" value=""></p>
                     </div>
                 </div>
                 <div class="modal-footer">
+                    @if($ips->ban)
+                        <button type="submit" class="btn btn-success" name="unban" value="1">Unban</button>
+                    @else
+                        <button type="submit" class="btn btn-danger" name="ban" value="1">Ban</button>
+                    @endif
                     <button type="submit" class="btn btn-primary">Save</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>

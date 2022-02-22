@@ -5,11 +5,7 @@
 @endsection
 @section('content-header')
     <h4>Users list</h4>
-    <div class="container ms-4">
-        <div class="col-12 text-start">
-            <a href="#">Users</a><b> / </b>
-        </div>
-    </div>
+    <x-breadcrumb :links="$links"/>
 @endsection
 @section('content-text')
     <table class="table table-hover">

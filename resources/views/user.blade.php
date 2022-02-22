@@ -7,12 +7,7 @@
 
 
     <h4>{{ $user->login }}</h4>
-    <div class="container ms-4">
-        <div class="col-12 text-start">
-            <a href={{ route('user.users') }}>Users</a><b> / </b>
-            <a href="#">{{ $user->login }}</a>
-        </div>
-    </div>
+    <x-breadcrumb :links="$links"/>
 @endsection
 @section('content-text')
 

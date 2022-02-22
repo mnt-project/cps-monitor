@@ -57,6 +57,20 @@
             </div>
         </div>
     @endif
+    @if(session('alert'))
+        <div aria-live="polite" aria-atomic="true" class="position-relative">
+            <div class="toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Alert</strong>
+                    <small class="text-muted">{{\Carbon\Carbon::now()}}</small>
+                    <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    {{ session('alert') }}
+                </div>
+            </div>
+        </div>
+    @endif
 @endif
 @if($errors->any())
     @foreach($errors->all() as $error)

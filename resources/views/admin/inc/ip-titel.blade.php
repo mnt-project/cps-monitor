@@ -22,20 +22,21 @@
             @endif
         </div>
         <div class="card-text mt-4">
-        @if(\Carbon\Carbon::now()->diffInHours($ips->updated_at,false)>0))
+        @if(\Carbon\Carbon::now()->diffInHours($ips->updated_at)>0)
+
             <small class="text-muted">Last update
-                {{ \Carbon\Carbon::now()->diffInHours($ips->updated_at,false)*-1>1000 ? \Carbon\Carbon::now()->diffInYears($ips->updated_at,false)*-1 : \Carbon\Carbon::now()->diffInHours($ips->updated_at,false)*-1}}
-                {{ \Carbon\Carbon::now()->diffInHours($ips->updated_at,false)*-1>1000 ? ' years' : ' hours' }} ago...
+                {{ \Carbon\Carbon::now()->diffInHours($ips->updated_at)>1000 ? \Carbon\Carbon::now()->diffInYears($ips->updated_at) : \Carbon\Carbon::now()->diffInHours($ips->updated_at)}}
+                {{ \Carbon\Carbon::now()->diffInHours($ips->updated_at)>1000 ? ' years' : ' hours' }} ago...
             </small>
         @else
-            @if(\Carbon\Carbon::now()->diffInMinutes($ips->updated_at,false)*-1>0)
+            @if(\Carbon\Carbon::now()->diffInMinutes($ips->updated_at)>0)
                 <small class="text-muted">Last update
-                    {{ \Carbon\Carbon::now()->diffInMinutes($ips->updated_at,false)*-1}}
+                    {{ \Carbon\Carbon::now()->diffInMinutes($ips->updated_at)}}
                     minutes ago...
                 </small>
             @else
                 <small class="text-muted">Last update
-                    {{ \Carbon\Carbon::now()->diffInSeconds($ips->updated_at,false)*-1}}
+                    {{ \Carbon\Carbon::now()->diffInSeconds($ips->updated_at)}}
                     seconds ago...
                 </small>
             @endif
@@ -51,11 +52,8 @@
                     @include('admin.inc.modal-ip-edit')
                 </div>
                 <div class="col">
-                    <form action="{{ route('admin.ip.destroy',$ips) }}" method="POST">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit" class="btn btn-danger btn-sm text-center mt-1">Clear</button>
-                    </form>
+                    <a class="btn btn-danger btn-sm mt-1" data-target="#clearlog" role="button" data-toggle="modal">Clear</a>
+                    @include('admin.inc.modal-clearlog')
                 </div>
             </div>
         </div>

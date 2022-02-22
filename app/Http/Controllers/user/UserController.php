@@ -98,16 +98,25 @@ class UserController extends MainController
         self::user_create_settings($user);
         $follows = Follow::where('user_id',$user->id)->get();
         if($follows)$follows->load('group');
+        $links = [
+            ['name'=>'Users','route'=>'user.users','id'=>null],
+            ['name'=>$user->login,'route'=>'user.info','id'=>$user->id],
+        ];
         return view('user')
+            ->with('links',$links)
             ->with('user', $user)
             ->with('follows', $follows);
     }
     public function all_users()
     {
         $users = User::with('settings')->where('id','>',0)->paginate(30);
+        $links = [
+            ['name'=>'Users','route'=>'user.users','id'=>null],
+        ];
         if($users)
         {
             return view('users')
+                ->with('links',$links)
                 ->with('users', $users);
         }
         return redirect()->back()->withErrors('Users not found!');

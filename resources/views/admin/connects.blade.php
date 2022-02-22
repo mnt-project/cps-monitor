@@ -17,8 +17,10 @@
 @endsection
 @section('dashboard-text')
     @empty($connects)
+        <x-sort-bar route="admin.connects" argname="ip" value="all" :sort="$sort" :show="$show" :method="$method" :sortname="$sortname" :lines="$lines"/>
         @include('admin.inc.ips')
     @else
+        <x-sort-bar route="admin.connects" argname="ip" :value="$ips->ip" :sort="$sort" :show="$show" :method="$method" :sortname="$sortname" :lines="$lines"/>
         @include('admin.inc.connects')
     @endempty
 @endsection

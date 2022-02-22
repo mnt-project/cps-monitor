@@ -51,7 +51,8 @@ class IpController extends Controller
     public function destroy(Ip $ip)
     {
         $count = $ip->connect()->delete();
-        session()->flash('success','Log for IP: '.$ip->ip.' is are cleared! Removed: '.$count.' records');
+        if($count>0)session()->flash('alert','Log for IP: '.$ip->ip.' is are cleared! Removed: '.$count.' records');
+        else session()->flash('warning','Log for IP: '.$ip->ip.' is are already empty');
         return redirect()->back();
     }
 }
