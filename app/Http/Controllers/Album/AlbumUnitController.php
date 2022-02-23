@@ -123,6 +123,6 @@ class AlbumUnitController extends MainController
     {
         session()->flash('warning',$album->name.' unit delete!');
         $unit->delete();
-        return redirect()->route('group.album',$album->id);
+        return redirect()->route('album.show',$album);
     }
 }

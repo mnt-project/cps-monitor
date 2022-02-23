@@ -51,7 +51,11 @@
             @endif
         @endauth
         <div class="row mt-4">
-            <a href="{{ route('group.info',session('groupid')) }}" class="btn btn-primary mt-2">Exit</a>
+            @if($album->group)
+                <a href="{{ route('group.info',$album->group) }}" class="btn btn-primary mt-2">Exit</a>
+            @else
+                <a href="{{ route('user.info',$album->user) }}" class="btn btn-primary mt-2">Exit</a>
+            @endif
         </div>
     </div>
     @include('inc.album.modal-edit',['action'=>1,'name'=>'Edit'])

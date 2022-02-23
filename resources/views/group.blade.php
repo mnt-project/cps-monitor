@@ -8,7 +8,7 @@
 
     <h4>{{ $group->name }}</h4>
     <x-breadcrumb :links="$links"/>
-    @include('inc.group.album',['addflag'=>true])
+    @include('inc.album.album-menu',['addflag'=>true,'show'=>'group'])
 @endsection
 @section('content-text')
 

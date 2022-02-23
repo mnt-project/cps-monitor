@@ -11,6 +11,7 @@
 @endsection
 @section('content-text')
 
+    @include('inc.album.album-menu',['addflag'=>true,'show'=>'user'])
     @include('inc.user.info')
 
 @endsection

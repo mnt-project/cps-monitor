@@ -20,6 +20,7 @@ class AlbumController extends MainController
     public function index()
     {
         //
+        dd(__METHOD__,'index');
     }
 
     /**
@@ -54,13 +55,21 @@ class AlbumController extends MainController
             $hash_name = 'no-avatar.png';
             $path = 'no-avatar.png';
         }
-        $group = (new Groups(session('groupid')))->getGroup();
+        $group = 0;
+        $user = Auth::user();
+        $dirname = 'user/'.$user->login;
+        if(session()->has('groupid'))
+        {
+            $group = (new Groups(session('groupid')))->getGroup();
+            $dirname = 'group/'.$group->name;
+            $group = $group->id;
+        }
         $album = Album::create([
-            'group_id'=>$group->id,
-            'user_id'=>Auth::id(),
+            'group_id'=>$group,
+            'user_id'=>$user->id,
             'name' => $request->get('AlbumName'),
             'visible'=>$request->get('visible',0),
-            'dir'=>'group/'.$group->name,
+            'dir'=>$dirname,
             'location'=>'group',
             'description'=>$request->get('description'),
             'public'=>$request->get('public',0),
@@ -71,7 +80,7 @@ class AlbumController extends MainController
             'hash_name'=>$hash_name,
             'patch'=>$path,
         ]);
-        return redirect()->route('group.album',$album);
+        return redirect()->route('album.show',$album);
     }
     /**
      * Display the specified resource.
@@ -81,10 +90,79 @@ class AlbumController extends MainController
      */
     public function show(Album $album)
     {
-        //
-        dd(__METHOD__,$album);
-    }
+        if($album)
+        {
+            if($album->open)
+            {
+                if($album->group_id)
+                {
+                    $group = new Groups($album->group_id);
+                    if($group)
+                    {
+                        if ($group->isGroupOpen() or Auth::user()->IsAdmin())
+                        {
+                            $albumunits = $album->albumunit;
+                            $albums = $group->getGroupAlbum()->reverse();
+                            $albums->load('albumunit');
+                            $group = $group->getGroup();
+                            $links = [
+                                ['name'=>'Groups','route'=>'group.list','id'=>null],
+                                ['name'=>$group->name,'route'=>'group.info','id'=>$group->id],
+                                ['name'=>$album->name,'route'=>'album.show','id'=>$album->id]
+                            ];
+                            return view('album')
+                                ->with('links',$links)
+                                ->with('album',$album)
+                                ->with('albums',$albums)
+                                ->with('albumunits',$albumunits);
+                        }
+                        else
+                        {
+                            session()->flash('warning','Access to group denied');
+                            return redirect()->back();
+                        }
+                    }
+                    else
+                    {
+                        session()->flash('warning','Group not found');
+                        return redirect()->back();
+                    }
 
+                }
+                else
+                {
+                    $user = $album->user;
+                    if($user)
+                    {
+                        $albumunits = $album->albumunit;
+                        $albums = $user->albums->reverse();
+                        $albums->load('albumunit');
+                        $links = [
+                            ['name'=>'Users','route'=>'user.users','id'=>null],
+                            ['name'=>$user->login,'route'=>'user.info','id'=>$user->id],
+                            ['name'=>$album->name,'route'=>'album.show','id'=>$album->id]
+                        ];
+                        return view('album')
+                            ->with('links',$links)
+                            ->with('album',$album)
+                            ->with('albums',$albums)
+                            ->with('albumunits',$albumunits);
+                    }
+                    else
+                    {
+                        session()->flash('warning','User not found');
+                        return redirect()->back();
+                    }
+                }
+            }
+            else
+            {
+                session()->flash('warning','Access to album denied');
+                return redirect()->back();
+            }
+        }
+        return redirect()->route(session()->has('groupid') ? 'group.info' : 'group.list',session()->has('groupid') ? session('groupid') : null)->withErrors(['Album' => 'Album not found!']);
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -139,11 +217,8 @@ class AlbumController extends MainController
      */
     public function destroy(Album $album)
     {
-        session()->flash('warning','Album unit '.$album->name.' delete!');
+        session()->flash('warning','Album '.$album->name.' delete!');
         $album->delete();
-        return redirect()->route('group.info',session('groupid'));
-        //dd(__METHOD__,$album);
-        //
-
+        return  session()->has('groupid') ? redirect()->route('group.info',session('groupid')) : redirect()->route('user.info',Auth::id());
     }
 }

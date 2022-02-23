@@ -94,7 +94,13 @@ class UserController extends MainController
     }
     public function user_info($id = 1)
     {
-        $user = User::with(['settings','avatar'])->findOrFail($id);
+        $user = User::with(['settings','avatar','albums'])->findOrFail($id);
+        $albums = $user->albums;
+        if($albums->count()==0)
+        {
+            //todo: create default album
+            dd(__METHOD__,$albums);
+        }
         self::user_create_settings($user);
         $follows = Follow::where('user_id',$user->id)->get();
         if($follows)$follows->load('group');
@@ -105,6 +111,7 @@ class UserController extends MainController
         return view('user')
             ->with('links',$links)
             ->with('user', $user)
+            ->with('albums',$albums)
             ->with('follows', $follows);
     }
     public function all_users()

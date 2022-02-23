@@ -5,7 +5,12 @@
                 @foreach($albums as $album)
                     @if($album instanceof \App\Models\Album)
                         @if($album)
-                            <a href="{{ route('group.album',$album) }}"><img class="img_wrap" src="{{Illuminate\Support\Facades\Storage::url($album->patch)}}" alt="{{ Illuminate\Support\Facades\Storage::url($album->hash_name) }}"></a>
+                            @if($show == 'group' && $album->group)
+                                <a href="{{ route('album.show',$album) }}"><img class="img_wrap" src="{{Illuminate\Support\Facades\Storage::url($album->patch)}}" alt="{{ Illuminate\Support\Facades\Storage::url($album->hash_name) }}"></a>
+                            @endif
+                            @if($show == 'user' && $album->group_id == 0)
+                                <a href="{{ route('album.show',$album) }}"><img class="img_wrap" src="{{Illuminate\Support\Facades\Storage::url($album->patch)}}" alt="{{ Illuminate\Support\Facades\Storage::url($album->hash_name) }}"></a>
+                            @endif
                         @endif
                     @endif
                     @if($addflag)
@@ -24,7 +29,7 @@
             </a>
             @include('inc.album.modal-edit',['action'=>0,'name'=>'Create'])
         @endisset
-
     </div>
 </div>
+
 

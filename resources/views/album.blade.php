@@ -10,7 +10,7 @@
     <h4>{{ $album->name }}</h4>
     <x-breadcrumb :links="$links"/>
 
-    @include('inc.group.album',['addflag'=>false])
+    @include('inc.album.album-menu',['addflag'=>false,'show'=>$album->group ? 'group' : 'user'])
 @endsection
 @section('content-text')
     @if($albumunits->count()>0)
