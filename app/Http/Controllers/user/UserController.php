@@ -7,6 +7,7 @@ use App\cps\Users;
 use App\Http\Controllers\MainController;
 use App\Http\Requests\uLoginRequest;
 use App\Http\Requests\PasswordRequest;
+use App\Models\Album;
 use App\Models\RatingUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -96,10 +97,24 @@ class UserController extends MainController
     {
         $user = User::with(['settings','avatar','albums'])->findOrFail($id);
         $albums = $user->albums;
-        if($albums->count()==0)
+        if($albums->count()==0 )
         {
-            //todo: create default album
-            dd(__METHOD__,$albums);
+            $albums = Album::create([
+                'group_id'=>0,
+                'user_id'=>$user->id,
+                'name' => $user->login,
+                'visible'=>true,
+                'dir'=>'user/'.$user->login,
+                'location'=>'user',
+                'description'=>'Main Album',
+                'public'=>true,
+                'open'=>true,
+                'lock'=>false,
+                'lock_key'=>'null',
+                'rate'=>0,
+                'hash_name'=>$user->avatar ? $user->avatar->hash_name : 'no-avatar',
+                'patch'=>$user->avatar ? $user->avatar->patch : 'no-avatar',
+            ]);
         }
         self::user_create_settings($user);
         $follows = Follow::where('user_id',$user->id)->get();

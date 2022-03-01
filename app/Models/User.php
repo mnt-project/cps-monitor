@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\post\GroupPost;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -80,10 +81,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Avatar::class,'user_id');
     }
-    public function posts()
-    {
-        return $this->hasOne(Post::class,'user_id');
-    }
+//    public function posts()
+//    {
+//        return $this->hasOne(Post::class,'user_id');
+//    }
     public function groups()
     {
         return $this->hasOne(Group::class,'user_id');
@@ -111,5 +112,9 @@ class User extends Authenticatable
     public function connect()
     {
         return $this->hasMany(Connect::class,'user_id');
+    }
+    public function grouppost()
+    {
+        return $this->hasMany(GroupPost::class,'user_id');
     }
 }

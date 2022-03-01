@@ -16,3 +16,4 @@ const mix = require('laravel-mix');
 //         //
 //     ]);
 mix.sass('resources/sass/app.scss', 'public/css');
+mix.browserSync('192.168.0.74');

@@ -15,19 +15,10 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('group_id');
-            $table->foreign('group_id')->references('id')->on('groups');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('panelid')->default(0);
-            $table->boolean('hidden')->default(false);
-            $table->integer('plus')->default(0);
-            $table->integer('minus')->default(0);
-            $table->text('description');
-            //Post control
-            $table->integer('warning')->default(0);
-            $table->integer('warningid')->default(0);
-            $table->text('winfo');
+            $table->string('titel')->default('empty');
+            $table->integer('priority')->default(0);
+            $table->string('path')->default('/');
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
         });

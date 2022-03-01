@@ -13,13 +13,13 @@
 @section('content-text')
 
     @auth
-        @include('inc.group.post-form',['text' => session()->has('quote') ? session('quote') : '' ,'group'=>$group->id])
+{{--        @include('inc.group.post-form',['text' => session()->has('quote') ? session('quote') : '' ,'group'=>$group->id])--}}
 
     @endauth
-    @include('inc.group.post')
-    <div class="d-flex justify-content-center">
-        {{ $posts->links('vendor.pagination.bootstrap-4') }}
-    </div>
+{{--    @include('inc.group.post')--}}
+{{--    <div class="d-flex justify-content-center">--}}
+{{--        {{ $posts->links('vendor.pagination.bootstrap-4') }}--}}
+{{--    </div>--}}
 @endsection
 @section('content-info')
     @include('inc.group.info')

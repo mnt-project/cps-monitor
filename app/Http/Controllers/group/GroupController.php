@@ -215,57 +215,6 @@ class GroupController extends MainController
         }
         return redirect()->back()->withErrors(['saveError' => 'Avatar is not selected!']);
     }
-    public function group_album(Album $album=null)
-    {
-        if($album)
-        {
-            $group = new Groups($album->group_id);
-            if($group)
-            {
-                if($group->isGroupOpen() or Auth::user()->IsAdmin())
-                {
-                    if($album->open)
-                    {
-
-                        $albumunits = $album->albumunit;
-                        $albums = $group->getGroupAlbum()->reverse();
-                        $albums->load('albumunit');
-                        //dd(__METHOD__,$albums);
-                        //$albums->push($followers);
-                        $group = $group->getGroup();
-                        $links = [
-                            ['name'=>'Groups','route'=>'group.list','id'=>null],
-                            ['name'=>$group->name,'route'=>'group.info','id'=>$group->id],
-                            ['name'=>$album->name,'route'=>'group.album','id'=>$album->id]
-                        ];
-                        session()->flash('groupid',$group->id);
-                        return view('album')
-                            ->with('links',$links)
-                            ->with('album',$album)
-                            ->with('albums',$albums)
-                            ->with('albumunits',$albumunits)
-                            ->with('group', $group);
-                    }
-                    else
-                    {
-                        session()->flash('warning','Access to album denied');
-                        return redirect()->back();
-                    }
-                }
-                else
-                {
-                    session()->flash('warning','Access to group denied');
-                    return redirect()->back();
-                }
-
-            }
-            else
-            {
-                return redirect()->back()->withErrors('Group not found!');
-            }
-        }
-        return redirect()->route(session()->has('groupid') ? 'group.info' : 'group.list',session()->has('groupid') ? session('groupid') : null)->withErrors(['Album' => 'Album not found!']);
-    }
     public function group_info($groupid=0)
     {
         $group = new Groups($groupid);
@@ -276,9 +225,9 @@ class GroupController extends MainController
                 $followers = $group->getGroupFollows();
                 $followers->load('user');
                 //$posts->load('user','group');
-                $posts = $group->getGroupPosts()->load('user','group');
+                //$posts = $group->getGroupPosts()->load('user','group');
                 //dd(__METHOD__,$posts->count());
-                $posts = parent::paginateCollection($posts,20);
+                //$posts = parent::paginateCollection($posts,20);
                 //dd(__METHOD__,$albums);
                 $albums = $group->getGroupAlbum()->reverse();
                 $albums->load('albumunit');
@@ -324,7 +273,7 @@ class GroupController extends MainController
                 return view('group')
                     ->with('links',$links)
                     ->with('followers',$followers)
-                    ->with('posts',$posts)
+                    //->with('posts',$posts)
                     ->with('albums',$albums)
                     ->with('group', $group);
             }

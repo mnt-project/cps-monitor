@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\post\GroupPost;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,15 +43,15 @@ class Group extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function  post()
+    public function post()
     {
-        return $this->hasMany(Post::class,'group_id');
+        return $this->hasMany(GroupPost::class,'group_id');
     }
     public function  follow()
     {
         return $this->hasMany(Follow::class,'group_id');
     }
-    public function  album()
+    public function album()
     {
         return $this->hasMany(Album::class,'group_id');
     }

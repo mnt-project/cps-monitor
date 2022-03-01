@@ -48,6 +48,7 @@
                         Edit Album
                     </button>
                 </div>
+                @include('inc.album.modal-edit',['action'=>1,'name'=>'Edit'])
             @endif
         @endauth
         <div class="row mt-4">
@@ -58,5 +59,4 @@
             @endif
         </div>
     </div>
-    @include('inc.album.modal-edit',['action'=>1,'name'=>'Edit'])
 </div>
