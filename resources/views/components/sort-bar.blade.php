@@ -1,6 +1,6 @@
 <div class="row mb-3">
     <div class="col-2">
-        <button id="showDrop" type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <button id="showDrop" type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             {{ $lines[$show] }}
         </button>
         <ul class="dropdown-menu" aria-labelledby="showDrop">
@@ -14,7 +14,7 @@
     </div>
     <div class="col-2">
         <div class="btn-group" role="group">
-            <button id="sortDrop" type="button" class="btn btn-outline-dark dropdown-toggle me-1" data-toggle="dropdown" aria-expanded="false">
+            <button id="sortDrop" type="button" class="btn btn-outline-dark dropdown-toggle me-1" data-bs-toggle="dropdown" aria-expanded="false">
                 {{ $sortname[$sort] }}
             </button>
             <ul class="dropdown-menu" aria-labelledby="sortDrop">
@@ -23,7 +23,7 @@
                     <li><a class="dropdown-item {{($i == $sort) ? 'active' : ''}}" href="{{route($route,[$argname=>$value,'show'=>$show,'sort'=>$i,'method'=>$method])}}">{{ $sortname[$i] }}</a></li>
                 @endfor
             </ul>
-            <button id="methodDrop" type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <button id="methodDrop" type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 {{ $method }}
             </button>
             <ul class="dropdown-menu" aria-labelledby="methodDrop">

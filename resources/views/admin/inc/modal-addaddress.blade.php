@@ -3,7 +3,7 @@
         <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addGroupModal">ID:{{ $ip->id}} IP:[{{ $ip->ip}}]</h5>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <table id="table" class="table table-striped table-hover text-center" aria-hidden="true">
@@ -19,7 +19,7 @@
                         </thead>
                         <tbody>
                         @foreach($ip->connect as $connect)
-                            <tr class='text-center' data-target="#{{'connects_'.$loop->iteration }}" role="button" data-toggle="modal">
+                            <tr class='text-center' data-bs-target="#{{'connects_'.$loop->iteration }}" role="button" data-bs-toggle="modal">
                                 <th scope="row">{{ $connect->ip_id }}</th>
                                 <td>{{ $connect->visitor }}</td>
                                 <td>{{ $connect->user_id }}</td>
@@ -32,7 +32,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
         </div>
     </div>

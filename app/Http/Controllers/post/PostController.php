@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\post;
 
+use App\Http\Controllers\MainController;
 use App\Models\post\Post;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class PostController extends MainController
 {
     /**
      * Display a listing of the resource.

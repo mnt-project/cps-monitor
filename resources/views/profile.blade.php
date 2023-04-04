@@ -10,10 +10,10 @@
 @section('content-header')
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a href="{{ route('user.profile',['id'=>$user,'tabid'=> 1 ]) }}" class="nav-link {{ empty($tabid) || $tabid == 1 ? 'active' : '' }}" id="nav-general-tab" data-target="#nav-general" type="button" role="tab" aria-controls="nav-general" aria-selected="{{ empty($tabid) || $tabid == 1 ? 'true' : 'false' }}">General</a>
-            <a href="{{ route('user.profile',['id'=>$user,'tabid'=> 2 ]) }}" class="nav-link {{ $tabid == 2 ? 'active' : '' }}" id="nav-messages-tab" data-target="#nav-messages" type="button" role="tab" aria-controls="nav-messages" aria-selected="{{ $tabid == 2 ? 'true' : 'false' }}">Messages</a>
-            <a href="{{ route('user.profile',['id'=>$user,'tabid'=> 3 ]) }}" class="nav-link {{ $tabid == 3 ? 'active' : '' }}" id="nav-wall-tab" data-target="#nav-wall" type="button" role="tab" aria-controls="nav-wall" aria-selected="{{ $tabid == 3 ? 'true' : 'false' }}">Wall</a>
-            <a href="{{ route('user.profile',['id'=>$user,'tabid'=> 4 ]) }}" class="nav-link {{ $tabid == 4 ? 'active' : '' }}" id="nav-config-tab" data-target="#nav-config" type="button" role="tab" aria-controls="nav-config" aria-selected="{{ $tabid == 4 ? 'true' : 'false' }}">Config</a>
+            <a href="{{ route('user.profile',['id'=>$user,'tabid'=> 1 ]) }}" class="nav-link {{ empty($tabid) || $tabid == 1 ? 'active' : '' }}" id="nav-general-tab" data-bs-target="#nav-general" type="button" role="tab" aria-controls="nav-general" aria-selected="{{ empty($tabid) || $tabid == 1 ? 'true' : 'false' }}">General</a>
+            <a href="{{ route('user.profile',['id'=>$user,'tabid'=> 2 ]) }}" class="nav-link {{ $tabid == 2 ? 'active' : '' }}" id="nav-messages-tab" data-bs-target="#nav-messages" type="button" role="tab" aria-controls="nav-messages" aria-selected="{{ $tabid == 2 ? 'true' : 'false' }}">Messages</a>
+            <a href="{{ route('user.profile',['id'=>$user,'tabid'=> 3 ]) }}" class="nav-link {{ $tabid == 3 ? 'active' : '' }}" id="nav-wall-tab" data-bs-target="#nav-wall" type="button" role="tab" aria-controls="nav-wall" aria-selected="{{ $tabid == 3 ? 'true' : 'false' }}">Wall</a>
+            <a href="{{ route('user.profile',['id'=>$user,'tabid'=> 4 ]) }}" class="nav-link {{ $tabid == 4 ? 'active' : '' }}" id="nav-config-tab" data-bs-target="#nav-config" type="button" role="tab" aria-controls="nav-config" aria-selected="{{ $tabid == 4 ? 'true' : 'false' }}">Config</a>
         </div>
     </nav>
     <div class="tab-content mt-5" id="nav-tabContent">

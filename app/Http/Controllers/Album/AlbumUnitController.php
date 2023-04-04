@@ -21,6 +21,7 @@ class AlbumUnitController extends MainController
      */
     public function index(Album $album)
     {
+        dd(__METHOD__,$album);
         //
     }
 
@@ -32,6 +33,7 @@ class AlbumUnitController extends MainController
      */
     public function create(Album $album)
     {
+        dd(__METHOD__,$album);
         //
     }
 
@@ -44,7 +46,7 @@ class AlbumUnitController extends MainController
      */
     public function store(Request $request,Album $album)
     {
-        //dd(__METHOD__,$album);
+        dd(__METHOD__,$album);
         if ($request->hasFile('image'))
         {
             $file = $request->file('image');

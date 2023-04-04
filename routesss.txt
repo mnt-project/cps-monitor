@@ -1,73 +1,246 @@
 
   GET|HEAD        / ........................................................................................................................................................................................................................ home › HomeController@index
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
   GET|HEAD        _debugbar/assets/javascript .............................................................................................................................................................. debugbar.assets.js › Barryvdh\Debugbar › AssetController@js
+                  ⇂ Barryvdh\Debugbar\Middleware\DebugbarEnabled
+                  ⇂ Closure
   GET|HEAD        _debugbar/assets/stylesheets ........................................................................................................................................................... debugbar.assets.css › Barryvdh\Debugbar › AssetController@css
+                  ⇂ Barryvdh\Debugbar\Middleware\DebugbarEnabled
+                  ⇂ Closure
   DELETE          _debugbar/cache/{key}/{tags?} ..................................................................................................................................................... debugbar.cache.delete › Barryvdh\Debugbar › CacheController@delete
+                  ⇂ Barryvdh\Debugbar\Middleware\DebugbarEnabled
+                  ⇂ Closure
   GET|HEAD        _debugbar/clockwork/{id} .................................................................................................................................................... debugbar.clockwork › Barryvdh\Debugbar › OpenHandlerController@clockwork
+                  ⇂ Barryvdh\Debugbar\Middleware\DebugbarEnabled
+                  ⇂ Closure
   GET|HEAD        _debugbar/open ............................................................................................................................................................... debugbar.openhandler › Barryvdh\Debugbar › OpenHandlerController@handle
+                  ⇂ Barryvdh\Debugbar\Middleware\DebugbarEnabled
+                  ⇂ Closure
   POST            _ignition/execute-solution ............................................................................................................................................. ignition.executeSolution › Spatie\LaravelIgnition › ExecuteSolutionController
+                  ⇂ Spatie\LaravelIgnition\Http\Middleware\RunnableSolutionsEnabled
   GET|HEAD        _ignition/health-check ......................................................................................................................................................... ignition.healthCheck › Spatie\LaravelIgnition › HealthCheckController
+                  ⇂ Spatie\LaravelIgnition\Http\Middleware\RunnableSolutionsEnabled
   POST            _ignition/update-config ...................................................................................................................................................... ignition.updateConfig › Spatie\LaravelIgnition › UpdateConfigController
+                  ⇂ Spatie\LaravelIgnition\Http\Middleware\RunnableSolutionsEnabled
   GET|HEAD        about .......................................................................................................................................................................................................................................... about
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
   POST            about/{id} ............................................................................................................................................................................................... user.about › user\UserController@user_about
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        admin/dashboard/community/{tabid?}/{sort?}/{view?} ............................................................................................................................................. admin.community › admin\DashboardController@community
+                  ⇂ web
+                  ⇂ App\Http\Middleware\AccessRights
   GET|HEAD        admin/dashboard/connects/{ip?}/{show?}/{sort?}/{method?} ......................................................................................................................................... admin.connects › admin\DashboardController@connects
+                  ⇂ web
+                  ⇂ App\Http\Middleware\AccessRights
   GET|HEAD        admin/dashboard/group/open/{id} ..................................................................................................................................................................... admin.open › admin\DashboardController@groupOpen
+                  ⇂ web
+                  ⇂ App\Http\Middleware\AccessRights
   GET|HEAD        admin/dashboard/group/visibility/{id} ................................................................................................................................................... admin.visibility › admin\DashboardController@groupVisibility
+                  ⇂ web
+                  ⇂ App\Http\Middleware\AccessRights
   GET|HEAD        admin/dashboard/groups/{sort?}/{view?} ............................................................................................................................................................... admin.groups › admin\DashboardController@groups
+                  ⇂ web
+                  ⇂ App\Http\Middleware\AccessRights
   PUT|PATCH       admin/dashboard/ip/{ip} .................................................................................................................................................................................. admin.ip.update › admin\IpController@update
+                  ⇂ web
+                  ⇂ App\Http\Middleware\AccessRights
   DELETE          admin/dashboard/ip/{ip} ................................................................................................................................................................................ admin.ip.destroy › admin\IpController@destroy
+                  ⇂ web
+                  ⇂ App\Http\Middleware\AccessRights
   GET|HEAD        admin/dashboard/user/block/{id} ............................................................................................................................................................... admin.userblock › admin\DashboardController@user_block
+                  ⇂ web
+                  ⇂ App\Http\Middleware\AccessRights
   GET|HEAD        admin/dashboard/user/hidden/{id} ............................................................................................................................................................ admin.userhidden › admin\DashboardController@user_hidden
+                  ⇂ web
+                  ⇂ App\Http\Middleware\AccessRights
   GET|HEAD        admin/dashboard/user/muted/{id} ............................................................................................................................................................... admin.usermuted › admin\DashboardController@user_muted
+                  ⇂ web
+                  ⇂ App\Http\Middleware\AccessRights
   GET|HEAD        admin/dashboard/user/{user} ...................................................................................................................................................................... admin.useredit › admin\DashboardController@userEdit
+                  ⇂ web
+                  ⇂ App\Http\Middleware\AccessRights
   GET|HEAD        album ...................................................................................................................................................................................................... album.index › Album\AlbumController@index
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   POST            album ...................................................................................................................................................................................................... album.store › Album\AlbumController@store
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        album/create ............................................................................................................................................................................................. album.create › Album\AlbumController@create
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        album/{album} ................................................................................................................................................................................................ album.show › Album\AlbumController@show
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   PUT|PATCH       album/{album} ............................................................................................................................................................................................ album.update › Album\AlbumController@update
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   DELETE          album/{album} .......................................................................................................................................................................................... album.destroy › Album\AlbumController@destroy
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        album/{album}/edit ........................................................................................................................................................................................... album.edit › Album\AlbumController@edit
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        album/{album}/unit ................................................................................................................................................................................ album.unit.index › Album\AlbumUnitController@index
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   POST            album/{album}/unit ................................................................................................................................................................................ album.unit.store › Album\AlbumUnitController@store
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        album/{album}/unit/create ....................................................................................................................................................................... album.unit.create › Album\AlbumUnitController@create
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        album/{album}/unit/{unit} ........................................................................................................................................................................... album.unit.show › Album\AlbumUnitController@show
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   PUT|PATCH       album/{album}/unit/{unit} ....................................................................................................................................................................... album.unit.update › Album\AlbumUnitController@update
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   DELETE          album/{album}/unit/{unit} ..................................................................................................................................................................... album.unit.destroy › Album\AlbumUnitController@destroy
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        album/{album}/unit/{unit}/edit ...................................................................................................................................................................... album.unit.edit › Album\AlbumUnitController@edit
-  GET|HEAD        api/user ............................................................................................................................................................................................................................................. 
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
+  GET|HEAD        api/user ................................................................................................................................................................................................................. generated::bU9RPSvni9h05NTx
+                  ⇂ api
+                  ⇂ App\Http\Middleware\Authenticate:api
   POST            avatar/{id} ............................................................................................................................................................................................ user.avatar › user\UserController@user_avatar
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
   GET|HEAD        credits ...................................................................................................................................................................................................................................... credits
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
   GET|HEAD        delete/{id} ............................................................................................................................................................................. user.message.delete › user\MessagesController@message_delete
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   POST            group/add ................................................................................................................................................................................................ group.add › group\GroupController@group_add
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   POST            group/avatar/{id} .................................................................................................................................................................................. group.avatar › group\GroupController@group_avatar
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   POST            group/edit/{id?} ....................................................................................................................................................................................... group.edit › group\GroupController@group_edit
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        group/following/{group} ........................................................................................................................................................................... group.following › group\FollowController@following
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        group/info/{group?} .................................................................................................................................................................................... group.info › group\GroupController@group_info
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
   GET|HEAD        group/list/{sort?} ..................................................................................................................................................................................... group.list › group\GroupController@group_list
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
   GET|HEAD        group/unfollowing/{group} ..................................................................................................................................................................... group.unfollowing › group\FollowController@unfollowing
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        hidden/{id} ............................................................................................................................................................................................ user.hidden › user\UserController@user_hidden
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        info/{id?} ................................................................................................................................................................................................. user.info › user\UserController@user_info
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
   GET|HEAD        login ................................................................................................................................................................................................... user.login › user\UserController@user_signin
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
   POST            login ......................................................................................................................................................................................................... user. › user\UserController@user_login
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
   GET|HEAD        logout ................................................................................................................................................................................................. user.logout › user\UserController@user_logout
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   POST            nickname/{id} ...................................................................................................................................................................................... user.nickname › user\UserController@user_nickname
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        notifications/{id} ....................................................................................................................................................................... user.notifications › user\UserController@user_notifications
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   POST            password/{id} ...................................................................................................................................................................................... user.password › user\UserController@user_password
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   POST            post/create/{group} .................................................................................................................................................................................... post.create › post\PostController@post_create
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        post/delete/{post} ..................................................................................................................................................................................... post.delete › post\PostController@post_delete
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        post/quote/{text} ........................................................................................................................................................................................ post.quote › post\PostController@post_quote
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        post/reputation/{post}/{value} ................................................................................................................................................................. post.reputation › post\PostController@post_reputation
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        profile/{id?}/{tabid?} ............................................................................................................................................................................... user.profile › user\UserController@user_profile
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        registration ..................................................................................................................................................................................... user.registration › user\UserController@user_getreg
-  POST            registration ........................................................................................................................................................................................... user. › user\UserController@user_registration
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+  POST            registration ................................................................................................................................................................ user.generated::oO1mTTIaA09WkNq8 › user\UserController@user_registration
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
   GET|HEAD        reputationdown/{id} .................................................................................................................................................................... user.reputationdown › user\UserController@user_reputationdown
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        reputationup/{id} .......................................................................................................................................................................... user.reputationup › user\UserController@user_reputationup
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   POST            send/{id} ................................................................................................................................................................................... user.message.send › user\MessagesController@message_send
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   POST            smessage/{id} ...................................................................................................................................................................................... user.smessage › user\UserController@user_smessage
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        tab/close/{tabid} ....................................................................................................................................................................................................... tab.close › DefaultTab@close
+                  ⇂ web
   GET|HEAD        tab/create/{value}/{titel}/{type}/{route} ............................................................................................................................................................................. tab.create › DefaultTab@create
+                  ⇂ web
   GET|HEAD        tab/index/{tabid?} ...................................................................................................................................................................................................... tab.index › DefaultTab@index
+                  ⇂ web
   GET|HEAD        uparametr ......................................................................................................................................................................... user.parametrs_update › user\UserController@users_parametrs_update
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
   GET|HEAD        users ..................................................................................................................................................................................................... user.users › user\UserController@all_users
+                  ⇂ web
+                  ⇂ App\Http\Middleware\Connect
+                  ⇂ App\Http\Middleware\Authenticate
 

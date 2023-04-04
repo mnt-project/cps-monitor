@@ -1,6 +1,6 @@
 @if($albumunit->visible)
     <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 border mx-2 my-2">
-        <a data-target="#{{'unit_'.$loop->iteration}}" role="button" data-toggle="modal">
+        <a data-bs-target="#{{'unit_'.$loop->iteration}}" role="button" data-bs-toggle="modal">
             <figure class="figure mt-2">
                 <img class="figure img-thumbnail" src={{ Illuminate\Support\Facades\Storage::url($albumunit->patch) }} alt="{{ Illuminate\Support\Facades\Storage::url($albumunit->patch) }}">
                 <figcaption class="figure-caption text-center">
@@ -28,7 +28,7 @@
 @endif
 @if($loop->last)
     <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 border mx-2 my-2">
-        <a data-target="#unitadd" role="button" data-toggle="modal">
+        <a data-bs-target="#unitadd" role="button" data-bs-toggle="modal">
             <img class="img-fluid my-5" src="{{Illuminate\Support\Facades\Storage::url('add-picture.png')}}" alt="{{ Illuminate\Support\Facades\Storage::url('add-picture.png') }}">
         </a>
         @include('inc.album.modal-unitadd',['action'=>0,'name'=>'Create'])

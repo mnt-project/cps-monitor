@@ -38,7 +38,7 @@
 {{--                </div>--}}
 {{--                <div class="card-footer">--}}
 {{--                    @empty($ipinfo->address)--}}
-{{--                        <button data-target="#addAddress" role="button" class="btn btn-outline-dark" data-toggle="modal">Add</button>--}}
+{{--                        <button data-bs-target="#addAddress" role="button" class="btn btn-outline-dark" data-bs-toggle="modal">Add</button>--}}
 {{--                        @include('admin.inc.modal-addaddress')--}}
 {{--                    @else--}}
 {{--                        <h3>{{ $ipinfo->address->titel }}</h3>--}}

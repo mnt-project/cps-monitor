@@ -11,7 +11,7 @@
 @section('dashboard-text')
     <nav>
         <div class="nav nav-tabs" role="tablist">
-            <div class="nav-link {{ empty(session('tabid')) ? 'active' : '' }}" id="nav-tab-default" data-target="#nav-general" type="button" role="tab" aria-controls="nav-general" aria-selected="true">
+            <div class="nav-link {{ empty(session('tabid')) ? 'active' : '' }}" id="nav-tab-default" data-bs-target="#nav-general" type="button" role="tab" aria-controls="nav-general" aria-selected="true">
                 <a class="btn" href="{{ route('tab.index',0) }}">
                     Main
                 </a>
@@ -20,7 +20,7 @@
             @if($tabs instanceof \Illuminate\Support\Collection)
                 @foreach($tabs as $tab)
                     @if($loop->iteration<5)
-                        <div class="nav-link {{ session('tabid') == $tab['tabid'] ? 'active' : '' }}" id="{{ 'nav-tab-'.$tab['tabid'] }}" data-target="{{ 'tab-'.$tab['tabid'] }}" type="button" role="tabpanel" aria-controls="nav-general" aria-selected="{{ session('tabid') == $tab['tabid'] ? 'true' : 'false' }}">
+                        <div class="nav-link {{ session('tabid') == $tab['tabid'] ? 'active' : '' }}" id="{{ 'nav-tab-'.$tab['tabid'] }}" data-bs-target="{{ 'tab-'.$tab['tabid'] }}" type="button" role="tabpanel" aria-controls="nav-general" aria-selected="{{ session('tabid') == $tab['tabid'] ? 'true' : 'false' }}">
                             <a class="btn" href="{{ route('tab.index',$tab['tabid']) }}">{{ $tab['type'].$tab['tabid'] }}</a>
                             @if(session('tabid') == $tab['tabid'] && session('tabid')>0)
                                 <a class="btn" href="{{ route('tab.close',$tab['tabid']) }}" >
@@ -33,11 +33,11 @@
                 @endforeach
             @endif
 
-{{--            <a class="nav-link btn" href="{{ route('tab.create',['value'=>0,'titel'=>'List','type'=>'default.index','route'=>'tab.index']) }}" id="nav-general-tab" data-target="#nav-general" type="button" role="tabpanel" aria-controls="nav-general" aria-selected="true">--}}
+{{--            <a class="nav-link btn" href="{{ route('tab.create',['value'=>0,'titel'=>'List','type'=>'default.index','route'=>'tab.index']) }}" id="nav-general-tab" data-bs-target="#nav-general" type="button" role="tabpanel" aria-controls="nav-general" aria-selected="true">--}}
 {{--                <span class="bi bi-plus-circle" style="font-size: 1.5rem; color: black;"></span>--}}
 {{--            </a>--}}
 {{--            <div class="dropdown dropend">--}}
-{{--                <a class="nav-link btn dropdown-toggle" id="nav-general-tab" data-toggle="dropdown" aria-expanded="false" data-target="#nav-general" type="button" role="tabpanel" aria-controls="nav-general" aria-selected="true">--}}
+{{--                <a class="nav-link btn dropdown-toggle" id="nav-general-tab" data-bs-toggle="dropdown" aria-expanded="false" data-bs-target="#nav-general" type="button" role="tabpanel" aria-controls="nav-general" aria-selected="true">--}}
 {{--                    <span class="bi bi-plus-circle" style="font-size: 1.5rem; color: black;"></span>--}}
 {{--                </a>--}}
 {{--                <ul class="dropdown-menu dropend" aria-labelledby="nav-general-tab">--}}
@@ -50,10 +50,10 @@
 
             <!-- Split dropend button -->
             <div class="btn-group dropend">
-                <a class="btn nav-link" href="{{ route('tab.create',['value'=>0,'titel'=>'List','type'=>'default.index','route'=>'tab.index']) }}" id="nav-general-tab" data-target="#nav-general" type="button" role="tabpanel" aria-controls="nav-general" aria-selected="true">
+                <a class="btn nav-link" href="{{ route('tab.create',['value'=>0,'titel'=>'List','type'=>'default.index','route'=>'tab.index']) }}" id="nav-general-tab" data-bs-target="#nav-general" type="button" role="tabpanel" aria-controls="nav-general" aria-selected="true">
                     <span class="bi bi-plus-circle" style="font-size: 1.5rem; color: black;"></span>
                 </a>
-                <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false">
+                <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="visually-hidden">Toggle Dropright</span>
                 </button>
                 <ul class="dropdown-menu">

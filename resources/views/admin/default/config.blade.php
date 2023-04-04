@@ -28,7 +28,7 @@
             <p><strong>Password:</strong></p>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-6 my-5">
-            <button data-target="#changepass" role="button" class="btn btn-outline-secondary" data-toggle="modal">{{ __('user.change_pass') }}</button>
+            <button data-bs-target="#changepass" role="button" class="btn btn-outline-secondary" data-bs-toggle="modal">{{ __('user.change_pass') }}</button>
             @include('inc.user.modal-pass')
         </div>
         <div class="col-lg-8">
@@ -40,7 +40,7 @@
             <p><strong>About you:</strong></p>
         </div>
         <div class="col-lg-4 col-md-8 col-sm-6 my-5">
-            <button data-target="#changeabout" role="button" class="btn btn-outline-secondary" data-toggle="modal">{{ __('user.change_about') }}</button>
+            <button data-bs-target="#changeabout" role="button" class="btn btn-outline-secondary" data-bs-toggle="modal">{{ __('user.change_about') }}</button>
             @include('inc.user.modal-about')
         </div>
         <div class="col-lg-8">

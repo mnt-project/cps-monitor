@@ -1,11 +1,11 @@
 <div class="container-fluid">
     @if($album->user_id == \Illuminate\Support\Facades\Auth::id())
-        <a data-target="#avatar" role="button" data-toggle="modal">
+        <a data-bs-target="#avatar" role="button" data-bs-toggle="modal">
             <img class="img-thumbnail" src={{ Illuminate\Support\Facades\Storage::url($album->patch) }} class="img-thumbnail" alt={{ Illuminate\Support\Facades\Storage::url($album->hash_name) }}>
         </a>
         @include('inc.album.modal-titel')
     @else
-        <a data-target="#album" role="button" data-toggle="modal">
+        <a data-bs-target="#album" role="button" data-bs-toggle="modal">
             <img class="img-thumbnail" src={{ Illuminate\Support\Facades\Storage::url($album->patch) }} class="img-thumbnail" alt={{ Illuminate\Support\Facades\Storage::url($album->hash_name) }}>
         </a>
         @include('inc.album.modal-albumavatar')
@@ -39,12 +39,16 @@
         @auth
             @if($album->open)
                 <div class="row mt-2">
-                    <a href="{{ route('album.unit.store',$album) }}" class="btn btn-outline-success">Add</a>
+                    {{--<a href="{{ route('album.unit.store',$album) }}" class="btn btn-outline-success">Add</a>--}}
+                    <button class="btn btn-outline-warning" data-bs-target="#unitadd" role="button" data-bs-toggle="modal">
+                        Add
+                    </button>
                 </div>
+                @include('inc.album.modal-unitadd',['action'=>0,'name'=>'Create'])
             @endif
             @if($album->user_id == \Illuminate\Support\Facades\Auth::id() or \Illuminate\Support\Facades\Auth::user()->IsAdmin())
                 <div class="row mt-2">
-                    <button class="btn btn-outline-warning" data-target="#albumedit" role="button" data-toggle="modal">
+                    <button class="btn btn-outline-warning" data-bs-target="#albumedit" role="button" data-bs-toggle="modal">
                         Edit Album
                     </button>
                 </div>

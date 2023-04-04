@@ -8,7 +8,7 @@ use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\user\MessagesController;
 use App\Http\Controllers\group\GroupController;
 use App\Http\Controllers\group\FollowController;
-use App\Http\Controllers\group\PostController;
+use App\Http\Controllers\post\PostController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\DefaultTab;

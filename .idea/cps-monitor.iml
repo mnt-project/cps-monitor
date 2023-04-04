@@ -7,6 +7,18 @@
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap-4.0.0/.github" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap-4.0.0/_data" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap-4.0.0/_includes" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap-4.0.0/_layouts" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap-4.0.0/_plugins" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap-4.0.0/assets" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap-4.0.0/build" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap-4.0.0/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap-4.0.0/docs" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap-4.0.0/js" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap-4.0.0/nuget" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap-4.0.0/scss" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dflydev/dot-access-data" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fruitcake/php-cors" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/serializable-closure" />
@@ -20,6 +32,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-ignition" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/mailer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php81" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/twbs/bootstrap" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

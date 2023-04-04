@@ -1,12 +1,12 @@
 <div class="container-fluid mt-5">
     @if($group->avatar)
         @if($group->user_id == \Illuminate\Support\Facades\Auth::id())
-            <a data-target="#avatar" role="button" data-toggle="modal">
+            <a data-bs-target="#avatar" role="button" data-bs-toggle="modal">
                 <img class="img-thumbnail" src={{ Illuminate\Support\Facades\Storage::url($group->patch) }} class="img-thumbnail" alt={{ Illuminate\Support\Facades\Storage::url($group->hash_name) }}>
             </a>
             @include('inc.group.modal-avatar')
         @else
-            <a data-target="#imgview" role="button" data-toggle="modal">
+            <a data-bs-target="#imgview" role="button" data-bs-toggle="modal">
                 <img class="img-thumbnail" src={{ Illuminate\Support\Facades\Storage::url($group->patch) }} class="img-thumbnail" alt={{ Illuminate\Support\Facades\Storage::url($group->hash_name) }}>
             </a>
             @include('inc.group.modal-imgview')
@@ -41,7 +41,7 @@
         @auth
             <div class="mt-5 row">
                 @if($group->user_id === \Illuminate\Support\Facades\Auth::id())
-                    <button data-target="#addGroup" role="button" class="btn btn-primary mt-2" data-toggle="modal">Edit group</button>
+                    <button data-bs-target="#addGroup" role="button" class="btn btn-primary mt-2" data-bs-toggle="modal">Edit group</button>
                     @include('inc.group.group-form',['action'=>1,'name'=>'Edit','route'=>'group.edit'])
                 @endif
             </div>

@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <h5 class="text-center"><strong>Do you want clear all log records?</strong></h5>
@@ -13,7 +13,7 @@
                     @csrf
                     <button type="submit" class="btn btn-danger">Clear</button>
                 </form>
-                <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

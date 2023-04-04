@@ -22,7 +22,7 @@
             </div>
         </div>
     @else
-        <a data-target="#unitadd" role="button" data-toggle="modal">
+        <a data-bs-target="#unitadd" role="button" data-bs-toggle="modal">
             <img class="img_wrap my-5" src="{{Illuminate\Support\Facades\Storage::url('add-picture.png')}}" alt="{{ Illuminate\Support\Facades\Storage::url('add-picture.png') }}">
         </a>
         @include('inc.album.modal-unitadd',['action'=>0,'name'=>'Create'])

@@ -1,12 +1,12 @@
 <div class="container-fluid mt-5">
     @if(Illuminate\Support\Facades\Auth::id() == $user->id)
-        <a data-target="#avatar" role="button" data-toggle="modal">
+        <a data-bs-target="#avatar" role="button" data-bs-toggle="modal">
             <img class="card-img-top img-responsive" src="{{$user->avatar ? Illuminate\Support\Facades\Storage::url($user->avatar->patch) : Illuminate\Support\Facades\Storage::url('no-avatar.png')}}"
                  alt="{{ $user->avatar ? Illuminate\Support\Facades\Storage::url($user->avatar->hash_name) : Illuminate\Support\Facades\Storage::url('no-avatar.png') }}">
         </a>
         @include('inc.user.modal-avatar')
     @else
-        <a data-target="#imgview" role="button" data-toggle="modal">
+        <a data-bs-target="#imgview" role="button" data-bs-toggle="modal">
         <img class="card-img-top img-responsive" src="{{$user->avatar ? Illuminate\Support\Facades\Storage::url($user->avatar->patch) : Illuminate\Support\Facades\Storage::url('no-avatar.png')}}"
              alt="{{ $user->avatar ? Illuminate\Support\Facades\Storage::url($user->avatar->hash_name) : Illuminate\Support\Facades\Storage::url('no-avatar.png') }}">
         </a>
@@ -29,7 +29,7 @@
             <li class="list-group-item text-center">
                 @auth
                     @if($user->id == Illuminate\Support\Facades\Auth::id())
-                        <a class="text-secondary" data-target="#status" role="button" data-toggle="modal">
+                        <a class="text-secondary" data-bs-target="#status" role="button" data-bs-toggle="modal">
                             {{ $user->settings->smessage }}
                         </a>
                         @include('inc.user.modal-status',['message'=>$user->settings->smessage])
@@ -41,7 +41,7 @@
         @elseif($user->id == Illuminate\Support\Facades\Auth::id())
             <li class="list-group-item text-center">
 
-                <a class="text-secondary" data-target="#status" role="button" data-toggle="modal">
+                <a class="text-secondary" data-bs-target="#status" role="button" data-bs-toggle="modal">
                     Set status
                 </a>
                 @include('inc.user.modal-status',['message'=>$user->settings->smessage])
@@ -62,7 +62,7 @@
         @auth
             @if($user->id != Illuminate\Support\Facades\Auth::id())
                 <li class="list-group-item">
-                    <p class="text-center"><button data-target="#message" role="button" class="btn btn-outline-secondary" data-toggle="modal">{{ __('user.send_message') }}</button></p>
+                    <p class="text-center"><button data-bs-target="#message" role="button" class="btn btn-outline-secondary" data-bs-toggle="modal">{{ __('user.send_message') }}</button></p>
                     @include('inc.user.modal-message')
                 </li>
             @endif

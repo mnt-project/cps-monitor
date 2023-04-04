@@ -115,6 +115,19 @@
       <path value="$PROJECT_DIR$/vendor/spatie/ignition" />
       <path value="$PROJECT_DIR$/vendor/league/config" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-ignition" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-4.0.0/_plugins" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-4.0.0/_layouts" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-4.0.0/_includes" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-4.0.0/_data" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-4.0.0/scss" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-4.0.0/nuget" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-4.0.0/js" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-4.0.0/docs" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-4.0.0/dist" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-4.0.0/build" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-4.0.0/assets" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-4.0.0/.github" />
+      <path value="$PROJECT_DIR$/vendor/twbs/bootstrap" />
     </include_path>
   </component>
   <component name="PhpUnit">

@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-10">
                 <div class="btn-group" role="group">
-                    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         {{$names[$sort]}}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -30,7 +30,7 @@
             </div>
             <div class="col-2">
                 @auth
-                    <button data-target="#addGroup" role="button" class="btn btn-secondary" data-toggle="modal">{{ __('group.new_group') }}</button>
+                    <button data-bs-target="#addGroup" role="button" class="btn btn-secondary" data-bs-toggle="modal">{{ __('group.new_group') }}</button>
                     @include('inc.group.group-form',['action'=>0,'name'=>'Create','route'=>'group.add','group'=>0])
                 @endauth
             </div>

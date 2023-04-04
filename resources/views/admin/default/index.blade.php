@@ -2,7 +2,7 @@
 <div class="list-group">
     <div class="row mt-5">
         <div class="col-2">
-            <button id="btnGroupDrop1" type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <button id="btnGroupDrop1" type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 {{$names[$sort]}}
             </button>
             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -15,7 +15,7 @@
 
         </div>
         <div class="col-2">
-            <button id="btnGroupDrop1" type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <button id="btnGroupDrop1" type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 {{$viewnames[$view]}}
             </button>
             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">

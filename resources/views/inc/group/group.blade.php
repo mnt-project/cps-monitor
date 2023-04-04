@@ -1,4 +1,4 @@
-<button data-target="#addGroup" role="button" class="btn btn-secondary" data-toggle="modal">New group</button>
+<button data-bs-target="#addGroup" role="button" class="btn btn-secondary" data-bs-toggle="modal">New group</button>
 <!-- Modal -->
 <div class="modal fade" id="addGroup" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
     <div class="modal-dialog">
@@ -7,7 +7,7 @@
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="addGroupModal">Create new group</h5>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
@@ -38,7 +38,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Create</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>

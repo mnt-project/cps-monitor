@@ -48,11 +48,11 @@
                     <a class="btn btn-secondary btn-sm mt-1" href={{route('admin.connects','all')}}>Back</a>
                 </div>
                 <div class="col">
-                    <a class="btn btn-primary btn-sm mt-1" data-target="#ipedit" role="button" data-toggle="modal">Edit</a>
+                    <a class="btn btn-primary btn-sm mt-1" data-bs-target="#ipedit" role="button" data-bs-toggle="modal">Edit</a>
                     @include('admin.inc.modal-ip-edit')
                 </div>
                 <div class="col">
-                    <a class="btn btn-danger btn-sm mt-1" data-target="#clearlog" role="button" data-toggle="modal">Clear</a>
+                    <a class="btn btn-danger btn-sm mt-1" data-bs-target="#clearlog" role="button" data-bs-toggle="modal">Clear</a>
                     @include('admin.inc.modal-clearlog')
                 </div>
             </div>

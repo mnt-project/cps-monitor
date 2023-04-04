@@ -15,7 +15,7 @@
                     @endif
                     @if($addflag)
                         @if($loop->last)
-                            <a class="mx-3" data-target="#albumedit" role="button" data-toggle="modal">
+                            <a class="mx-3" data-bs-target="#albumedit" role="button" data-bs-toggle="modal">
                                 <span class="bi bi-plus-circle" style="font-size: 3.5rem; color: black; position: absolute"></span>
                             </a>
                             @include('inc.album.modal-edit',['action'=>0,'name'=>'Create'])
@@ -24,7 +24,7 @@
                 @endforeach
             </figure>
         @else
-            <a data-target="#albumedit" role="button" data-toggle="modal">
+            <a data-bs-target="#albumedit" role="button" data-bs-toggle="modal">
                 <span class="bi bi-plus-circle" style="font-size: 3.5rem; color: black; position: absolute"></span>
             </a>
             @include('inc.album.modal-edit',['action'=>0,'name'=>'Create'])

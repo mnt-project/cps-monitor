@@ -5,7 +5,7 @@
                 <div class="toast-header">
                     <strong class="me-auto">Warning</strong>
                     <small class="text-muted">{{\Carbon\Carbon::now()}}</small>
-                    <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
                     {{ session('warning') }}
@@ -21,7 +21,7 @@
                 <div class="toast-header">
                     <strong class="me-auto">Success</strong>
                     <small class="text-muted">{{\Carbon\Carbon::now()}}</small>
-                    <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
                     {{ session('success') }}
@@ -35,7 +35,7 @@
                 <div class="toast-header">
                     <strong class="me-auto">Info</strong>
                     <small class="text-muted">{{\Carbon\Carbon::now()}}</small>
-                    <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
                     {{ session('info') }}
@@ -49,7 +49,7 @@
                 <div class="toast-header">
                     <strong class="me-auto">Warning</strong>
                     <small class="text-muted">{{\Carbon\Carbon::now()}}</small>
-                    <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
                     {{ session('warning') }}
@@ -63,7 +63,7 @@
                 <div class="toast-header">
                     <strong class="me-auto">Alert</strong>
                     <small class="text-muted">{{\Carbon\Carbon::now()}}</small>
-                    <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
                     {{ session('alert') }}
@@ -79,7 +79,7 @@
                 <div class="toast-header">
                     <strong class="me-auto">Error!</strong>
                     <small class="text-muted">{{\Carbon\Carbon::now()}}</small>
-                    <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
                     {{ $error }}

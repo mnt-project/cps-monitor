@@ -8,7 +8,7 @@
                     <span class="bi {{ 'bi-filetype-'.$albumunit->format }} me-4" style="font-size: 1.5rem; color: black;"></span>
                 @endif
                 <small><strong class="modal-title"> {{ $albumunit->name }}</strong></small>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <img id="unitimg" class="card-img-top img-responsive" src="{{Illuminate\Support\Facades\Storage::url($albumunit->patch)}}"
                  alt="{{ Illuminate\Support\Facades\Storage::url($albumunit->patch)}}">
