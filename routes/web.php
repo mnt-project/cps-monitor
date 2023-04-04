@@ -105,6 +105,7 @@ Route::middleware(['connect'])->group(function () {
         });
     });
     Route::view('/credits', 'credits')->name('credits');
+
     Route::view('/about', 'about')->name('about');
 });
 
