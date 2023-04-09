@@ -224,7 +224,7 @@ class GroupController extends MainController
             {
                 $followers = $group->getGroupFollows();
                 $followers->load('user');
-                //$posts->load('user','group');
+                //$posts->load('user','group');//
                 //$posts = $group->getGroupPosts()->load('user','group');
                 //dd(__METHOD__,$posts->count());
                 //$posts = parent::paginateCollection($posts,20);
