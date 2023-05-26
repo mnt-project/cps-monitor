@@ -123,6 +123,7 @@ class UserController extends MainController
             ['name'=>'Users','route'=>'user.users','id'=>null],
             ['name'=>$user->login,'route'=>'user.info','id'=>$user->id],
         ];
+        //dd(__METHOD__,$follows);
         return view('user')
             ->with('links',$links)
             ->with('user', $user)

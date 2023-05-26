@@ -4,6 +4,7 @@ namespace App\Http\Controllers\post;
 
 use App\Http\Controllers\MainController;
 use App\Models\post\Post;
+use App\Models\Group;
 use Illuminate\Http\Request;
 
 class PostController extends MainController
@@ -23,8 +24,10 @@ class PostController extends MainController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Group $group, Request $request)
     {
+        $group->load('album');
+        dd(__METHOD__,$group,$request->get('post'));
         //
     }
 

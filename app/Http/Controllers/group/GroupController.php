@@ -224,8 +224,8 @@ class GroupController extends MainController
             {
                 $followers = $group->getGroupFollows();
                 $followers->load('user');
-                //$posts->load('user','group');//
-                //$posts = $group->getGroupPosts()->load('user','group');
+                //$posts->load('user','group');
+                $posts = $group->getGroupPosts()->load('user','group');
                 //dd(__METHOD__,$posts->count());
                 //$posts = parent::paginateCollection($posts,20);
                 //dd(__METHOD__,$albums);
@@ -273,7 +273,7 @@ class GroupController extends MainController
                 return view('group')
                     ->with('links',$links)
                     ->with('followers',$followers)
-                    //->with('posts',$posts)
+                    ->with('posts',$posts)
                     ->with('albums',$albums)
                     ->with('group', $group);
             }

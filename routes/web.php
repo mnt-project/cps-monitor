@@ -97,7 +97,7 @@ Route::middleware(['connect'])->group(function () {
     Route::prefix('post')->group(function () {
         Route::name('post.')->group(function () {
             Route::middleware(['auth'])->group(function () {
-                Route::post('create/{group}', [PostController::class, 'post_create'])->name('create');
+                Route::post('create/{group}', [PostController::class, 'create'])->name('create');
                 Route::get('reputation/{post}/{value}', [PostController::class, 'post_reputation'])->name('reputation');
                 Route::get('delete/{post}', [PostController::class, 'post_delete'])->name('delete');
                 Route::get('quote/{text}', [PostController::class, 'post_quote'])->name('quote');
