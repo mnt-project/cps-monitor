@@ -14,13 +14,15 @@
 @section('content-header')<h4>Home page</h4>@endsection
 @section('content-text')
 
+    @foreach ($blogs as $blog)
+        @include('blog.inc.blog-thumbnail')
+    @endforeach
 
-    <p> The gutters between columns in our predefined grid classes can be removed with .no-gutters.
-        This removes the negative margins from .row and the horizontal padding from all immediate children
-        columns. Here’s the source code for creating these styles. Note that column overrides are scoped to
-        only the first children columns and are targeted via attribute selector. While this generates a more
-        specific selector, column padding can still be further customized with spacing
-    </p>
+    <a data-bs-target="#blogadd" role="button" data-bs-toggle="modal">
+        <span class="bi-pencil-square"></span>
+    </a>
+    @include('blog.inc.modal-create',['action'=>0,'name'=>'Create'])
+    <br>
     <a href="https://laravel.su/docs/5.3/blade">Blade Documentation</a>
 @endsection
 

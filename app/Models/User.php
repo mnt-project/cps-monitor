@@ -117,4 +117,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(GroupPost::class,'user_id');
     }
+    public function blog()
+    {
+        return $this->hasMany(Blog::class,'user_id');
+    }
 }

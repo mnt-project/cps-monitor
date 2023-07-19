@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use App\Models\Group;
 use App\Models\User;
 use Carbon\Carbon;
@@ -15,6 +16,8 @@ class HomeController extends Controller
     {
         $users = User::get();
         $groups = Group::get();
+        $blogs = Blog::get();
+//        dd(__METHOD__,$blogs);
         $usersOnline = collect();
         $groupsPublic = collect();
         foreach ($users as $user)
@@ -33,6 +36,7 @@ class HomeController extends Controller
         }
         Log::channel('connections')->info('[IP:] Guest income | Last connect: ');
         return view('home')
+            ->with('blogs',$blogs)
             ->with('usersOnline',$usersOnline)
             ->with('groupsPublic',$groupsPublic);
     }

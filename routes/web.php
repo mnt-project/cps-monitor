@@ -12,6 +12,7 @@ use App\Http\Controllers\post\PostController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\DefaultTab;
+use App\Http\Controllers\BlogController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -104,9 +105,11 @@ Route::middleware(['connect'])->group(function () {
             });
         });
     });
-    Route::view('/credits', 'credits')->name('credits');
-
-    Route::view('/about', 'about')->name('about');
+    Route::middleware(['auth'])->group(function () {
+        Route::resource('blog',BlogController::class);
+    });
 });
+    Route::view('/credits', 'credits')->name('credits');
+    Route::view('/about', 'about')->name('about');
 
 
