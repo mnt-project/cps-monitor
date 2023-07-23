@@ -13,7 +13,6 @@
 
 @section('content-header')<h4>Home page</h4>@endsection
 @section('content-text')
-
     @foreach ($blogs as $blog)
         @include('blog.inc.blog-thumbnail')
     @endforeach

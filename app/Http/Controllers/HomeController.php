@@ -17,7 +17,8 @@ class HomeController extends Controller
         $users = User::get();
         $groups = Group::get();
         $blogs = Blog::get();
-//        dd(__METHOD__,$blogs);
+        $blogs->load('user');
+       //dd(__METHOD__,$blogs);
         $usersOnline = collect();
         $groupsPublic = collect();
         foreach ($users as $user)

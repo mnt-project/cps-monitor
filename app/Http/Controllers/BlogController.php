@@ -54,7 +54,7 @@ class BlogController extends MainController
             $path = 'no-pic.jpg';
         }
         $user = Auth::user();
-        $album = Blog::create([
+        $blog = Blog::create([
             'user_id'=>$user->id,
             'group_id'=>0,
             'blocked' => $request->get('hidden'),
@@ -63,6 +63,7 @@ class BlogController extends MainController
             'hash_name'=>$hash_name,
             'patch'=>$path,
         ]);
+        session()->flash('success','Blog created!');
         return redirect()->route('home');
         //
     }
@@ -75,6 +76,7 @@ class BlogController extends MainController
      */
     public function show(Blog $blog)
     {
+        dd(__METHOD__,$blog);
         //
     }
 
